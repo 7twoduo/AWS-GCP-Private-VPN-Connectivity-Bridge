@@ -1,0 +1,1650 @@
+# Security Findings - Plan 1
+
+## Terraform Format Check
+
+## Terraform Validate
+Success! The configuration is valid.
+
+
+## Secret Scan
+PASS: No secret-like values found.
+
+## Gitleaks Secret Scan
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        terraform.tfstate.backup
+Line:        297
+Fingerprint: terraform.tfstate.backup:generic-api-key:297
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        terraform.tfstate.backup
+Line:        337
+Fingerprint: terraform.tfstate.backup:generic-api-key:337
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        terraform.tfstate.backup
+Line:        471
+Fingerprint: terraform.tfstate.backup:generic-api-key:471
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        terraform.tfstate.backup
+Line:        511
+Fingerprint: terraform.tfstate.backup:generic-api-key:511
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        terraform.tfstate.backup
+Line:        1889
+Fingerprint: terraform.tfstate.backup:generic-api-key:1889
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        terraform.tfstate.backup
+Line:        1890
+Fingerprint: terraform.tfstate.backup:generic-api-key:1890
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        terraform.tfstate.backup
+Line:        1973
+Fingerprint: terraform.tfstate.backup:generic-api-key:1973
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        terraform.tfstate.backup
+Line:        1974
+Fingerprint: terraform.tfstate.backup:generic-api-key:1974
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        terraform.tfstate.backup
+Line:        2057
+Fingerprint: terraform.tfstate.backup:generic-api-key:2057
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        terraform.tfstate.backup
+Line:        2058
+Fingerprint: terraform.tfstate.backup:generic-api-key:2058
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        terraform.tfstate.backup
+Line:        2141
+Fingerprint: terraform.tfstate.backup:generic-api-key:2141
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        terraform.tfstate.backup
+Line:        2142
+Fingerprint: terraform.tfstate.backup:generic-api-key:2142
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        terraform.tfstate.backup
+Line:        2225
+Fingerprint: terraform.tfstate.backup:generic-api-key:2225
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        terraform.tfstate.backup
+Line:        2226
+Fingerprint: terraform.tfstate.backup:generic-api-key:2226
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        terraform.tfstate.backup
+Line:        2301
+Fingerprint: terraform.tfstate.backup:generic-api-key:2301
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        terraform.tfstate.backup
+Line:        2302
+Fingerprint: terraform.tfstate.backup:generic-api-key:2302
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        terraform.tfstate.backup
+Line:        2377
+Fingerprint: terraform.tfstate.backup:generic-api-key:2377
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        terraform.tfstate.backup
+Line:        2378
+Fingerprint: terraform.tfstate.backup:generic-api-key:2378
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        terraform.tfstate.backup
+Line:        2453
+Fingerprint: terraform.tfstate.backup:generic-api-key:2453
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        terraform.tfstate.backup
+Line:        2454
+Fingerprint: terraform.tfstate.backup:generic-api-key:2454
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        terraform.tfstate
+Line:        297
+Fingerprint: terraform.tfstate:generic-api-key:297
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        terraform.tfstate
+Line:        337
+Fingerprint: terraform.tfstate:generic-api-key:337
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        terraform.tfstate
+Line:        471
+Fingerprint: terraform.tfstate:generic-api-key:471
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        terraform.tfstate
+Line:        511
+Fingerprint: terraform.tfstate:generic-api-key:511
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        terraform.tfstate
+Line:        1889
+Fingerprint: terraform.tfstate:generic-api-key:1889
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        terraform.tfstate
+Line:        1890
+Fingerprint: terraform.tfstate:generic-api-key:1890
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        terraform.tfstate
+Line:        1973
+Fingerprint: terraform.tfstate:generic-api-key:1973
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        terraform.tfstate
+Line:        1974
+Fingerprint: terraform.tfstate:generic-api-key:1974
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        terraform.tfstate
+Line:        2057
+Fingerprint: terraform.tfstate:generic-api-key:2057
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        terraform.tfstate
+Line:        2058
+Fingerprint: terraform.tfstate:generic-api-key:2058
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        terraform.tfstate
+Line:        2141
+Fingerprint: terraform.tfstate:generic-api-key:2141
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        terraform.tfstate
+Line:        2142
+Fingerprint: terraform.tfstate:generic-api-key:2142
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        terraform.tfstate
+Line:        2225
+Fingerprint: terraform.tfstate:generic-api-key:2225
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        terraform.tfstate
+Line:        2226
+Fingerprint: terraform.tfstate:generic-api-key:2226
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        terraform.tfstate
+Line:        2301
+Fingerprint: terraform.tfstate:generic-api-key:2301
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        terraform.tfstate
+Line:        2302
+Fingerprint: terraform.tfstate:generic-api-key:2302
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        terraform.tfstate
+Line:        2377
+Fingerprint: terraform.tfstate:generic-api-key:2377
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        terraform.tfstate
+Line:        2378
+Fingerprint: terraform.tfstate:generic-api-key:2378
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        terraform.tfstate
+Line:        2453
+Fingerprint: terraform.tfstate:generic-api-key:2453
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        terraform.tfstate
+Line:        2454
+Fingerprint: terraform.tfstate:generic-api-key:2454
+
+
+## Public Exposure Scan
+./1-aws-vpc.tf:190:  ssh_cidr_blocks = ["0.0.0.0/0"]
+./2-gcp-vpc.tf:434:  ssh_source_ranges = ["0.0.0.0/0"]
+./3-gcp-gcp.tf:196:  ssh_source_ranges = ["0.0.0.0/0"]
+./Modules/AWS-VM/main.tf:27:    cidr_blocks = ["0.0.0.0/0"]
+./Modules/AWS-VM/variable.tf:42:  default     = ["0.0.0.0/0"]
+./Modules/GCP-VM/main.tf:31:  destination_ranges = ["0.0.0.0/0"]
+./Modules/GCP-VM/variable.tf:47:  default     = ["0.0.0.0/0"]
+./Modules/Standard-VPC-AWS/main.tf:93:    cidr_block = "0.0.0.0/0"
+
+## IAM Privilege Scan
+PASS: No obvious wildcard/admin IAM found.
+
+## TFLint Terraform Lint Scan
+All plugins are already installed
+14 issue(s) found:
+
+Modules\AWS-VM\main.tf:38:1: Warning - Missing version constraint for provider "aws" in `required_providers` (terraform_required_providers)
+Modules\AWS-VM\main.tf:1:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
+Modules\GCP-VM\main.tf:35:1: Warning - Missing version constraint for provider "google" in `required_providers` (terraform_required_providers)
+Modules\GCP-VM\main.tf:1:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
+Modules\GCP-VM\variable.tf:50:1: Warning - variable "tags" is declared but not used (terraform_unused_declarations)
+Modules\Standard-VPC-GCP\main.tf:30:1: Warning - Missing version constraint for provider "google" in `required_providers` (terraform_required_providers)
+Modules\Standard-VPC-GCP\main.tf:1:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
+Modules\Standard-VPC-GCP\variable.tf:16:1: Warning - variable "gcp_vpc_cidrs" is declared but not used (terraform_unused_declarations)
+Modules\Standard-VPC-AWS\main.tf:145:1: Warning - Missing version constraint for provider "aws" in `required_providers` (terraform_required_providers)
+Modules\Standard-VPC-AWS\main.tf:1:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
+Modules\Standard-VPC-AWS\variable.tf:2:1: Warning - variable "aws_region" is declared but not used (terraform_unused_declarations)
+2-gcp-vpc.tf:370:1: Warning - Missing version constraint for provider "google" in `required_providers` (terraform_required_providers)
+1-aws-vpc.tf:109:1: Warning - Missing version constraint for provider "random" in `required_providers` (terraform_required_providers)
+gcp-variable.tf:6:1: Warning - variable "gcp_region2" is declared but not used (terraform_unused_declarations)
+
+## Checkov IaC Scan
+terraform scan results:
+
+Passed checks: 49, Failed checks: 39, Skipped checks: 0
+
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: module.aws_vm.aws_security_group.vm_sg
+	File: \Modules\AWS-VM\main.tf:1-36
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382
+[0mCheck: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+	FAILED for resource: module.aws_vm.aws_security_group.vm_sg
+	File: \Modules\AWS-VM\main.tf:1-36
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security
+[0mCheck: CKV_AWS_277: "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1"
+	FAILED for resource: module.aws_vm.aws_security_group.vm_sg
+	File: \Modules\AWS-VM\main.tf:1-36
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports
+[0mCheck: CKV_AWS_126: "Ensure that detailed monitoring is enabled for EC2 instances"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/ensure-that-detailed-monitoring-is-enabled-for-ec2-instances
+[0mCheck: CKV_AWS_135: "Ensure that EC2 is EBS optimized"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-ec2-is-ebs-optimized
+[0mCheck: CKV_AWS_88: "EC2 instance should not have public IP."
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/public-policies/public-12
+[0mCheck: CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-31
+[0mCheck: CKV_AWS_8: "Ensure all data stored in the Launch configuration or instance Elastic Blocks Store is securely encrypted"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-13
+[0mCheck: CKV_GCP_2: "Ensure Google compute firewall ingress does not allow unrestricted ssh access"
+	FAILED for resource: module.gcp_vm-1.google_compute_firewall.allow_ingress
+	File: \Modules\GCP-VM\main.tf:1-19
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-1
+[0mCheck: CKV_GCP_106: "Ensure Google compute firewall ingress does not allow unrestricted http port 80 access"
+	FAILED for resource: module.gcp_vm-1.google_compute_firewall.allow_ingress
+	File: \Modules\GCP-VM\main.tf:1-19
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-google-compute-firewall-ingress-does-not-allow-unrestricted-http-port-80-access
+[0mCheck: CKV_GCP_32: "Ensure 'Block Project-wide SSH keys' is enabled for VM instances"
+	FAILED for resource: module.gcp_vm-1.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-8
+[0mCheck: CKV_GCP_38: "Ensure VM disks for critical VMs are encrypted with Customer Supplied Encryption Keys (CSEK)"
+	FAILED for resource: module.gcp_vm-1.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/encrypt-boot-disks-for-instances-with-cseks
+[0mCheck: CKV_GCP_40: "Ensure that Compute instances do not have public IP addresses"
+	FAILED for resource: module.gcp_vm-1.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-public-policies/bc-gcp-public-2
+[0mCheck: CKV_GCP_39: "Ensure Compute instances are launched with Shielded VM enabled"
+	FAILED for resource: module.gcp_vm-1.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/bc-gcp-general-y
+[0mCheck: CKV_GCP_2: "Ensure Google compute firewall ingress does not allow unrestricted ssh access"
+	FAILED for resource: module.gcp_vm-2.google_compute_firewall.allow_ingress
+	File: \Modules\GCP-VM\main.tf:1-19
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-1
+[0mCheck: CKV_GCP_106: "Ensure Google compute firewall ingress does not allow unrestricted http port 80 access"
+	FAILED for resource: module.gcp_vm-2.google_compute_firewall.allow_ingress
+	File: \Modules\GCP-VM\main.tf:1-19
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-google-compute-firewall-ingress-does-not-allow-unrestricted-http-port-80-access
+[0mCheck: CKV_GCP_32: "Ensure 'Block Project-wide SSH keys' is enabled for VM instances"
+	FAILED for resource: module.gcp_vm-2.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-8
+[0mCheck: CKV_GCP_38: "Ensure VM disks for critical VMs are encrypted with Customer Supplied Encryption Keys (CSEK)"
+	FAILED for resource: module.gcp_vm-2.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/encrypt-boot-disks-for-instances-with-cseks
+[0mCheck: CKV_GCP_40: "Ensure that Compute instances do not have public IP addresses"
+	FAILED for resource: module.gcp_vm-2.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-public-policies/bc-gcp-public-2
+[0mCheck: CKV_GCP_39: "Ensure Compute instances are launched with Shielded VM enabled"
+	FAILED for resource: module.gcp_vm-2.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/bc-gcp-general-y
+[0mCheck: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: module.standard-vpc.aws_subnet.public_1
+	File: \Modules\Standard-VPC-AWS\main.tf:33-43
+	Calling File: \1-aws-vpc.tf:25-37
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+[0mCheck: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: module.standard-vpc.aws_subnet.public_2
+	File: \Modules\Standard-VPC-AWS\main.tf:45-55
+	Calling File: \1-aws-vpc.tf:25-37
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+[0mCheck: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:8-13
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+[0mCheck: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:8-13
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+[0mCheck: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:14-19
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+[0mCheck: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:14-19
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+[0mCheck: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.private-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:22-28
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+[0mCheck: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.private-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:30-36
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+[0mCheck: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:8-13
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+[0mCheck: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:8-13
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+[0mCheck: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:14-19
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+[0mCheck: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:14-19
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+[0mCheck: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.private-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:22-28
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+[0mCheck: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.private-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:30-36
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+[0mCheck: CKV2_AWS_41: "Ensure an IAM role is attached to EC2 instance"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-an-iam-role-is-attached-to-ec2-instance
+[0mCheck: CKV2_AWS_11: "Ensure VPC flow logging is enabled in all VPCs"
+	FAILED for resource: module.standard-vpc.aws_vpc.main
+	File: \Modules\Standard-VPC-AWS\main.tf:5-13
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-9-enable-vpc-flow-logging
+[0mCheck: CKV2_AWS_12: "Ensure the default security group of every VPC restricts all traffic"
+	FAILED for resource: module.standard-vpc.aws_vpc.main
+	File: \Modules\Standard-VPC-AWS\main.tf:5-13
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-4
+[0mCheck: CKV2_GCP_18: "Ensure GCP network defines a firewall and does not use the default firewall"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_network.vpc_network
+	File: \Modules\Standard-VPC-GCP\main.tf:1-6
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-2-18
+[0mCheck: CKV2_GCP_18: "Ensure GCP network defines a firewall and does not use the default firewall"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_network.vpc_network
+	File: \Modules\Standard-VPC-GCP\main.tf:1-6
+	Guide: [1mhttps://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-2-18
+[0m
+## Trivy IaC Scan
+Scan config files for misconfigurations
+
+Usage:
+  trivy config [flags] DIR
+
+Aliases:
+  config, conf
+
+Cache Flags
+      --cache-backend string   [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "memory")
+      --cache-ttl duration     cache TTL when using redis as cache backend
+      --redis-ca string        redis ca file location, if using redis as cache backend
+      --redis-cert string      redis certificate file location, if using redis as cache backend
+      --redis-key string       redis key file location, if using redis as cache backend
+      --redis-tls              enable redis TLS with public certificates, if using redis as cache backend
+
+Misconfiguration Flags
+      --ansible-extra-vars strings        set additional variables as key=value or @file (YAML/JSON)
+      --ansible-inventory strings         specify inventory host path or comma separated host list
+      --ansible-playbook strings          specify playbook file path(s) to scan
+      --cf-params strings                 specify paths to override the CloudFormation parameters files
+      --checks-bundle-repository string   OCI registry URL to retrieve checks bundle from (default "mirror.gcr.io/aquasec/trivy-checks:2")
+      --config-file-schemas strings       specify paths to JSON configuration file schemas to determine that a file matches some configuration and pass the schema to Rego checks for type checking
+      --helm-api-versions strings         Available API versions used for Capabilities.APIVersions. This flag is the same as the api-versions flag of the helm template command. (can specify multiple or separate values with commas: policy/v1/PodDisruptionBudget,apps/v1/Deployment)
+      --helm-kube-version string          Kubernetes version used for Capabilities.KubeVersion. This flag is the same as the kube-version flag of the helm template command.
+      --helm-set strings                  specify Helm values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+      --helm-set-file strings             specify Helm values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
+      --helm-set-string strings           specify Helm string values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+      --helm-values strings               specify paths to override the Helm values.yaml files
+      --include-non-failures              include successes, available with '--scanners misconfig'
+      --misconfig-scanners strings        comma-separated list of misconfig scanners to use for misconfiguration scanning (default [azure-arm,cloudformation,dockerfile,helm,kubernetes,terraform,terraformplan-json,terraformplan-snapshot,ansible])
+      --raw-config-scanners strings       specify the types of scanners that will also scan raw configurations. For example, scanners will scan a non-adapted configuration into a shared state (allowed values: terraform)
+      --render-cause strings              specify configuration types for which the rendered causes will be shown in the table report (allowed values: terraform,ansible)
+      --tf-exclude-downloaded-modules     exclude misconfigurations for downloaded terraform modules
+      --tf-vars strings                   specify paths to override the Terraform tfvars files
+
+Module Flags
+      --enable-modules strings   [EXPERIMENTAL] module names to enable
+      --module-dir string        specify directory to the wasm modules that will be loaded (default "C:\\Users\\davek\\.trivy\\modules")
+
+Registry Flags
+      --password strings        password. Comma-separated passwords allowed. TRIVY_PASSWORD should be used for security reasons.
+      --password-stdin          password from stdin. Comma-separated passwords are not supported.
+      --registry-token string   registry token
+      --username strings        username. Comma-separated usernames allowed.
+
+Rego Flags
+      --check-namespaces strings    Rego namespaces
+      --config-check strings        specify the paths to the Rego check files or to the directories containing them, applying config files
+      --config-data strings         specify paths from which data for the Rego checks will be recursively loaded
+      --include-deprecated-checks   include deprecated checks
+      --rego-error-limit int        maximum number of compile errors allowed during Rego policy evaluation (default 10)
+      --skip-check-update           skip fetching rego check updates
+      --trace-rego                  enable more verbose trace output for custom queries
+
+Kubernetes Flags
+      --k8s-version string   specify k8s version to validate outdated api by it (example: 1.21.0)
+
+Report Flags
+      --compliance string          compliance report to generate
+      --exit-code int              specify exit code when any security issues are found
+  -f, --format string              format
+                                   Allowed values:
+                                     - table
+                                     - json
+                                     - template
+                                     - sarif
+                                     - cyclonedx
+                                     - spdx
+                                     - spdx-json
+                                     - github
+                                     - cosign-vuln
+                                    (default "table")
+      --ignore-policy string       specify the Rego file path to evaluate each vulnerability
+      --ignorefile string          specify .trivyignore file (default ".trivyignore")
+  -o, --output string              output file name
+      --output-plugin-arg string   [EXPERIMENTAL] output plugin arguments
+      --report string              specify a compliance report format for the output (allowed values: all,summary) (default "all")
+  -s, --severity strings           severities of security issues to be displayed
+                                   Allowed values:
+                                     - UNKNOWN
+                                     - LOW
+                                     - MEDIUM
+                                     - HIGH
+                                     - CRITICAL
+                                    (default [UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL])
+      --table-mode strings         [EXPERIMENTAL] tables that will be displayed in 'table' format (allowed values: summary,detailed) (default [summary,detailed])
+  -t, --template string            output template
+
+Scan Flags
+      --disable-telemetry       disable sending anonymous usage data to Aqua
+      --file-patterns strings   specify config file patterns
+      --skip-dirs strings       specify the directories or glob patterns to skip
+      --skip-files strings      specify the files or glob patterns to skip
+      --skip-version-check      suppress notices about version updates and Trivy announcements
+
+Global Flags:
+      --cacert string             Path to PEM-encoded CA certificate file
+      --cache-dir string          cache directory (default "C:\\Users\\davek\\AppData\\Local\\trivy")
+  -c, --config string             config path (default "trivy.yaml")
+  -d, --debug                     debug mode
+      --generate-default-config   write the default config to trivy-default.yaml
+      --insecure                  allow insecure server connections
+  -q, --quiet                     suppress progress bar and log output
+      --timeout duration          timeout (default 5m0s)
+  -v, --version                   show version
+
+## KICS IaC Scan
+[38;2;34;187;51m
+                                                                                                                                                   
+                                                                                                                                                                                                    
+   MLLLLLM             MLLLLLLLLL   LLLLLLL             KLLLLLLLLLLLLLLLL       LLLLLLLLLLLLLLLLLLLLLLL 
+   MMMMMMM           MMMMMMMMMML    MMMMMMMK       LMMMMMMMMMMMMMMMMMMMML   KLMMMMMMMMMMMMMMMMMMMMMMMMM 
+   MMMMMMM         MMMMMMMMML       MMMMMMMK     LMMMMMMMMMMMMMMMMMMMMMML  LMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+   MMMMMMM      MMMMMMMMMML         MMMMMMMK   LMMMMMMMMMMMMMMMMMMMMMMMML LMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+   MMMMMMM    LMMMMMMMMML           MMMMMMMK  LMMMMMMMMMLLMLLLLLLLLLLLLLL LMMMMMMMLLLLLLLLLLLLLLLLLLLLM 
+   MMMMMMM  MMMMMMMMMLM             MMMMMMMK LMMMMMMMM                    LMMMMMML                      
+   MMMMMMMLMMMMMMMML                MMMMMMMK MMMMMMML                     LMMMMMMMMLLLLLLLLLLLLLMLL     
+   MMMMMMMMMMMMMMMM                 MMMMMMMK MMMMMML                       LMMMMMMMMMMMMMMMMMMMMMMMMML  
+   MMMMMMMMMMMMMMMMMM               MMMMMMMK MMMMMMM                         LMMMMMMMMMMMMMMMMMMMMMMMML 
+   MMMMMMM KLMMMMMMMMML             MMMMMMMK LMMMMMMM                                          MMMMMMMML
+   MMMMMMM    LMMMMMMMMMM           MMMMMMMK LMMMMMMMMLL                                        MMMMMMML
+   MMMMMMM      LMMMMMMMMMLL        MMMMMMMK  LMMMMMMMMMMMMMMMMMMMMMMMMML LLLLLLLLLLLLLLLLLLLLMMMMMMMMMM
+   MMMMMMM        MMMMMMMMMMML      MMMMMMMK   MMMMMMMMMMMMMMMMMMMMMMMMML LMMMMMMMMMMMMMMMMMMMMMMMMMMMM 
+   MMMMMMM          LLMMMMMMMMML    MMMMMMMK     LLMMMMMMMMMMMMMMMMMMMMML LMMMMMMMMMMMMMMMMMMMMMMMMMML  
+   MMMMMMM             MMMMMMMMMML  MMMMMMMK         KLMMMMMMMMMMMMMMMMML LMMMMMMMMMMMMMMMMMMMMMMMLK    
+                                                                                                            
+                                                                                                                                                                                                                                                                                                                        
+
+[0m
+Scanning with Keeping Infrastructure as Code Secure v2.1.20
+
+
+
+
+
+[38;2;91;192;222mResource Not Using Tags[0m, Severity: [38;2;91;192;222mINFO[0m, Results: 11
+[1mDescription:[0m AWS services resource tags are an essential part of managing components. As a best practice, the field 'tags' should have additional tags defined other than 'Name'
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 665
+[1mRisk Score:[0m 0.0
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/e38a8e0a-b88b-4902-b3fe-b0fcb17d5c10
+
+	[38;2;91;192;222m[1]:[0m ../../src/1-aws-vpc.tf:[38;2;34;187;51m60[0m
+
+		059: 
+[38;2;240;173;78m		060: resource "aws_vpn_gateway" "vpn_gateway" {
+[0m		061:   vpc_id = module.standard-vpc.vpc_id
+
+
+	[38;2;91;192;222m[2]:[0m ../../src/1-aws-vpc.tf:[38;2;34;187;51m54[0m
+
+		053: 
+[38;2;240;173;78m		054:   tags = {
+[0m		055:     Name = "main-customer-gateway"
+
+
+	[38;2;91;192;222m[3]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m30[0m
+
+		029: 
+[38;2;240;173;78m		030:   tags = merge(
+[0m		031:     var.tags,
+
+
+	[38;2;91;192;222m[4]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m23[0m
+
+		022: 
+[38;2;240;173;78m		023:   tags = {
+[0m		024:     Name = "${var.project_name}-igw"
+
+
+	[38;2;91;192;222m[5]:[0m ../../src/1-aws-vpc.tf:[38;2;34;187;51m44[0m
+
+		043: 
+[38;2;240;173;78m		044:   tags = {
+[0m		045:     Name = "main-customer-gateway"
+
+
+	[38;2;91;192;222m[6]:[0m ../../src/1-aws-vpc.tf:[38;2;34;187;51m97[0m
+
+		096: 
+[38;2;240;173;78m		097:   tags = {
+[0m		098:     Name = "1-main-site-to-site-vpn"
+
+
+	[38;2;91;192;222m[7]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m10[0m
+
+		009: 
+[38;2;240;173;78m		010:   tags = {
+[0m		011:     Name = "${var.project_name}-vpc"
+
+
+	[38;2;91;192;222m[8]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m125[0m
+
+		124: 
+[38;2;240;173;78m		125:   tags = {
+[0m		126:     Name = "${var.project_name}-private-rt"
+
+
+	[38;2;91;192;222m[9]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m97[0m
+
+		096: 
+[38;2;240;173;78m		097:   tags = {
+[0m		098:     Name = "${var.project_name}-public-rt"
+
+
+	[38;2;91;192;222m[10]:[0m ../../src/1-aws-vpc.tf:[38;2;34;187;51m135[0m
+
+		134: 
+[38;2;240;173;78m		135:   tags = {
+[0m		136:     Name = "2-main-site-to-site-vpn"
+
+
+	[38;2;91;192;222m[11]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m46[0m
+
+		045: 
+[38;2;240;173;78m		046:   tags = merge(
+[0m		047:     var.tags,
+
+
+[38;2;91;192;222mOutput Without Description[0m, Severity: [38;2;91;192;222mINFO[0m, Results: 24
+[1mDescription:[0m All outputs should contain a valid description.
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 710
+[1mRisk Score:[0m 0.0
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/59312e8a-a64e-41e7-a252-618533dd1ea8
+
+	[38;2;91;192;222m[1]:[0m ../../src/4-output.tf:[38;2;34;187;51m54[0m
+
+		053: 
+[38;2;240;173;78m		054: output "vm_private_ip_gcp" {
+[0m		055:   value = module.gcp_vm-1.private_ip
+
+
+	[38;2;91;192;222m[2]:[0m ../../src/Modules/AWS-VM/output.tf:[38;2;34;187;51m1[0m
+
+[38;2;240;173;78m		001: output "instance_id" {
+[0m		002:   value = aws_instance.vm.id
+		003: }
+
+
+	[38;2;91;192;222m[3]:[0m ../../src/Modules/AWS-VM/output.tf:[38;2;34;187;51m5[0m
+
+		004: 
+[38;2;240;173;78m		005: output "public_ip" {
+[0m		006:   value = aws_instance.vm.public_ip
+
+
+	[38;2;91;192;222m[4]:[0m ../../src/4-output.tf:[38;2;34;187;51m1[0m
+
+[38;2;240;173;78m		001: output "tunnel_1_1_aws_inside" {
+[0m		002:   value = aws_vpn_connection.tunnel_1.tunnel1_vgw_inside_address
+		003: }
+
+
+	[38;2;91;192;222m[5]:[0m ../../src/4-output.tf:[38;2;34;187;51m13[0m
+
+		012: 
+[38;2;240;173;78m		013: output "tunnel_1_2_gcp_inside" {
+[0m		014:   value = aws_vpn_connection.tunnel_1.tunnel2_cgw_inside_address
+
+
+	[38;2;91;192;222m[6]:[0m ../../src/4-output.tf:[38;2;34;187;51m21[0m
+
+		020: 
+[38;2;240;173;78m		021: output "tunnel_2_1_gcp_inside" {
+[0m		022:   value = aws_vpn_connection.tunnel_2.tunnel1_cgw_inside_address
+
+
+	[38;2;91;192;222m[7]:[0m ../../src/Modules/GCP-VM/output.tf:[38;2;34;187;51m9[0m
+
+		008: 
+[38;2;240;173;78m		009: output "private_ip" {
+[0m		010:   value = google_compute_instance.vm.network_interface[0].network_ip
+
+
+	[38;2;91;192;222m[8]:[0m ../../src/Modules/GCP-VM/output.tf:[38;2;34;187;51m13[0m
+
+		012: 
+[38;2;240;173;78m		013: output "public_ip" {
+[0m		014:   value = try(google_compute_instance.vm.network_interface[0].access_config[0].nat_ip, null)
+
+
+	[38;2;91;192;222m[9]:[0m ../../src/4-output.tf:[38;2;34;187;51m45[0m
+
+		044: 
+[38;2;240;173;78m		045: output "vm_public_ip_gcp-2" {
+[0m		046:   value = module.gcp_vm-2.public_ip
+
+
+	[38;2;91;192;222m[10]:[0m ../../src/4-output.tf:[38;2;34;187;51m41[0m
+
+		040: 
+[38;2;240;173;78m		041: output "vm_public_ip_gcp" {
+[0m		042:   value = module.gcp_vm-1.public_ip
+
+
+	[38;2;91;192;222m[11]:[0m ../../src/Modules/AWS-VM/output.tf:[38;2;34;187;51m13[0m
+
+		012: 
+[38;2;240;173;78m		013: output "security_group_id" {
+[0m		014:   value = aws_security_group.vm_sg.id
+
+
+	[38;2;91;192;222m[12]:[0m ../../src/4-output.tf:[38;2;34;187;51m32[0m
+
+		031: }
+[38;2;240;173;78m		032: output "tunnel_data" {
+[0m		033:   value = aws_vpn_connection.tunnel_2.tunnel2_cgw_inside_address
+
+
+	[38;2;91;192;222m[13]:[0m ../../src/Modules/GCP-VM/output.tf:[38;2;34;187;51m17[0m
+
+		016: 
+[38;2;240;173;78m		017: output "self_link" {
+[0m		018:   value = google_compute_instance.vm.self_link
+
+
+	[38;2;91;192;222m[14]:[0m ../../src/4-output.tf:[38;2;34;187;51m5[0m
+
+		004: 
+[38;2;240;173;78m		005: output "tunnel_1_1_gcp_inside" {
+[0m		006:   value = aws_vpn_connection.tunnel_1.tunnel1_cgw_inside_address
+
+
+	[38;2;91;192;222m[15]:[0m ../../src/Modules/GCP-VM/output.tf:[38;2;34;187;51m1[0m
+
+[38;2;240;173;78m		001: output "instance_id" {
+[0m		002:   value = google_compute_instance.vm.id
+		003: }
+
+
+	[38;2;91;192;222m[16]:[0m ../../src/4-output.tf:[38;2;34;187;51m9[0m
+
+		008: 
+[38;2;240;173;78m		009: output "tunnel_1_2_aws_inside" {
+[0m		010:   value = aws_vpn_connection.tunnel_1.tunnel2_vgw_inside_address
+
+
+	[38;2;91;192;222m[17]:[0m ../../src/4-output.tf:[38;2;34;187;51m29[0m
+
+		028: 
+[38;2;240;173;78m		029: output "tunnel_2_2_gcp_inside" {
+[0m		030:   value = aws_vpn_connection.tunnel_2.tunnel2_cgw_inside_address
+
+
+	[38;2;91;192;222m[18]:[0m ../../src/Modules/GCP-VM/output.tf:[38;2;34;187;51m5[0m
+
+		004: 
+[38;2;240;173;78m		005: output "instance_name" {
+[0m		006:   value = google_compute_instance.vm.name
+
+
+	[38;2;91;192;222m[19]:[0m ../../src/4-output.tf:[38;2;34;187;51m25[0m
+
+		024: 
+[38;2;240;173;78m		025: output "tunnel_2_2_aws_inside" {
+[0m		026:   value = aws_vpn_connection.tunnel_2.tunnel2_vgw_inside_address
+
+
+	[38;2;91;192;222m[20]:[0m ../../src/4-output.tf:[38;2;34;187;51m50[0m
+
+		049: ##  Private Instance IPs
+[38;2;240;173;78m		050: output "vm_private_ip_aws" {
+[0m		051:   value = module.aws_vm.private_ip
+
+
+	[38;2;91;192;222m[21]:[0m ../../src/4-output.tf:[38;2;34;187;51m58[0m
+
+		057: 
+[38;2;240;173;78m		058: output "vm_private_ip_gcp-2" {
+[0m		059:   value = module.gcp_vm-2.private_ip
+
+
+	[38;2;91;192;222m[22]:[0m ../../src/4-output.tf:[38;2;34;187;51m37[0m
+
+		036: ##  Public Instance IPs
+[38;2;240;173;78m		037: output "vm_public_ip_aws" {
+[0m		038:   value = module.aws_vm.public_ip
+
+
+	[38;2;91;192;222m[23]:[0m ../../src/Modules/AWS-VM/output.tf:[38;2;34;187;51m9[0m
+
+		008: 
+[38;2;240;173;78m		009: output "private_ip" {
+[0m		010:   value = aws_instance.vm.private_ip
+
+
+	[38;2;91;192;222m[24]:[0m ../../src/4-output.tf:[38;2;34;187;51m17[0m
+
+		016: 
+[38;2;240;173;78m		017: output "tunnel_2_1_aws_inside" {
+[0m		018:   value = aws_vpn_connection.tunnel_2.tunnel1_vgw_inside_address
+
+
+[38;2;91;192;222mName Is Not Snake Case[0m, Severity: [38;2;91;192;222mINFO[0m, Results: 15
+[1mDescription:[0m All names should follow snake case pattern.
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 710
+[1mRisk Score:[0m 0.0
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/1e434b25-8763-4b00-a5ca-ca03b7abbb66
+
+	[38;2;91;192;222m[1]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m10[0m
+
+		009: 
+[38;2;240;173;78m		010: module "standard-gcp-vpc" {
+[0m		011:   source = "./Modules/Standard-VPC-GCP"
+
+
+	[38;2;91;192;222m[2]:[0m ../../src/3-gcp-gcp.tf:[38;2;34;187;51m64[0m
+
+		063: # Tunnel 0
+[38;2;240;173;78m		064: resource "google_compute_vpn_tunnel" "gcp_tunnel-2_1" {
+[0m		065:   name   = "gcp-to-gcp-tunnel-3-1"
+
+
+	[38;2;91;192;222m[3]:[0m ../../src/3-gcp-gcp.tf:[38;2;34;187;51m26[0m
+
+		025: 
+[38;2;240;173;78m		026: resource "google_compute_router" "vpn-router-2" {
+[0m		027:   name                          = "vpn-router-2"
+
+
+	[38;2;91;192;222m[4]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m415[0m
+
+		414: 
+[38;2;240;173;78m		415: module "gcp_vm-1" {
+[0m		416:   source = "./Modules/GCP-VM"
+
+
+	[38;2;91;192;222m[5]:[0m ../../src/3-gcp-gcp.tf:[38;2;34;187;51m11[0m
+
+		010: 
+[38;2;240;173;78m		011: module "standard-gcp-gcp-2" {
+[0m		012:   source = "./Modules/Standard-VPC-GCP"
+
+
+	[38;2;91;192;222m[6]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m22[0m
+
+		021: ########         Private Subnetworks
+[38;2;240;173;78m		022: resource "google_compute_subnetwork" "private-subnetwork-1" {
+[0m		023:   name                     = "${var.project_name}-private-subnetwork-1"
+
+
+	[38;2;91;192;222m[7]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m30[0m
+
+		029: 
+[38;2;240;173;78m		030: resource "google_compute_subnetwork" "private-subnetwork-2" {
+[0m		031:   name                     = "${var.project_name}-private-subnetwork-2"
+
+
+	[38;2;91;192;222m[8]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m274[0m
+
+		273: # Tunnel 0
+[38;2;240;173;78m		274: resource "google_compute_vpn_tunnel" "gcp_tunnel2__1" {
+[0m		275:   name   = "gcp-to-gcp-tunnel-2-1"
+
+
+	[38;2;91;192;222m[9]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m290[0m
+
+		289: # Tunnel 1
+[38;2;240;173;78m		290: resource "google_compute_vpn_tunnel" "gcp_tunnel2__2" {
+[0m		291:   name   = "gcp-to-gcp-tunnel-2-2"
+
+
+	[38;2;91;192;222m[10]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m25[0m
+
+		024: 
+[38;2;240;173;78m		025: resource "google_compute_router" "vpn-router" {
+[0m		026:   name                          = "vpn-router"
+
+
+	[38;2;91;192;222m[11]:[0m ../../src/1-aws-vpc.tf:[38;2;34;187;51m25[0m
+
+		024: 
+[38;2;240;173;78m		025: module "standard-vpc" {
+[0m		026:   source = "./Modules/Standard-VPC-AWS"
+
+
+	[38;2;91;192;222m[12]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m49[0m
+
+		048: 
+[38;2;240;173;78m		049: resource "google_compute_external_vpn_gateway" "gcp-to-aws-vpn-gw" {
+[0m		050:   #count           = var.second_workflow_enabled ? 1 : 0
+
+
+	[38;2;91;192;222m[13]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m8[0m
+
+		007: ########         Public Subnetworks
+[38;2;240;173;78m		008: resource "google_compute_subnetwork" "public-subnetwork-1" {
+[0m		009:   name          = "${var.project_name}-public-subnetwork-1"
+
+
+	[38;2;91;192;222m[14]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m14[0m
+
+		013: }
+[38;2;240;173;78m		014: resource "google_compute_subnetwork" "public-subnetwork-2" {
+[0m		015:   name          = "${var.project_name}-public-subnetwork-2"
+
+
+	[38;2;91;192;222m[15]:[0m ../../src/3-gcp-gcp.tf:[38;2;34;187;51m183[0m
+
+		182: 
+[38;2;240;173;78m		183: module "gcp_vm-2" {
+[0m		184:   source = "./Modules/GCP-VM"
+
+
+[38;2;91;192;222mEC2 Not EBS Optimized[0m, Severity: [38;2;91;192;222mINFO[0m, Results: 1
+[1mDescription:[0m It's considered a best practice for an EC2 instance to use an EBS optimized instance. This provides the best performance for your EBS volumes by minimizing contention between Amazon EBS I/O and other traffic from your instance
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 710
+[1mRisk Score:[0m 0.0
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/60224630-175a-472a-9e23-133827040766
+
+	[38;2;91;192;222m[1]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m38[0m
+
+		037: 
+[38;2;240;173;78m		038: resource "aws_instance" "vm" {
+[0m		039:   ami                         = var.ami_id
+
+
+[38;2;237;213;126mInstance Uses Metadata Service IMDSv1[0m, Severity: [38;2;237;213;126mLOW[0m, Results: 1
+[1mDescription:[0m Instance metadata can be accessed with both IMDSv1 or IMDSv2. Although, IMDSv2 service is a session-oriented service, granting additional protection against exposure of metadata information. That version should be used instead of IMDSv1 in order to mitigate those situations.
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 200
+[1mRisk Score:[0m 1.0
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/c306ac53-ee5b-41d3-86a9-0fd2722b4e67
+
+	[38;2;237;213;126m[1]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m38[0m
+
+		037: 
+[38;2;240;173;78m		038: resource "aws_instance" "vm" {
+[0m		039:   ami                         = var.ami_id
+
+
+[38;2;237;213;126mIAM Access Analyzer Not Enabled[0m, Severity: [38;2;237;213;126mLOW[0m, Results: 3
+[1mDescription:[0m IAM Access Analyzer should be enabled and configured to continuously monitor resource permissions
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 710
+[1mRisk Score:[0m 3.5
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/e592a0c5-5bdb-414c-9066-5dba7cdea370
+
+	[38;2;237;213;126m[1]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m5[0m
+
+		004: 
+[38;2;240;173;78m		005: resource "aws_vpc" "main" {
+[0m		006:   cidr_block           = var.vpc_cidr
+
+
+	[38;2;237;213;126m[2]:[0m ../../src/1-aws-vpc.tf:[38;2;34;187;51m39[0m
+
+		038: 
+[38;2;240;173;78m		039: resource "aws_customer_gateway" "router_ip_1" {
+[0m		040:   bgp_asn    = google_compute_router.vpn-router.bgp[0].asn
+
+
+	[38;2;237;213;126m[3]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m1[0m
+
+[38;2;240;173;78m		001: resource "aws_security_group" "vm_sg" {
+[0m		002:   name        = "${var.name}-sg"
+		003:   description = "Security group for ${var.name}"
+
+
+[38;2;237;213;126mGoogle Compute Subnetwork with Private Google Access Disabled[0m, Severity: [38;2;237;213;126mLOW[0m, Results: 2
+[1mDescription:[0m Google Compute Subnetwork should have Private Google Access enabled, which means 'private_ip_google_access' should be set to true
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 732
+[1mRisk Score:[0m 2.9
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/gcp/ee7b93c1-b3f8-4a3b-9588-146d481814f5
+
+	[38;2;237;213;126m[1]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m14[0m
+
+		013: }
+[38;2;240;173;78m		014: resource "google_compute_subnetwork" "public-subnetwork-2" {
+[0m		015:   name          = "${var.project_name}-public-subnetwork-2"
+
+
+	[38;2;237;213;126m[2]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m8[0m
+
+		007: ########         Public Subnetworks
+[38;2;240;173;78m		008: resource "google_compute_subnetwork" "public-subnetwork-1" {
+[0m		009:   name          = "${var.project_name}-public-subnetwork-1"
+
+
+[38;2;255;114;19mVPC Without Network Firewall[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 1
+[1mDescription:[0m VPC should have a Network Firewall associated
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 311
+[1mRisk Score:[0m 5.2
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/fd632aaf-b8a1-424d-a4d1-0de22fd3247a
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m5[0m
+
+		004: 
+[38;2;240;173;78m		005: resource "aws_vpc" "main" {
+[0m		006:   cidr_block           = var.vpc_cidr
+
+
+[38;2;255;114;19mVPC Subnet Assigns Public IP[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 2
+[1mDescription:[0m VPC Subnet should not assign public IP
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 732
+[1mRisk Score:[0m 5.2
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/52f04a44-6bfa-4c41-b1d3-4ae99a2de05c
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m37[0m
+
+		036:   availability_zone       = data.aws_availability_zones.available.names[0]
+[38;2;240;173;78m		037:   map_public_ip_on_launch = true
+[0m		038: 
+
+
+	[38;2;255;114;19m[2]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m49[0m
+
+		048:   availability_zone       = data.aws_availability_zones.available.names[1]
+[38;2;240;173;78m		049:   map_public_ip_on_launch = true
+[0m		050: 
+
+
+[38;2;255;114;19mVPC FlowLogs Disabled[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 1
+[1mDescription:[0m Every VPC resource should have an associated Flow Log
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 778
+[1mRisk Score:[0m 5.1
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/f83121ea-03da-434f-9277-9cd247ab3047
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/Standard-VPC-AWS/main.tf:[38;2;34;187;51m5[0m
+
+		004: 
+[38;2;240;173;78m		005: resource "aws_vpc" "main" {
+[0m		006:   cidr_block           = var.vpc_cidr
+
+
+[38;2;255;114;19mUsing Default Service Account[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 1
+[1mDescription:[0m Instances should not be configured to use the Default Service Account, that has full access to all Cloud APIs, which means the attribute 'service_account' and its sub attribute 'email' must be defined. Additionally, 'email' must not be empty and must also not be a default Google Compute Engine service account.
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 250
+[1mRisk Score:[0m 5.8
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/gcp/3cb4af0b-056d-4fb1-8b95-fdc4593625ff
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/GCP-VM/main.tf:[38;2;34;187;51m35[0m
+
+		034: 
+[38;2;240;173;78m		035: resource "google_compute_instance" "vm" {
+[0m		036:   name         = var.name
+
+
+[38;2;255;114;19mSecurity Group With Unrestricted Access To SSH[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 1
+[1mDescription:[0m 'SSH' (TCP:22) should not be public in AWS Security Group
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 732
+[1mRisk Score:[0m 5.2
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/65905cec-d691-4320-b320-2000436cb696
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m6[0m
+
+		005: 
+[38;2;240;173;78m		006:   ingress {
+[0m		007:     description = "SSH"
+
+
+[38;2;255;114;19mSSH Access Is Not Restricted[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 1
+[1mDescription:[0m Google Firewall should not allow SSH access (port 22) from the Internet (public CIDR block) to ensure the principle of least privileges
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 732
+[1mRisk Score:[0m 5.2
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/gcp/c4dcdcdf-10dd-4bf4-b4a0-8f6239e6aaa0
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/GCP-VM/main.tf:[38;2;34;187;51m10[0m
+
+		009:     protocol = "tcp"
+[38;2;240;173;78m		010:     ports    = ["22", "80", "443"]
+[0m		011:   }
+
+
+[38;2;255;114;19mProject-wide SSH Keys Are Enabled In VM Instances[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 1
+[1mDescription:[0m VM Instance should block project-wide SSH keys
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 284
+[1mRisk Score:[0m 6.8
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/gcp/3e4d5ce6-3280-4027-8010-c26eeea1ec01
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/GCP-VM/main.tf:[38;2;34;187;51m35[0m
+
+		034: 
+[38;2;240;173;78m		035: resource "google_compute_instance" "vm" {
+[0m		036:   name         = var.name
+
+
+[38;2;255;114;19mGoogle Compute Subnetwork Logging Disabled[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 4
+[1mDescription:[0m This query checks if logs are enabled for a Google Compute Subnetwork resource.
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 788
+[1mRisk Score:[0m 5.1
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/gcp/40430747-442d-450a-a34f-dc57149f4609
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m22[0m
+
+		021: ########         Private Subnetworks
+[38;2;240;173;78m		022: resource "google_compute_subnetwork" "private-subnetwork-1" {
+[0m		023:   name                     = "${var.project_name}-private-subnetwork-1"
+
+
+	[38;2;255;114;19m[2]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m8[0m
+
+		007: ########         Public Subnetworks
+[38;2;240;173;78m		008: resource "google_compute_subnetwork" "public-subnetwork-1" {
+[0m		009:   name          = "${var.project_name}-public-subnetwork-1"
+
+
+	[38;2;255;114;19m[3]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m30[0m
+
+		029: 
+[38;2;240;173;78m		030: resource "google_compute_subnetwork" "private-subnetwork-2" {
+[0m		031:   name                     = "${var.project_name}-private-subnetwork-2"
+
+
+	[38;2;255;114;19m[4]:[0m ../../src/Modules/Standard-VPC-GCP/main.tf:[38;2;34;187;51m14[0m
+
+		013: }
+[38;2;240;173;78m		014: resource "google_compute_subnetwork" "public-subnetwork-2" {
+[0m		015:   name          = "${var.project_name}-public-subnetwork-2"
+
+
+[38;2;255;114;19mEC2 Instance Monitoring Disabled[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 1
+[1mDescription:[0m EC2 Instance should have detailed monitoring enabled. With detailed monitoring enabled data is available in 1-minute periods
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 778
+[1mRisk Score:[0m 5.1
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/23b70e32-032e-4fa6-ba5c-82f56b9980e6
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m38[0m
+
+		037: 
+[38;2;240;173;78m		038: resource "aws_instance" "vm" {
+[0m		039:   ami                         = var.ami_id
+
+
+[38;2;255;114;19mEC2 Instance Has Public IP[0m, Severity: [38;2;255;114;19mMEDIUM[0m, Results: 1
+[1mDescription:[0m EC2 Instance should not have a public IP address.
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 200
+[1mRisk Score:[0m 5.1
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/5a2486aa-facf-477d-a5c1-b010789459ce
+
+	[38;2;255;114;19m[1]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m44[0m
+
+		043:   key_name                    = var.key_name
+[38;2;240;173;78m		044:   associate_public_ip_address = var.associate_public_ip_address
+[0m		045: 
+
+
+[38;2;187;33;36mUnrestricted Security Group Ingress[0m, Severity: [38;2;187;33;36mHIGH[0m, Results: 2
+[1mDescription:[0m Security groups allow ingress from 0.0.0.0:0 and/or ::/0
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 668
+[1mRisk Score:[0m 7.2
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/4728cd65-a20c-49da-8b31-9c08b423e4db
+
+	[38;2;187;33;36m[1]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m11[0m
+
+		010:     protocol    = "tcp"
+[38;2;240;173;78m		011:     cidr_blocks = var.ssh_cidr_blocks
+[0m		012:   }
+
+
+	[38;2;187;33;36m[2]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m19[0m
+
+		018:     protocol    = "icmp"
+[38;2;240;173;78m		019:     cidr_blocks = var.ssh_cidr_blocks
+[0m		020:   }
+
+
+[38;2;187;33;36mUnknown Port Exposed To Internet[0m, Severity: [38;2;187;33;36mHIGH[0m, Results: 1
+[1mDescription:[0m AWS Security Group should not have an unknown port exposed to the entire Internet
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 200
+[1mRisk Score:[0m 7.1
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/590d878b-abdc-428f-895a-e2b68a0e1998
+
+	[38;2;187;33;36m[1]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m14[0m
+
+		013: 
+[38;2;240;173;78m		014:   ingress {
+[0m		015:     description = "ICMP"
+
+
+[38;2;187;33;36mSensitive Port Is Exposed To Entire Network[0m, Severity: [38;2;187;33;36mHIGH[0m, Results: 1
+[1mDescription:[0m A sensitive port, such as port 23 or port 110, is open for the whole network in either TCP or UDP protocol
+[1mPlatform:[0m Terraform
+[1mCWE:[0m 200
+[1mRisk Score:[0m 7.7
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/terraform-queries/aws/381c3f2a-ef6f-4eff-99f7-b169cda3422c
+
+	[38;2;187;33;36m[1]:[0m ../../src/Modules/AWS-VM/main.tf:[38;2;34;187;51m6[0m
+
+		005: 
+[38;2;240;173;78m		006:   ingress {
+[0m		007:     description = "SSH"
+
+
+[38;2;187;33;36mPasswords And Secrets - Generic Secret[0m, Severity: [38;2;187;33;36mHIGH[0m, Results: 8
+[1mDescription:[0m Query to find passwords and secrets in infrastructure code.
+[1mPlatform:[0m Common
+[1mCWE:[0m 798
+[1mRisk Score:[0m 7.8
+[1mLearn more about this vulnerability:[0m https://docs.kics.io/latest/queries/common-queries/a88baa34-e2ad-44ea-ad6f-8cac87bc7c71
+
+	[38;2;187;33;36m[1]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m122[0m
+
+		121: 
+[38;2;240;173;78m		122:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+[0m		123:   ike_version   = 2
+
+
+	[38;2;187;33;36m[2]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m139[0m
+
+		138: 
+[38;2;240;173;78m		139:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+[0m		140:   ike_version   = 2
+
+
+	[38;2;187;33;36m[3]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m283[0m
+
+		282: 
+[38;2;240;173;78m		283:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+[0m		284:   ike_version   = 2
+
+
+	[38;2;187;33;36m[4]:[0m ../../src/3-gcp-gcp.tf:[38;2;34;187;51m89[0m
+
+		088: 
+[38;2;240;173;78m		089:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+[0m		090:   ike_version   = 2
+
+
+	[38;2;187;33;36m[5]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m105[0m
+
+		104: 
+[38;2;240;173;78m		105:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+[0m		106:   ike_version   = 2
+
+
+	[38;2;187;33;36m[6]:[0m ../../src/3-gcp-gcp.tf:[38;2;34;187;51m73[0m
+
+		072: 
+[38;2;240;173;78m		073:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+[0m		074:   ike_version   = 2
+
+
+	[38;2;187;33;36m[7]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m299[0m
+
+		298: 
+[38;2;240;173;78m		299:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+[0m		300:   ike_version   = 2
+
+
+	[38;2;187;33;36m[8]:[0m ../../src/2-gcp-vpc.tf:[38;2;34;187;51m88[0m
+
+		087: 
+[38;2;240;173;78m		088:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+[0m		089:   ike_version   = 2
+
+
+
+Results Summary:
+[38;2;255;0;0mCRITICAL[0m: 0
+[38;2;187;33;36mHIGH[0m: 12
+[38;2;255;114;19mMEDIUM[0m: 14
+[38;2;237;213;126mLOW[0m: 6
+[38;2;91;192;222mINFO[0m: 51
+TOTAL: 83
+
+
+## Terrascan IaC Scan
+
+
+Scan Errors -
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence
+	Error Message       :	directory '/src/Evidence' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/01-architecture
+	Error Message       :	directory '/src/Evidence/01-architecture' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/02-aws-networking
+	Error Message       :	directory '/src/Evidence/02-aws-networking' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/03-gcp-networking
+	Error Message       :	directory '/src/Evidence/03-gcp-networking' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/04-vpn
+	Error Message       :	directory '/src/Evidence/04-vpn' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/05-bgp-routing
+	Error Message       :	directory '/src/Evidence/05-bgp-routing' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/06-firewall-security
+	Error Message       :	directory '/src/Evidence/06-firewall-security' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/07-compute-validation
+	Error Message       :	directory '/src/Evidence/07-compute-validation' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/08-terraform
+	Error Message       :	directory '/src/Evidence/08-terraform' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/09-security-scan
+	Error Message       :	directory '/src/Evidence/09-security-scan' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/10-destroy
+	Error Message       :	directory '/src/Evidence/10-destroy' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/Modules
+	Error Message       :	directory '/src/Modules' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/scripts
+	Error Message       :	directory '/src/scripts' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/scripts/Evidence
+	Error Message       :	directory '/src/scripts/Evidence' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/scripts/Evidence/{
+	Error Message       :	directory '/src/scripts/Evidence/{' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/scripts/build_plan
+	Error Message       :	directory '/src/scripts/build_plan' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+	IaC Type            :	terraform
+	Directory           :	/src/scripts/destroy_plan
+	Error Message       :	directory '/src/scripts/destroy_plan' has no terraform config files
+	
+	-----------------------------------------------------------------------
+	
+
+
+Violation Details -
+    
+	Description    :	Ensure VPC flow logging is enabled in all VPCs
+	File           :	Modules/Standard-VPC-AWS/main.tf
+	Module Name    :	standard-vpc
+	Plan Root      :	./
+	Line           :	5
+	Severity       :	LOW
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure VPC flow logging is enabled in all VPCs
+	File           :	Modules/Standard-VPC-AWS/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/Standard-VPC-AWS
+	Line           :	5
+	Severity       :	LOW
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that detailed monitoring is enabled for EC2 instances.
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	aws_vm
+	Plan Root      :	./
+	Line           :	38
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure that detailed monitoring is enabled for EC2 instances.
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/AWS-VM
+	Line           :	38
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure Unknown Port is not exposed to the entire internet
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	aws_vm
+	Plan Root      :	./
+	Line           :	1
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Ensure Unknown Port is not exposed to the entire internet
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/AWS-VM
+	Line           :	1
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Security Groups - Unrestricted Specific Ports - (SSH,22)
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	aws_vm
+	Plan Root      :	./
+	Line           :	1
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	Security Groups - Unrestricted Specific Ports - (SSH,22)
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/AWS-VM
+	Line           :	1
+	Severity       :	HIGH
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	EC2 instances should disable IMDS or require IMDSv2 as this can be related to the weaponization phase of kill chain
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	aws_vm
+	Plan Root      :	./
+	Line           :	38
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+	Description    :	EC2 instances should disable IMDS or require IMDSv2 as this can be related to the weaponization phase of kill chain
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/AWS-VM
+	Line           :	38
+	Severity       :	MEDIUM
+	
+	-----------------------------------------------------------------------
+	
+
+Scan Summary -
+
+	File/Folder         :	/src
+	IaC Type            :	terraform
+	Scanned At          :	2026-06-16 06:31:01.943349918 +0000 UTC
+	Policies Validated  :	339
+	Violated Policies   :	10
+	Low                 :	2
+	Medium              :	2
+	High                :	6
+	
+

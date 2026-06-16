@@ -1,0 +1,2205 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_customer_gateway.router_ip_1 will be destroyed
+  - resource "aws_customer_gateway" "router_ip_1" {
+      - arn              = "arn:aws:ec2:us-east-1:915742579869:customer-gateway/cgw-0dca5012a20c7fd17" -> null
+      - bgp_asn          = "65003" -> null
+      - id               = "cgw-0dca5012a20c7fd17" -> null
+      - ip_address       = "34.183.17.37" -> null
+      - region           = "us-east-1" -> null
+      - tags             = {
+          - "Name" = "main-customer-gateway"
+        } -> null
+      - tags_all         = {
+          - "Name" = "main-customer-gateway"
+        } -> null
+      - type             = "ipsec.1" -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # aws_customer_gateway.router_ip_2 will be destroyed
+  - resource "aws_customer_gateway" "router_ip_2" {
+      - arn              = "arn:aws:ec2:us-east-1:915742579869:customer-gateway/cgw-0249b3f1a4222c851" -> null
+      - bgp_asn          = "65003" -> null
+      - id               = "cgw-0249b3f1a4222c851" -> null
+      - ip_address       = "34.184.49.150" -> null
+      - region           = "us-east-1" -> null
+      - tags             = {
+          - "Name" = "main-customer-gateway"
+        } -> null
+      - tags_all         = {
+          - "Name" = "main-customer-gateway"
+        } -> null
+      - type             = "ipsec.1" -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # aws_vpn_connection.tunnel_1 will be destroyed
+  - resource "aws_vpn_connection" "tunnel_1" {
+      - arn                                     = "arn:aws:ec2:us-east-1:915742579869:vpn-connection/vpn-0a3695c1cbca1ec60" -> null
+      - customer_gateway_configuration          = (sensitive value) -> null
+      - customer_gateway_id                     = "cgw-0dca5012a20c7fd17" -> null
+      - enable_acceleration                     = false -> null
+      - id                                      = "vpn-0a3695c1cbca1ec60" -> null
+      - local_ipv4_network_cidr                 = "0.0.0.0/0" -> null
+      - outside_ip_address_type                 = "PublicIpv4" -> null
+      - preshared_key_storage                   = "Standard" -> null
+      - region                                  = "us-east-1" -> null
+      - remote_ipv4_network_cidr                = "0.0.0.0/0" -> null
+      - routes                                  = [] -> null
+      - static_routes_only                      = false -> null
+      - tags                                    = {
+          - "Name" = "1-main-site-to-site-vpn"
+        } -> null
+      - tags_all                                = {
+          - "Name" = "1-main-site-to-site-vpn"
+        } -> null
+      - tunnel1_address                         = "3.217.163.118" -> null
+      - tunnel1_bgp_asn                         = "65000" -> null
+      - tunnel1_bgp_holdtime                    = 30 -> null
+      - tunnel1_cgw_inside_address              = "169.254.21.2" -> null
+      - tunnel1_dpd_timeout_seconds             = 0 -> null
+      - tunnel1_enable_tunnel_lifecycle_control = false -> null
+      - tunnel1_ike_versions                    = [
+          - "ikev2",
+        ] -> null
+      - tunnel1_inside_cidr                     = "169.254.21.0/30" -> null
+      - tunnel1_phase1_dh_group_numbers         = [] -> null
+      - tunnel1_phase1_encryption_algorithms    = [] -> null
+      - tunnel1_phase1_integrity_algorithms     = [] -> null
+      - tunnel1_phase1_lifetime_seconds         = 0 -> null
+      - tunnel1_phase2_dh_group_numbers         = [] -> null
+      - tunnel1_phase2_encryption_algorithms    = [] -> null
+      - tunnel1_phase2_integrity_algorithms     = [] -> null
+      - tunnel1_phase2_lifetime_seconds         = 0 -> null
+      - tunnel1_preshared_key                   = (sensitive value) -> null
+      - tunnel1_rekey_fuzz_percentage           = 0 -> null
+      - tunnel1_rekey_margin_time_seconds       = 0 -> null
+      - tunnel1_replay_window_size              = 0 -> null
+      - tunnel1_vgw_inside_address              = "169.254.21.1" -> null
+      - tunnel2_address                         = "35.153.252.120" -> null
+      - tunnel2_bgp_asn                         = "65000" -> null
+      - tunnel2_bgp_holdtime                    = 30 -> null
+      - tunnel2_cgw_inside_address              = "169.254.21.6" -> null
+      - tunnel2_dpd_timeout_seconds             = 0 -> null
+      - tunnel2_enable_tunnel_lifecycle_control = false -> null
+      - tunnel2_ike_versions                    = [
+          - "ikev2",
+        ] -> null
+      - tunnel2_inside_cidr                     = "169.254.21.4/30" -> null
+      - tunnel2_phase1_dh_group_numbers         = [] -> null
+      - tunnel2_phase1_encryption_algorithms    = [] -> null
+      - tunnel2_phase1_integrity_algorithms     = [] -> null
+      - tunnel2_phase1_lifetime_seconds         = 0 -> null
+      - tunnel2_phase2_dh_group_numbers         = [] -> null
+      - tunnel2_phase2_encryption_algorithms    = [] -> null
+      - tunnel2_phase2_integrity_algorithms     = [] -> null
+      - tunnel2_phase2_lifetime_seconds         = 0 -> null
+      - tunnel2_preshared_key                   = (sensitive value) -> null
+      - tunnel2_rekey_fuzz_percentage           = 0 -> null
+      - tunnel2_rekey_margin_time_seconds       = 0 -> null
+      - tunnel2_replay_window_size              = 0 -> null
+      - tunnel2_vgw_inside_address              = "169.254.21.5" -> null
+      - tunnel_bandwidth                        = "standard" -> null
+      - tunnel_inside_ip_version                = "ipv4" -> null
+      - type                                    = "ipsec.1" -> null
+      - vgw_telemetry                           = [
+          - {
+              - accepted_route_count = 4
+              - last_status_change   = "2026-06-16T02:35:05Z"
+              - outside_ip_address   = "35.153.252.120"
+              - status               = "UP"
+              - status_message       = "4 BGP ROUTES"
+                # (1 unchanged attribute hidden)
+            },
+          - {
+              - accepted_route_count = 4
+              - last_status_change   = "2026-06-16T02:35:20Z"
+              - outside_ip_address   = "3.217.163.118"
+              - status               = "UP"
+              - status_message       = "4 BGP ROUTES"
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - vpn_gateway_id                          = "vgw-065095db0214d25c9" -> null
+        # (15 unchanged attributes hidden)
+
+      - tunnel1_log_options {
+          - cloudwatch_log_options {
+              - bgp_log_enabled       = false -> null
+              - log_enabled           = false -> null
+                # (4 unchanged attributes hidden)
+            }
+        }
+
+      - tunnel2_log_options {
+          - cloudwatch_log_options {
+              - bgp_log_enabled       = false -> null
+              - log_enabled           = false -> null
+                # (4 unchanged attributes hidden)
+            }
+        }
+    }
+
+  # aws_vpn_connection.tunnel_2 will be destroyed
+  - resource "aws_vpn_connection" "tunnel_2" {
+      - arn                                     = "arn:aws:ec2:us-east-1:915742579869:vpn-connection/vpn-019dba123c80df5fa" -> null
+      - customer_gateway_configuration          = (sensitive value) -> null
+      - customer_gateway_id                     = "cgw-0249b3f1a4222c851" -> null
+      - enable_acceleration                     = false -> null
+      - id                                      = "vpn-019dba123c80df5fa" -> null
+      - local_ipv4_network_cidr                 = "0.0.0.0/0" -> null
+      - outside_ip_address_type                 = "PublicIpv4" -> null
+      - preshared_key_storage                   = "Standard" -> null
+      - region                                  = "us-east-1" -> null
+      - remote_ipv4_network_cidr                = "0.0.0.0/0" -> null
+      - routes                                  = [] -> null
+      - static_routes_only                      = false -> null
+      - tags                                    = {
+          - "Name" = "2-main-site-to-site-vpn"
+        } -> null
+      - tags_all                                = {
+          - "Name" = "2-main-site-to-site-vpn"
+        } -> null
+      - tunnel1_address                         = "75.101.161.147" -> null
+      - tunnel1_bgp_asn                         = "65000" -> null
+      - tunnel1_bgp_holdtime                    = 30 -> null
+      - tunnel1_cgw_inside_address              = "169.254.23.2" -> null
+      - tunnel1_dpd_timeout_seconds             = 0 -> null
+      - tunnel1_enable_tunnel_lifecycle_control = false -> null
+      - tunnel1_ike_versions                    = [
+          - "ikev2",
+        ] -> null
+      - tunnel1_inside_cidr                     = "169.254.23.0/30" -> null
+      - tunnel1_phase1_dh_group_numbers         = [] -> null
+      - tunnel1_phase1_encryption_algorithms    = [] -> null
+      - tunnel1_phase1_integrity_algorithms     = [] -> null
+      - tunnel1_phase1_lifetime_seconds         = 0 -> null
+      - tunnel1_phase2_dh_group_numbers         = [] -> null
+      - tunnel1_phase2_encryption_algorithms    = [] -> null
+      - tunnel1_phase2_integrity_algorithms     = [] -> null
+      - tunnel1_phase2_lifetime_seconds         = 0 -> null
+      - tunnel1_preshared_key                   = (sensitive value) -> null
+      - tunnel1_rekey_fuzz_percentage           = 0 -> null
+      - tunnel1_rekey_margin_time_seconds       = 0 -> null
+      - tunnel1_replay_window_size              = 0 -> null
+      - tunnel1_vgw_inside_address              = "169.254.23.1" -> null
+      - tunnel2_address                         = "98.85.148.45" -> null
+      - tunnel2_bgp_asn                         = "65000" -> null
+      - tunnel2_bgp_holdtime                    = 30 -> null
+      - tunnel2_cgw_inside_address              = "169.254.23.6" -> null
+      - tunnel2_dpd_timeout_seconds             = 0 -> null
+      - tunnel2_enable_tunnel_lifecycle_control = false -> null
+      - tunnel2_ike_versions                    = [
+          - "ikev2",
+        ] -> null
+      - tunnel2_inside_cidr                     = "169.254.23.4/30" -> null
+      - tunnel2_phase1_dh_group_numbers         = [] -> null
+      - tunnel2_phase1_encryption_algorithms    = [] -> null
+      - tunnel2_phase1_integrity_algorithms     = [] -> null
+      - tunnel2_phase1_lifetime_seconds         = 0 -> null
+      - tunnel2_phase2_dh_group_numbers         = [] -> null
+      - tunnel2_phase2_encryption_algorithms    = [] -> null
+      - tunnel2_phase2_integrity_algorithms     = [] -> null
+      - tunnel2_phase2_lifetime_seconds         = 0 -> null
+      - tunnel2_preshared_key                   = (sensitive value) -> null
+      - tunnel2_rekey_fuzz_percentage           = 0 -> null
+      - tunnel2_rekey_margin_time_seconds       = 0 -> null
+      - tunnel2_replay_window_size              = 0 -> null
+      - tunnel2_vgw_inside_address              = "169.254.23.5" -> null
+      - tunnel_bandwidth                        = "standard" -> null
+      - tunnel_inside_ip_version                = "ipv4" -> null
+      - type                                    = "ipsec.1" -> null
+      - vgw_telemetry                           = [
+          - {
+              - accepted_route_count = 4
+              - last_status_change   = "2026-06-16T02:33:37Z"
+              - outside_ip_address   = "98.85.148.45"
+              - status               = "UP"
+              - status_message       = "4 BGP ROUTES"
+                # (1 unchanged attribute hidden)
+            },
+          - {
+              - accepted_route_count = 4
+              - last_status_change   = "2026-06-16T02:34:35Z"
+              - outside_ip_address   = "75.101.161.147"
+              - status               = "UP"
+              - status_message       = "4 BGP ROUTES"
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - vpn_gateway_id                          = "vgw-065095db0214d25c9" -> null
+        # (15 unchanged attributes hidden)
+
+      - tunnel1_log_options {
+          - cloudwatch_log_options {
+              - bgp_log_enabled       = false -> null
+              - log_enabled           = false -> null
+                # (4 unchanged attributes hidden)
+            }
+        }
+
+      - tunnel2_log_options {
+          - cloudwatch_log_options {
+              - bgp_log_enabled       = false -> null
+              - log_enabled           = false -> null
+                # (4 unchanged attributes hidden)
+            }
+        }
+    }
+
+  # aws_vpn_gateway.vpn_gateway will be destroyed
+  - resource "aws_vpn_gateway" "vpn_gateway" {
+      - amazon_side_asn = "65000" -> null
+      - arn             = "arn:aws:ec2:us-east-1:915742579869:vpn-gateway/vgw-065095db0214d25c9" -> null
+      - id              = "vgw-065095db0214d25c9" -> null
+      - region          = "us-east-1" -> null
+      - tags            = {} -> null
+      - tags_all        = {} -> null
+      - vpc_id          = "vpc-0ae64cf813f732306" -> null
+    }
+
+  # aws_vpn_gateway_route_propagation.private will be destroyed
+  - resource "aws_vpn_gateway_route_propagation" "private" {
+      - id             = "vgw-065095db0214d25c9_rtb-089bc646f083b30b4" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-089bc646f083b30b4" -> null
+      - vpn_gateway_id = "vgw-065095db0214d25c9" -> null
+    }
+
+  # aws_vpn_gateway_route_propagation.public will be destroyed
+  - resource "aws_vpn_gateway_route_propagation" "public" {
+      - id             = "vgw-065095db0214d25c9_rtb-0313d554d3d3985c0" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-0313d554d3d3985c0" -> null
+      - vpn_gateway_id = "vgw-065095db0214d25c9" -> null
+    }
+
+  # google_compute_external_vpn_gateway.gcp-to-aws-vpn-gw will be destroyed
+  - resource "google_compute_external_vpn_gateway" "gcp-to-aws-vpn-gw" {
+      - deletion_policy   = "DELETE" -> null
+      - effective_labels  = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                = "projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
+      - label_fingerprint = "vezUS-42LLM=" -> null
+      - labels            = {} -> null
+      - name              = "gcp-to-aws-vpn-gw" -> null
+      - project           = "gcp-mastery-495919" -> null
+      - redundancy_type   = "FOUR_IPS_REDUNDANCY" -> null
+      - self_link         = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
+      - terraform_labels  = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+        # (1 unchanged attribute hidden)
+
+      - interface {
+          - id           = 0 -> null
+          - ip_address   = "3.217.163.118" -> null
+            # (1 unchanged attribute hidden)
+        }
+      - interface {
+          - id           = 1 -> null
+          - ip_address   = "35.153.252.120" -> null
+            # (1 unchanged attribute hidden)
+        }
+      - interface {
+          - id           = 2 -> null
+          - ip_address   = "75.101.161.147" -> null
+            # (1 unchanged attribute hidden)
+        }
+      - interface {
+          - id           = 3 -> null
+          - ip_address   = "98.85.148.45" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # google_compute_ha_vpn_gateway.ha_gateway1 will be destroyed
+  - resource "google_compute_ha_vpn_gateway" "ha_gateway1" {
+      - deletion_policy    = "DELETE" -> null
+      - effective_labels   = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - gateway_ip_version = "IPV4" -> null
+      - id                 = "projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - label_fingerprint  = "vezUS-42LLM=" -> null
+      - labels             = {} -> null
+      - name               = "vpn-magic-ha-vpn-1" -> null
+      - network            = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - project            = "gcp-mastery-495919" -> null
+      - region             = "us-central1" -> null
+      - self_link          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - stack_type         = "IPV4_ONLY" -> null
+      - terraform_labels   = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+        # (1 unchanged attribute hidden)
+
+      - vpn_interfaces {
+          - id                      = 0 -> null
+          - ip_address              = "34.183.17.37" -> null
+            # (1 unchanged attribute hidden)
+        }
+      - vpn_interfaces {
+          - id                      = 1 -> null
+          - ip_address              = "34.184.49.150" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # google_compute_ha_vpn_gateway.ha_gateway2 will be destroyed
+  - resource "google_compute_ha_vpn_gateway" "ha_gateway2" {
+      - deletion_policy    = "DELETE" -> null
+      - effective_labels   = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - gateway_ip_version = "IPV4" -> null
+      - id                 = "projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
+      - label_fingerprint  = "vezUS-42LLM=" -> null
+      - labels             = {} -> null
+      - name               = "vpn-magic-ha-vpn-2" -> null
+      - network            = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
+      - project            = "gcp-mastery-495919" -> null
+      - region             = "us-central1" -> null
+      - self_link          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
+      - stack_type         = "IPV4_ONLY" -> null
+      - terraform_labels   = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+        # (1 unchanged attribute hidden)
+
+      - vpn_interfaces {
+          - id                      = 0 -> null
+          - ip_address              = "34.183.17.229" -> null
+            # (1 unchanged attribute hidden)
+        }
+      - vpn_interfaces {
+          - id                      = 1 -> null
+          - ip_address              = "34.184.18.138" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # google_compute_router.vpn-router will be destroyed
+  - resource "google_compute_router" "vpn-router" {
+      - creation_timestamp            = "2026-06-15T19:22:44.103-07:00" -> null
+      - deletion_policy               = "DELETE" -> null
+      - encrypted_interconnect_router = false -> null
+      - id                            = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
+      - name                          = "vpn-router" -> null
+      - network                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - project                       = "gcp-mastery-495919" -> null
+      - region                        = "us-central1" -> null
+      - self_link                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
+        # (1 unchanged attribute hidden)
+
+      - bgp {
+          - advertise_mode     = "DEFAULT" -> null
+          - advertised_groups  = [] -> null
+          - asn                = 65003 -> null
+          - keepalive_interval = 20 -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # google_compute_router.vpn-router-2 will be destroyed
+  - resource "google_compute_router" "vpn-router-2" {
+      - creation_timestamp            = "2026-06-15T19:22:33.131-07:00" -> null
+      - deletion_policy               = "DELETE" -> null
+      - encrypted_interconnect_router = false -> null
+      - id                            = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2" -> null
+      - name                          = "vpn-router-2" -> null
+      - network                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
+      - project                       = "gcp-mastery-495919" -> null
+      - region                        = "us-central1" -> null
+      - self_link                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2" -> null
+        # (1 unchanged attribute hidden)
+
+      - bgp {
+          - advertise_mode     = "DEFAULT" -> null
+          - advertised_groups  = [] -> null
+          - asn                = 65005 -> null
+          - keepalive_interval = 20 -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # google_compute_router_interface.aws_tunnel2_1 will be destroyed
+  - resource "google_compute_router_interface" "aws_tunnel2_1" {
+      - deletion_policy         = "DELETE" -> null
+      - id                      = "us-central1/vpn-router/aws-tunnel-2-1-interface" -> null
+      - ip_range                = "169.254.50.1/30" -> null
+      - ip_version              = "IPV4" -> null
+      - name                    = "aws-tunnel-2-1-interface" -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - region                  = "us-central1" -> null
+      - router                  = "vpn-router" -> null
+      - vpn_tunnel              = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_router_interface.aws_tunnel2_2 will be destroyed
+  - resource "google_compute_router_interface" "aws_tunnel2_2" {
+      - deletion_policy         = "DELETE" -> null
+      - id                      = "us-central1/vpn-router/aws-tunnel-2-2-interface" -> null
+      - ip_range                = "169.254.50.5/30" -> null
+      - ip_version              = "IPV4" -> null
+      - name                    = "aws-tunnel-2-2-interface" -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - region                  = "us-central1" -> null
+      - router                  = "vpn-router" -> null
+      - vpn_tunnel              = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_router_interface.aws_tunnel3_1 will be destroyed
+  - resource "google_compute_router_interface" "aws_tunnel3_1" {
+      - deletion_policy         = "DELETE" -> null
+      - id                      = "us-central1/vpn-router-2/aws-tunnel-3-1-interface" -> null
+      - ip_range                = "169.254.50.2/30" -> null
+      - ip_version              = "IPV4" -> null
+      - name                    = "aws-tunnel-3-1-interface" -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - region                  = "us-central1" -> null
+      - router                  = "vpn-router-2" -> null
+      - vpn_tunnel              = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_router_interface.aws_tunnel3_2 will be destroyed
+  - resource "google_compute_router_interface" "aws_tunnel3_2" {
+      - deletion_policy         = "DELETE" -> null
+      - id                      = "us-central1/vpn-router-2/aws-tunnel-3-2-interface" -> null
+      - ip_range                = "169.254.50.6/30" -> null
+      - ip_version              = "IPV4" -> null
+      - name                    = "aws-tunnel-3-2-interface" -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - region                  = "us-central1" -> null
+      - router                  = "vpn-router-2" -> null
+      - vpn_tunnel              = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_router_interface.aws_tunnel_1 will be destroyed
+  - resource "google_compute_router_interface" "aws_tunnel_1" {
+      - deletion_policy         = "DELETE" -> null
+      - id                      = "us-central1/vpn-router/aws-tunnel-1-interface" -> null
+      - ip_range                = "169.254.21.2/30" -> null
+      - ip_version              = "IPV4" -> null
+      - name                    = "aws-tunnel-1-interface" -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - region                  = "us-central1" -> null
+      - router                  = "vpn-router" -> null
+      - vpn_tunnel              = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_router_interface.aws_tunnel_2 will be destroyed
+  - resource "google_compute_router_interface" "aws_tunnel_2" {
+      - deletion_policy         = "DELETE" -> null
+      - id                      = "us-central1/vpn-router/aws-tunnel-2-interface" -> null
+      - ip_range                = "169.254.21.6/30" -> null
+      - ip_version              = "IPV4" -> null
+      - name                    = "aws-tunnel-2-interface" -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - region                  = "us-central1" -> null
+      - router                  = "vpn-router" -> null
+      - vpn_tunnel              = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_router_interface.aws_tunnel_3 will be destroyed
+  - resource "google_compute_router_interface" "aws_tunnel_3" {
+      - deletion_policy         = "DELETE" -> null
+      - id                      = "us-central1/vpn-router/aws-tunnel-3-interface" -> null
+      - ip_range                = "169.254.23.2/30" -> null
+      - ip_version              = "IPV4" -> null
+      - name                    = "aws-tunnel-3-interface" -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - region                  = "us-central1" -> null
+      - router                  = "vpn-router" -> null
+      - vpn_tunnel              = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_router_interface.aws_tunnel_4 will be destroyed
+  - resource "google_compute_router_interface" "aws_tunnel_4" {
+      - deletion_policy         = "DELETE" -> null
+      - id                      = "us-central1/vpn-router/aws-tunnel-4-interface" -> null
+      - ip_range                = "169.254.23.6/30" -> null
+      - ip_version              = "IPV4" -> null
+      - name                    = "aws-tunnel-4-interface" -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - region                  = "us-central1" -> null
+      - router                  = "vpn-router" -> null
+      - vpn_tunnel              = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_router_peer.aws_tunnel2_1 will be destroyed
+  - resource "google_compute_router_peer" "aws_tunnel2_1" {
+      - advertise_mode                     = "DEFAULT" -> null
+      - advertised_groups                  = [] -> null
+      - advertised_route_priority          = 100 -> null
+      - custom_learned_route_priority      = 0 -> null
+      - deletion_policy                    = "DELETE" -> null
+      - enable                             = true -> null
+      - enable_ipv4                        = true -> null
+      - enable_ipv6                        = false -> null
+      - export_policies                    = [] -> null
+      - id                                 = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router/aws-tunnel2-1-peer" -> null
+      - import_policies                    = [] -> null
+      - interface                          = "aws-tunnel-2-1-interface" -> null
+      - ip_address                         = "169.254.50.1" -> null
+      - is_advertised_route_priority_set   = true -> null
+      - name                               = "aws-tunnel2-1-peer" -> null
+      - peer_asn                           = 65005 -> null
+      - peer_ip_address                    = "169.254.50.2" -> null
+      - project                            = "gcp-mastery-495919" -> null
+      - region                             = "us-central1" -> null
+      - router                             = "vpn-router" -> null
+      - zero_custom_learned_route_priority = false -> null
+        # (6 unchanged attributes hidden)
+
+      - bfd {
+          - min_receive_interval        = 1000 -> null
+          - min_transmit_interval       = 1000 -> null
+          - multiplier                  = 5 -> null
+          - session_initialization_mode = "DISABLED" -> null
+        }
+    }
+
+  # google_compute_router_peer.aws_tunnel2_2 will be destroyed
+  - resource "google_compute_router_peer" "aws_tunnel2_2" {
+      - advertise_mode                     = "DEFAULT" -> null
+      - advertised_groups                  = [] -> null
+      - advertised_route_priority          = 100 -> null
+      - custom_learned_route_priority      = 0 -> null
+      - deletion_policy                    = "DELETE" -> null
+      - enable                             = true -> null
+      - enable_ipv4                        = true -> null
+      - enable_ipv6                        = false -> null
+      - export_policies                    = [] -> null
+      - id                                 = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router/aws-tunnel2-2-peer" -> null
+      - import_policies                    = [] -> null
+      - interface                          = "aws-tunnel-2-2-interface" -> null
+      - ip_address                         = "169.254.50.5" -> null
+      - is_advertised_route_priority_set   = true -> null
+      - name                               = "aws-tunnel2-2-peer" -> null
+      - peer_asn                           = 65005 -> null
+      - peer_ip_address                    = "169.254.50.6" -> null
+      - project                            = "gcp-mastery-495919" -> null
+      - region                             = "us-central1" -> null
+      - router                             = "vpn-router" -> null
+      - zero_custom_learned_route_priority = false -> null
+        # (6 unchanged attributes hidden)
+
+      - bfd {
+          - min_receive_interval        = 1000 -> null
+          - min_transmit_interval       = 1000 -> null
+          - multiplier                  = 5 -> null
+          - session_initialization_mode = "DISABLED" -> null
+        }
+    }
+
+  # google_compute_router_peer.aws_tunnel3_1 will be destroyed
+  - resource "google_compute_router_peer" "aws_tunnel3_1" {
+      - advertise_mode                     = "DEFAULT" -> null
+      - advertised_groups                  = [] -> null
+      - advertised_route_priority          = 100 -> null
+      - custom_learned_route_priority      = 0 -> null
+      - deletion_policy                    = "DELETE" -> null
+      - enable                             = true -> null
+      - enable_ipv4                        = true -> null
+      - enable_ipv6                        = false -> null
+      - export_policies                    = [] -> null
+      - id                                 = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2/aws-tunnel3-1-peer" -> null
+      - import_policies                    = [] -> null
+      - interface                          = "aws-tunnel-3-1-interface" -> null
+      - ip_address                         = "169.254.50.2" -> null
+      - is_advertised_route_priority_set   = true -> null
+      - name                               = "aws-tunnel3-1-peer" -> null
+      - peer_asn                           = 65003 -> null
+      - peer_ip_address                    = "169.254.50.1" -> null
+      - project                            = "gcp-mastery-495919" -> null
+      - region                             = "us-central1" -> null
+      - router                             = "vpn-router-2" -> null
+      - zero_custom_learned_route_priority = false -> null
+        # (6 unchanged attributes hidden)
+
+      - bfd {
+          - min_receive_interval        = 1000 -> null
+          - min_transmit_interval       = 1000 -> null
+          - multiplier                  = 5 -> null
+          - session_initialization_mode = "DISABLED" -> null
+        }
+    }
+
+  # google_compute_router_peer.aws_tunnel3_2 will be destroyed
+  - resource "google_compute_router_peer" "aws_tunnel3_2" {
+      - advertise_mode                     = "DEFAULT" -> null
+      - advertised_groups                  = [] -> null
+      - advertised_route_priority          = 100 -> null
+      - custom_learned_route_priority      = 0 -> null
+      - deletion_policy                    = "DELETE" -> null
+      - enable                             = true -> null
+      - enable_ipv4                        = true -> null
+      - enable_ipv6                        = false -> null
+      - export_policies                    = [] -> null
+      - id                                 = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2/aws-tunnel3-2-peer" -> null
+      - import_policies                    = [] -> null
+      - interface                          = "aws-tunnel-3-2-interface" -> null
+      - ip_address                         = "169.254.50.6" -> null
+      - is_advertised_route_priority_set   = true -> null
+      - name                               = "aws-tunnel3-2-peer" -> null
+      - peer_asn                           = 65003 -> null
+      - peer_ip_address                    = "169.254.50.5" -> null
+      - project                            = "gcp-mastery-495919" -> null
+      - region                             = "us-central1" -> null
+      - router                             = "vpn-router-2" -> null
+      - zero_custom_learned_route_priority = false -> null
+        # (6 unchanged attributes hidden)
+
+      - bfd {
+          - min_receive_interval        = 1000 -> null
+          - min_transmit_interval       = 1000 -> null
+          - multiplier                  = 5 -> null
+          - session_initialization_mode = "DISABLED" -> null
+        }
+    }
+
+  # google_compute_router_peer.aws_tunnel_1 will be destroyed
+  - resource "google_compute_router_peer" "aws_tunnel_1" {
+      - advertise_mode                     = "DEFAULT" -> null
+      - advertised_groups                  = [] -> null
+      - advertised_route_priority          = 100 -> null
+      - custom_learned_route_priority      = 0 -> null
+      - deletion_policy                    = "DELETE" -> null
+      - enable                             = true -> null
+      - enable_ipv4                        = true -> null
+      - enable_ipv6                        = false -> null
+      - export_policies                    = [] -> null
+      - id                                 = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router/aws-tunnel-1-peer" -> null
+      - import_policies                    = [] -> null
+      - interface                          = "aws-tunnel-1-interface" -> null
+      - ip_address                         = "169.254.21.2" -> null
+      - is_advertised_route_priority_set   = true -> null
+      - name                               = "aws-tunnel-1-peer" -> null
+      - peer_asn                           = 65000 -> null
+      - peer_ip_address                    = "169.254.21.1" -> null
+      - project                            = "gcp-mastery-495919" -> null
+      - region                             = "us-central1" -> null
+      - router                             = "vpn-router" -> null
+      - zero_custom_learned_route_priority = false -> null
+        # (6 unchanged attributes hidden)
+
+      - bfd {
+          - min_receive_interval        = 1000 -> null
+          - min_transmit_interval       = 1000 -> null
+          - multiplier                  = 5 -> null
+          - session_initialization_mode = "DISABLED" -> null
+        }
+    }
+
+  # google_compute_router_peer.aws_tunnel_2 will be destroyed
+  - resource "google_compute_router_peer" "aws_tunnel_2" {
+      - advertise_mode                     = "DEFAULT" -> null
+      - advertised_groups                  = [] -> null
+      - advertised_route_priority          = 100 -> null
+      - custom_learned_route_priority      = 0 -> null
+      - deletion_policy                    = "DELETE" -> null
+      - enable                             = true -> null
+      - enable_ipv4                        = true -> null
+      - enable_ipv6                        = false -> null
+      - export_policies                    = [] -> null
+      - id                                 = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router/aws-tunnel-2-peer" -> null
+      - import_policies                    = [] -> null
+      - interface                          = "aws-tunnel-2-interface" -> null
+      - ip_address                         = "169.254.21.6" -> null
+      - is_advertised_route_priority_set   = true -> null
+      - name                               = "aws-tunnel-2-peer" -> null
+      - peer_asn                           = 65000 -> null
+      - peer_ip_address                    = "169.254.21.5" -> null
+      - project                            = "gcp-mastery-495919" -> null
+      - region                             = "us-central1" -> null
+      - router                             = "vpn-router" -> null
+      - zero_custom_learned_route_priority = false -> null
+        # (6 unchanged attributes hidden)
+
+      - bfd {
+          - min_receive_interval        = 1000 -> null
+          - min_transmit_interval       = 1000 -> null
+          - multiplier                  = 5 -> null
+          - session_initialization_mode = "DISABLED" -> null
+        }
+    }
+
+  # google_compute_router_peer.aws_tunnel_3 will be destroyed
+  - resource "google_compute_router_peer" "aws_tunnel_3" {
+      - advertise_mode                     = "DEFAULT" -> null
+      - advertised_groups                  = [] -> null
+      - advertised_route_priority          = 100 -> null
+      - custom_learned_route_priority      = 0 -> null
+      - deletion_policy                    = "DELETE" -> null
+      - enable                             = true -> null
+      - enable_ipv4                        = true -> null
+      - enable_ipv6                        = false -> null
+      - export_policies                    = [] -> null
+      - id                                 = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router/aws-tunnel-3-peer" -> null
+      - import_policies                    = [] -> null
+      - interface                          = "aws-tunnel-3-interface" -> null
+      - ip_address                         = "169.254.23.2" -> null
+      - is_advertised_route_priority_set   = true -> null
+      - name                               = "aws-tunnel-3-peer" -> null
+      - peer_asn                           = 65000 -> null
+      - peer_ip_address                    = "169.254.23.1" -> null
+      - project                            = "gcp-mastery-495919" -> null
+      - region                             = "us-central1" -> null
+      - router                             = "vpn-router" -> null
+      - zero_custom_learned_route_priority = false -> null
+        # (6 unchanged attributes hidden)
+
+      - bfd {
+          - min_receive_interval        = 1000 -> null
+          - min_transmit_interval       = 1000 -> null
+          - multiplier                  = 5 -> null
+          - session_initialization_mode = "DISABLED" -> null
+        }
+    }
+
+  # google_compute_router_peer.aws_tunnel_4 will be destroyed
+  - resource "google_compute_router_peer" "aws_tunnel_4" {
+      - advertise_mode                     = "DEFAULT" -> null
+      - advertised_groups                  = [] -> null
+      - advertised_route_priority          = 100 -> null
+      - custom_learned_route_priority      = 0 -> null
+      - deletion_policy                    = "DELETE" -> null
+      - enable                             = true -> null
+      - enable_ipv4                        = true -> null
+      - enable_ipv6                        = false -> null
+      - export_policies                    = [] -> null
+      - id                                 = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router/aws-tunnel-4-peer" -> null
+      - import_policies                    = [] -> null
+      - interface                          = "aws-tunnel-4-interface" -> null
+      - ip_address                         = "169.254.23.6" -> null
+      - is_advertised_route_priority_set   = true -> null
+      - name                               = "aws-tunnel-4-peer" -> null
+      - peer_asn                           = 65000 -> null
+      - peer_ip_address                    = "169.254.23.5" -> null
+      - project                            = "gcp-mastery-495919" -> null
+      - region                             = "us-central1" -> null
+      - router                             = "vpn-router" -> null
+      - zero_custom_learned_route_priority = false -> null
+        # (6 unchanged attributes hidden)
+
+      - bfd {
+          - min_receive_interval        = 1000 -> null
+          - min_transmit_interval       = 1000 -> null
+          - multiplier                  = 5 -> null
+          - session_initialization_mode = "DISABLED" -> null
+        }
+    }
+
+  # google_compute_vpn_tunnel.aws_tunnel_1 will be destroyed
+  - resource "google_compute_vpn_tunnel" "aws_tunnel_1" {
+      - creation_timestamp              = "2026-06-15T19:31:27.310-07:00" -> null
+      - deletion_policy                 = "DELETE" -> null
+      - detailed_status                 = "Tunnel is up and running." -> null
+      - effective_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                              = "projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1" -> null
+      - ike_version                     = 2 -> null
+      - label_fingerprint               = "vezUS-42LLM=" -> null
+      - labels                          = {} -> null
+      - local_traffic_selector          = [
+          - "0.0.0.0/0",
+        ] -> null
+      - name                            = "gcp-to-aws-tunnel-1" -> null
+      - peer_external_gateway           = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
+      - peer_external_gateway_interface = 0 -> null
+      - peer_ip                         = "3.217.163.118" -> null
+      - project                         = "gcp-mastery-495919" -> null
+      - region                          = "us-central1" -> null
+      - remote_traffic_selector         = [
+          - "0.0.0.0/0",
+        ] -> null
+      - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1" -> null
+      - shared_secret                   = (sensitive value) -> null
+      - shared_secret_hash              = "DyCsU6fH8go2Ay0mvwRN9VE51GXK" -> null
+      - shared_secret_wo                = (write-only attribute) -> null
+      - terraform_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - tunnel_id                       = "6540026333343058833" -> null
+      - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - vpn_gateway_interface           = 0 -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_vpn_tunnel.aws_tunnel_2 will be destroyed
+  - resource "google_compute_vpn_tunnel" "aws_tunnel_2" {
+      - creation_timestamp              = "2026-06-15T19:31:27.192-07:00" -> null
+      - deletion_policy                 = "DELETE" -> null
+      - detailed_status                 = "Tunnel is up and running." -> null
+      - effective_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                              = "projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2" -> null
+      - ike_version                     = 2 -> null
+      - label_fingerprint               = "vezUS-42LLM=" -> null
+      - labels                          = {} -> null
+      - local_traffic_selector          = [
+          - "0.0.0.0/0",
+        ] -> null
+      - name                            = "gcp-to-aws-tunnel-2" -> null
+      - peer_external_gateway           = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
+      - peer_external_gateway_interface = 1 -> null
+      - peer_ip                         = "35.153.252.120" -> null
+      - project                         = "gcp-mastery-495919" -> null
+      - region                          = "us-central1" -> null
+      - remote_traffic_selector         = [
+          - "0.0.0.0/0",
+        ] -> null
+      - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2" -> null
+      - shared_secret                   = (sensitive value) -> null
+      - shared_secret_hash              = "Kj7mqvuGmc30uGC-N_btpXyJjrCX" -> null
+      - shared_secret_wo                = (write-only attribute) -> null
+      - terraform_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - tunnel_id                       = "4045014766637091729" -> null
+      - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - vpn_gateway_interface           = 0 -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_vpn_tunnel.aws_tunnel_3 will be destroyed
+  - resource "google_compute_vpn_tunnel" "aws_tunnel_3" {
+      - creation_timestamp              = "2026-06-15T19:31:27.264-07:00" -> null
+      - deletion_policy                 = "DELETE" -> null
+      - detailed_status                 = "Tunnel is up and running." -> null
+      - effective_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                              = "projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3" -> null
+      - ike_version                     = 2 -> null
+      - label_fingerprint               = "vezUS-42LLM=" -> null
+      - labels                          = {} -> null
+      - local_traffic_selector          = [
+          - "0.0.0.0/0",
+        ] -> null
+      - name                            = "gcp-to-aws-tunnel-3" -> null
+      - peer_external_gateway           = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
+      - peer_external_gateway_interface = 2 -> null
+      - peer_ip                         = "75.101.161.147" -> null
+      - project                         = "gcp-mastery-495919" -> null
+      - region                          = "us-central1" -> null
+      - remote_traffic_selector         = [
+          - "0.0.0.0/0",
+        ] -> null
+      - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3" -> null
+      - shared_secret                   = (sensitive value) -> null
+      - shared_secret_hash              = "qzNtAm1t8X8itQ6naGC9PGphgfcs" -> null
+      - shared_secret_wo                = (write-only attribute) -> null
+      - terraform_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - tunnel_id                       = "7826566267688258449" -> null
+      - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - vpn_gateway_interface           = 1 -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_vpn_tunnel.aws_tunnel_4 will be destroyed
+  - resource "google_compute_vpn_tunnel" "aws_tunnel_4" {
+      - creation_timestamp              = "2026-06-15T19:31:27.337-07:00" -> null
+      - deletion_policy                 = "DELETE" -> null
+      - detailed_status                 = "Tunnel is up and running." -> null
+      - effective_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                              = "projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4" -> null
+      - ike_version                     = 2 -> null
+      - label_fingerprint               = "vezUS-42LLM=" -> null
+      - labels                          = {} -> null
+      - local_traffic_selector          = [
+          - "0.0.0.0/0",
+        ] -> null
+      - name                            = "gcp-to-aws-tunnel-4" -> null
+      - peer_external_gateway           = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
+      - peer_external_gateway_interface = 3 -> null
+      - peer_ip                         = "98.85.148.45" -> null
+      - project                         = "gcp-mastery-495919" -> null
+      - region                          = "us-central1" -> null
+      - remote_traffic_selector         = [
+          - "0.0.0.0/0",
+        ] -> null
+      - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4" -> null
+      - shared_secret                   = (sensitive value) -> null
+      - shared_secret_hash              = "DK-QGiYqjvHkx3ihQjTeQHUhSuy1" -> null
+      - shared_secret_wo                = (write-only attribute) -> null
+      - terraform_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - tunnel_id                       = "8662127432502161" -> null
+      - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - vpn_gateway_interface           = 1 -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_vpn_tunnel.gcp_tunnel-2_1 will be destroyed
+  - resource "google_compute_vpn_tunnel" "gcp_tunnel-2_1" {
+      - creation_timestamp              = "2026-06-15T19:22:55.562-07:00" -> null
+      - deletion_policy                 = "DELETE" -> null
+      - detailed_status                 = "Tunnel is up and running." -> null
+      - effective_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                              = "projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1" -> null
+      - ike_version                     = 2 -> null
+      - label_fingerprint               = "vezUS-42LLM=" -> null
+      - labels                          = {} -> null
+      - local_traffic_selector          = [
+          - "0.0.0.0/0",
+        ] -> null
+      - name                            = "gcp-to-gcp-tunnel-3-1" -> null
+      - peer_external_gateway_interface = 0 -> null
+      - peer_gcp_gateway                = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - peer_ip                         = "34.183.17.37" -> null
+      - project                         = "gcp-mastery-495919" -> null
+      - region                          = "us-central1" -> null
+      - remote_traffic_selector         = [
+          - "0.0.0.0/0",
+        ] -> null
+      - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1" -> null
+      - shared_secret                   = (sensitive value) -> null
+      - shared_secret_hash              = "jXpJ3fhRMYhRUVeLmPvp4WMXXp8u" -> null
+      - shared_secret_wo                = (write-only attribute) -> null
+      - terraform_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - tunnel_id                       = "1970926221325569424" -> null
+      - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
+      - vpn_gateway_interface           = 0 -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_vpn_tunnel.gcp_tunnel2_2 will be destroyed
+  - resource "google_compute_vpn_tunnel" "gcp_tunnel2_2" {
+      - creation_timestamp              = "2026-06-15T19:22:55.292-07:00" -> null
+      - deletion_policy                 = "DELETE" -> null
+      - detailed_status                 = "Tunnel is up and running." -> null
+      - effective_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                              = "projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2" -> null
+      - ike_version                     = 2 -> null
+      - label_fingerprint               = "vezUS-42LLM=" -> null
+      - labels                          = {} -> null
+      - local_traffic_selector          = [
+          - "0.0.0.0/0",
+        ] -> null
+      - name                            = "gcp-to-gcp-tunnel-3-2" -> null
+      - peer_external_gateway_interface = 0 -> null
+      - peer_gcp_gateway                = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - peer_ip                         = "34.184.49.150" -> null
+      - project                         = "gcp-mastery-495919" -> null
+      - region                          = "us-central1" -> null
+      - remote_traffic_selector         = [
+          - "0.0.0.0/0",
+        ] -> null
+      - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2" -> null
+      - shared_secret                   = (sensitive value) -> null
+      - shared_secret_hash              = "_5S93JB8PQymcbdhEt25uwG1KyHu" -> null
+      - shared_secret_wo                = (write-only attribute) -> null
+      - terraform_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - tunnel_id                       = "5557502485064387985" -> null
+      - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
+      - vpn_gateway_interface           = 1 -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_vpn_tunnel.gcp_tunnel2__1 will be destroyed
+  - resource "google_compute_vpn_tunnel" "gcp_tunnel2__1" {
+      - creation_timestamp              = "2026-06-15T19:23:05.295-07:00" -> null
+      - deletion_policy                 = "DELETE" -> null
+      - detailed_status                 = "Tunnel is up and running." -> null
+      - effective_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                              = "projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1" -> null
+      - ike_version                     = 2 -> null
+      - label_fingerprint               = "vezUS-42LLM=" -> null
+      - labels                          = {} -> null
+      - local_traffic_selector          = [
+          - "0.0.0.0/0",
+        ] -> null
+      - name                            = "gcp-to-gcp-tunnel-2-1" -> null
+      - peer_external_gateway_interface = 0 -> null
+      - peer_gcp_gateway                = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
+      - peer_ip                         = "34.183.17.229" -> null
+      - project                         = "gcp-mastery-495919" -> null
+      - region                          = "us-central1" -> null
+      - remote_traffic_selector         = [
+          - "0.0.0.0/0",
+        ] -> null
+      - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1" -> null
+      - shared_secret                   = (sensitive value) -> null
+      - shared_secret_hash              = "OsBhSsgTnqag_51hpdGQxDhOIPhS" -> null
+      - shared_secret_wo                = (write-only attribute) -> null
+      - terraform_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - tunnel_id                       = "2594942071301016935" -> null
+      - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - vpn_gateway_interface           = 0 -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # google_compute_vpn_tunnel.gcp_tunnel2__2 will be destroyed
+  - resource "google_compute_vpn_tunnel" "gcp_tunnel2__2" {
+      - creation_timestamp              = "2026-06-15T19:23:05.395-07:00" -> null
+      - deletion_policy                 = "DELETE" -> null
+      - detailed_status                 = "Tunnel is up and running." -> null
+      - effective_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - id                              = "projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2" -> null
+      - ike_version                     = 2 -> null
+      - label_fingerprint               = "vezUS-42LLM=" -> null
+      - labels                          = {} -> null
+      - local_traffic_selector          = [
+          - "0.0.0.0/0",
+        ] -> null
+      - name                            = "gcp-to-gcp-tunnel-2-2" -> null
+      - peer_external_gateway_interface = 0 -> null
+      - peer_gcp_gateway                = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
+      - peer_ip                         = "34.184.18.138" -> null
+      - project                         = "gcp-mastery-495919" -> null
+      - region                          = "us-central1" -> null
+      - remote_traffic_selector         = [
+          - "0.0.0.0/0",
+        ] -> null
+      - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
+      - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2" -> null
+      - shared_secret                   = (sensitive value) -> null
+      - shared_secret_hash              = "yTsMBNCGztJmMzTQv_ns7Kr2gbQt" -> null
+      - shared_secret_wo                = (write-only attribute) -> null
+      - terraform_labels                = {
+          - "goog-terraform-provisioned" = "true"
+        } -> null
+      - tunnel_id                       = "8778871146979069286" -> null
+      - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
+      - vpn_gateway_interface           = 1 -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # random_password.gcp_tunnel_1_psk1 will be destroyed
+  - resource "random_password" "gcp_tunnel_1_psk1" {
+      - bcrypt_hash = (sensitive value) -> null
+      - id          = "none" -> null
+      - length      = 31 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = (sensitive value) -> null
+      - special     = false -> null
+      - upper       = true -> null
+    }
+
+  # random_password.gcp_tunnel_1_psk2 will be destroyed
+  - resource "random_password" "gcp_tunnel_1_psk2" {
+      - bcrypt_hash = (sensitive value) -> null
+      - id          = "none" -> null
+      - length      = 31 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = (sensitive value) -> null
+      - special     = false -> null
+      - upper       = true -> null
+    }
+
+  # random_password.vpn_tunnel_1_psk1 will be destroyed
+  - resource "random_password" "vpn_tunnel_1_psk1" {
+      - bcrypt_hash = (sensitive value) -> null
+      - id          = "none" -> null
+      - length      = 31 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = (sensitive value) -> null
+      - special     = false -> null
+      - upper       = true -> null
+    }
+
+  # random_password.vpn_tunnel_1_psk2 will be destroyed
+  - resource "random_password" "vpn_tunnel_1_psk2" {
+      - bcrypt_hash = (sensitive value) -> null
+      - id          = "none" -> null
+      - length      = 31 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = (sensitive value) -> null
+      - special     = false -> null
+      - upper       = true -> null
+    }
+
+  # random_password.vpn_tunnel_2_psk1 will be destroyed
+  - resource "random_password" "vpn_tunnel_2_psk1" {
+      - bcrypt_hash = (sensitive value) -> null
+      - id          = "none" -> null
+      - length      = 31 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = (sensitive value) -> null
+      - special     = false -> null
+      - upper       = true -> null
+    }
+
+  # random_password.vpn_tunnel_2_psk2 will be destroyed
+  - resource "random_password" "vpn_tunnel_2_psk2" {
+      - bcrypt_hash = (sensitive value) -> null
+      - id          = "none" -> null
+      - length      = 31 -> null
+      - lower       = true -> null
+      - min_lower   = 0 -> null
+      - min_numeric = 0 -> null
+      - min_special = 0 -> null
+      - min_upper   = 0 -> null
+      - number      = true -> null
+      - numeric     = true -> null
+      - result      = (sensitive value) -> null
+      - special     = false -> null
+      - upper       = true -> null
+    }
+
+  # module.aws_vm.aws_instance.vm will be destroyed
+  - resource "aws_instance" "vm" {
+      - ami                                  = "ami-0517aaaee33d8b971" -> null
+      - arn                                  = "arn:aws:ec2:us-east-1:915742579869:instance/i-0ee86a52a04cd1455" -> null
+      - associate_public_ip_address          = true -> null
+      - availability_zone                    = "us-east-1a" -> null
+      - disable_api_stop                     = false -> null
+      - disable_api_termination              = false -> null
+      - ebs_optimized                        = false -> null
+      - force_destroy                        = false -> null
+      - get_password_data                    = false -> null
+      - hibernation                          = false -> null
+      - id                                   = "i-0ee86a52a04cd1455" -> null
+      - instance_initiated_shutdown_behavior = "stop" -> null
+      - instance_state                       = "running" -> null
+      - instance_type                        = "t3.micro" -> null
+      - ipv6_address_count                   = 0 -> null
+      - ipv6_addresses                       = [] -> null
+      - monitoring                           = false -> null
+      - placement_partition_number           = 0 -> null
+      - primary_network_interface_id         = "eni-0a870f0e8856bf0a8" -> null
+      - private_dns                          = "ip-10-99-1-107.ec2.internal" -> null
+      - private_ip                           = "10.99.1.107" -> null
+      - public_dns                           = "ec2-54-81-73-64.compute-1.amazonaws.com" -> null
+      - public_ip                            = "54.81.73.64" -> null
+      - region                               = "us-east-1" -> null
+      - secondary_private_ips                = [] -> null
+      - security_groups                      = [] -> null
+      - source_dest_check                    = true -> null
+      - subnet_id                            = "subnet-07a9f084d6148acc5" -> null
+      - tags                                 = {
+          - "Name"    = "aws-test-vm-1"
+          - "Project" = "vpn-magic"
+        } -> null
+      - tags_all                             = {
+          - "Name"    = "aws-test-vm-1"
+          - "Project" = "vpn-magic"
+        } -> null
+      - tenancy                              = "default" -> null
+      - user_data_replace_on_change          = false -> null
+      - vpc_security_group_ids               = [
+          - "sg-01f5ce1dbb7ecb572",
+        ] -> null
+        # (9 unchanged attributes hidden)
+
+      - capacity_reservation_specification {
+          - capacity_reservation_preference = "open" -> null
+        }
+
+      - cpu_options {
+          - core_count            = 1 -> null
+          - threads_per_core      = 2 -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - credit_specification {
+          - cpu_credits = "unlimited" -> null
+        }
+
+      - enclave_options {
+          - enabled = false -> null
+        }
+
+      - maintenance_options {
+          - auto_recovery = "default" -> null
+        }
+
+      - metadata_options {
+          - http_endpoint               = "enabled" -> null
+          - http_protocol_ipv6          = "disabled" -> null
+          - http_put_response_hop_limit = 1 -> null
+          - http_tokens                 = "optional" -> null
+          - instance_metadata_tags      = "disabled" -> null
+        }
+
+      - primary_network_interface {
+          - delete_on_termination = true -> null
+          - network_interface_id  = "eni-0a870f0e8856bf0a8" -> null
+        }
+
+      - private_dns_name_options {
+          - enable_resource_name_dns_a_record    = false -> null
+          - enable_resource_name_dns_aaaa_record = false -> null
+          - hostname_type                        = "ip-name" -> null
+        }
+
+      - root_block_device {
+          - delete_on_termination = true -> null
+          - device_name           = "/dev/xvda" -> null
+          - encrypted             = false -> null
+          - iops                  = 100 -> null
+          - tags                  = {} -> null
+          - tags_all              = {} -> null
+          - throughput            = 0 -> null
+          - volume_id             = "vol-0662696d2085e03a9" -> null
+          - volume_size           = 8 -> null
+          - volume_type           = "gp2" -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # module.aws_vm.aws_security_group.vm_sg will be destroyed
+  - resource "aws_security_group" "vm_sg" {
+      - arn                    = "arn:aws:ec2:us-east-1:915742579869:security-group/sg-01f5ce1dbb7ecb572" -> null
+      - description            = "Security group for aws-test-vm-1" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = "Allow all outbound traffic"
+              - from_port        = 0
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+            },
+        ] -> null
+      - id                     = "sg-01f5ce1dbb7ecb572" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = "ICMP"
+              - from_port        = -1
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "icmp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = -1
+            },
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - description      = "SSH"
+              - from_port        = 22
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 22
+            },
+        ] -> null
+      - name                   = "aws-test-vm-1-sg" -> null
+      - owner_id               = "915742579869" -> null
+      - region                 = "us-east-1" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {
+          - "Name"    = "aws-test-vm-1-sg"
+          - "Project" = "vpn-magic"
+        } -> null
+      - tags_all               = {
+          - "Name"    = "aws-test-vm-1-sg"
+          - "Project" = "vpn-magic"
+        } -> null
+      - vpc_id                 = "vpc-0ae64cf813f732306" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.gcp_vm-1.google_compute_firewall.allow_egress will be destroyed
+  - resource "google_compute_firewall" "allow_egress" {
+      - creation_timestamp      = "2026-06-15T19:22:44.401-07:00" -> null
+      - deletion_policy         = "DELETE" -> null
+      - destination_ranges      = [
+          - "0.0.0.0/0",
+        ] -> null
+      - direction               = "EGRESS" -> null
+      - disabled                = false -> null
+      - id                      = "projects/gcp-mastery-495919/global/firewalls/gcp-test-vm-1-allow-egress" -> null
+      - name                    = "gcp-test-vm-1-allow-egress" -> null
+      - network                 = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - priority                = 1000 -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - self_link               = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/firewalls/gcp-test-vm-1-allow-egress" -> null
+      - source_ranges           = [] -> null
+      - source_service_accounts = [] -> null
+      - source_tags             = [] -> null
+      - target_service_accounts = [] -> null
+      - target_tags             = [
+          - "allow-ssh",
+          - "allow-web",
+        ] -> null
+        # (1 unchanged attribute hidden)
+
+      - allow {
+          - ports    = [] -> null
+          - protocol = "all" -> null
+        }
+    }
+
+  # module.gcp_vm-1.google_compute_firewall.allow_ingress will be destroyed
+  - resource "google_compute_firewall" "allow_ingress" {
+      - creation_timestamp      = "2026-06-15T21:49:57.865-07:00" -> null
+      - deletion_policy         = "DELETE" -> null
+      - destination_ranges      = [] -> null
+      - direction               = "INGRESS" -> null
+      - disabled                = false -> null
+      - id                      = "projects/gcp-mastery-495919/global/firewalls/gcp-test-vm-1-allow-ingress" -> null
+      - name                    = "gcp-test-vm-1-allow-ingress" -> null
+      - network                 = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - priority                = 1000 -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - self_link               = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/firewalls/gcp-test-vm-1-allow-ingress" -> null
+      - source_ranges           = [
+          - "0.0.0.0/0",
+        ] -> null
+      - source_service_accounts = [] -> null
+      - source_tags             = [] -> null
+      - target_service_accounts = [] -> null
+      - target_tags             = [
+          - "allow-ssh",
+          - "allow-web",
+        ] -> null
+        # (1 unchanged attribute hidden)
+
+      - allow {
+          - ports    = [
+              - "22",
+              - "80",
+              - "443",
+            ] -> null
+          - protocol = "tcp" -> null
+        }
+      - allow {
+          - ports    = [] -> null
+          - protocol = "icmp" -> null
+        }
+    }
+
+  # module.gcp_vm-1.google_compute_instance.vm will be destroyed
+  - resource "google_compute_instance" "vm" {
+      - can_ip_forward             = false -> null
+      - cpu_platform               = "Intel Broadwell" -> null
+      - creation_timestamp         = "2026-06-15T19:22:55.754-07:00" -> null
+      - current_status             = "RUNNING" -> null
+      - deletion_policy            = "DELETE" -> null
+      - deletion_protection        = false -> null
+      - effective_labels           = {
+          - "goog-terraform-provisioned" = "true"
+          - "project"                    = "vpn-magic"
+        } -> null
+      - enable_display             = false -> null
+      - id                         = "projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1" -> null
+      - instance_id                = "5167985355459988880" -> null
+      - label_fingerprint          = "J0MOWcE8UEQ=" -> null
+      - labels                     = {
+          - "project" = "vpn-magic"
+        } -> null
+      - machine_type               = "e2-standard-2" -> null
+      - metadata                   = {} -> null
+      - metadata_fingerprint       = "4kc5Q2gD4tQ=" -> null
+      - name                       = "gcp-test-vm-1" -> null
+      - project                    = "gcp-mastery-495919" -> null
+      - resource_policies          = [] -> null
+      - self_link                  = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1" -> null
+      - tags                       = [
+          - "allow-ssh",
+          - "allow-web",
+        ] -> null
+      - tags_fingerprint           = "9Vkv-w3qScs=" -> null
+      - terraform_labels           = {
+          - "goog-terraform-provisioned" = "true"
+          - "project"                    = "vpn-magic"
+        } -> null
+      - zone                       = "us-central1-a" -> null
+        # (4 unchanged attributes hidden)
+
+      - boot_disk {
+          - auto_delete                     = true -> null
+          - device_name                     = "persistent-disk-0" -> null
+          - force_attach                    = false -> null
+          - guest_os_features               = [
+              - "UEFI_COMPATIBLE",
+              - "VIRTIO_SCSI_MULTIQUEUE",
+              - "GVNIC",
+              - "SEV_CAPABLE",
+              - "SEV_LIVE_MIGRATABLE_V2",
+            ] -> null
+          - mode                            = "READ_WRITE" -> null
+          - source                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/zones/us-central1-a/disks/gcp-test-vm-1" -> null
+            # (6 unchanged attributes hidden)
+
+          - initialize_params {
+              - architecture                = "X86_64" -> null
+              - enable_confidential_compute = false -> null
+              - image                       = "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/debian-12-bookworm-v20260609" -> null
+              - labels                      = {} -> null
+              - provisioned_iops            = 0 -> null
+              - provisioned_throughput      = 0 -> null
+              - replica_zones               = [] -> null
+              - resource_manager_tags       = {} -> null
+              - resource_policies           = [] -> null
+              - size                        = 10 -> null
+              - type                        = "pd-standard" -> null
+                # (2 unchanged attributes hidden)
+            }
+        }
+
+      - network_interface {
+          - internal_ipv6_prefix_length = 0 -> null
+          - name                        = "nic0" -> null
+          - network                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+          - network_ip                  = "10.120.1.3" -> null
+          - queue_count                 = 0 -> null
+          - stack_type                  = "IPV4_ONLY" -> null
+          - subnetwork                  = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-1" -> null
+          - subnetwork_project          = "gcp-mastery-495919" -> null
+          - vlan                        = 0 -> null
+            # (6 unchanged attributes hidden)
+
+          - access_config {
+              - nat_ip                 = "34.42.82.222" -> null
+              - network_tier           = "PREMIUM" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+      - scheduling {
+          - automatic_restart           = true -> null
+          - availability_domain         = 0 -> null
+          - min_node_cpus               = 0 -> null
+          - on_host_maintenance         = "MIGRATE" -> null
+          - preemptible                 = false -> null
+          - provisioning_model          = "STANDARD" -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - shielded_instance_config {
+          - enable_integrity_monitoring = true -> null
+          - enable_secure_boot          = false -> null
+          - enable_vtpm                 = true -> null
+        }
+    }
+
+  # module.gcp_vm-2.google_compute_firewall.allow_egress will be destroyed
+  - resource "google_compute_firewall" "allow_egress" {
+      - creation_timestamp      = "2026-06-15T19:22:44.375-07:00" -> null
+      - deletion_policy         = "DELETE" -> null
+      - destination_ranges      = [
+          - "0.0.0.0/0",
+        ] -> null
+      - direction               = "EGRESS" -> null
+      - disabled                = false -> null
+      - id                      = "projects/gcp-mastery-495919/global/firewalls/gcp-test-vm-2-allow-egress" -> null
+      - name                    = "gcp-test-vm-2-allow-egress" -> null
+      - network                 = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - priority                = 1000 -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - self_link               = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/firewalls/gcp-test-vm-2-allow-egress" -> null
+      - source_ranges           = [] -> null
+      - source_service_accounts = [] -> null
+      - source_tags             = [] -> null
+      - target_service_accounts = [] -> null
+      - target_tags             = [
+          - "allow-ssh",
+          - "allow-web",
+        ] -> null
+        # (1 unchanged attribute hidden)
+
+      - allow {
+          - ports    = [] -> null
+          - protocol = "all" -> null
+        }
+    }
+
+  # module.gcp_vm-2.google_compute_firewall.allow_ingress will be destroyed
+  - resource "google_compute_firewall" "allow_ingress" {
+      - creation_timestamp      = "2026-06-15T21:49:57.815-07:00" -> null
+      - deletion_policy         = "DELETE" -> null
+      - destination_ranges      = [] -> null
+      - direction               = "INGRESS" -> null
+      - disabled                = false -> null
+      - id                      = "projects/gcp-mastery-495919/global/firewalls/gcp-test-vm-2-allow-ingress" -> null
+      - name                    = "gcp-test-vm-2-allow-ingress" -> null
+      - network                 = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - priority                = 1000 -> null
+      - project                 = "gcp-mastery-495919" -> null
+      - self_link               = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/firewalls/gcp-test-vm-2-allow-ingress" -> null
+      - source_ranges           = [
+          - "0.0.0.0/0",
+        ] -> null
+      - source_service_accounts = [] -> null
+      - source_tags             = [] -> null
+      - target_service_accounts = [] -> null
+      - target_tags             = [
+          - "allow-ssh",
+          - "allow-web",
+        ] -> null
+        # (1 unchanged attribute hidden)
+
+      - allow {
+          - ports    = [
+              - "22",
+              - "80",
+              - "443",
+            ] -> null
+          - protocol = "tcp" -> null
+        }
+      - allow {
+          - ports    = [] -> null
+          - protocol = "icmp" -> null
+        }
+    }
+
+  # module.gcp_vm-2.google_compute_instance.vm will be destroyed
+  - resource "google_compute_instance" "vm" {
+      - can_ip_forward             = false -> null
+      - cpu_platform               = "Intel Broadwell" -> null
+      - creation_timestamp         = "2026-06-15T19:22:55.129-07:00" -> null
+      - current_status             = "RUNNING" -> null
+      - deletion_policy            = "DELETE" -> null
+      - deletion_protection        = false -> null
+      - effective_labels           = {
+          - "goog-terraform-provisioned" = "true"
+          - "project"                    = "vpn-magic"
+        } -> null
+      - enable_display             = false -> null
+      - id                         = "projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2" -> null
+      - instance_id                = "3860451006791617937" -> null
+      - label_fingerprint          = "J0MOWcE8UEQ=" -> null
+      - labels                     = {
+          - "project" = "vpn-magic"
+        } -> null
+      - machine_type               = "e2-standard-2" -> null
+      - metadata                   = {} -> null
+      - metadata_fingerprint       = "4kc5Q2gD4tQ=" -> null
+      - name                       = "gcp-test-vm-2" -> null
+      - project                    = "gcp-mastery-495919" -> null
+      - resource_policies          = [] -> null
+      - self_link                  = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2" -> null
+      - tags                       = [
+          - "allow-ssh",
+          - "allow-web",
+        ] -> null
+      - tags_fingerprint           = "9Vkv-w3qScs=" -> null
+      - terraform_labels           = {
+          - "goog-terraform-provisioned" = "true"
+          - "project"                    = "vpn-magic"
+        } -> null
+      - zone                       = "us-central1-b" -> null
+        # (4 unchanged attributes hidden)
+
+      - boot_disk {
+          - auto_delete                     = true -> null
+          - device_name                     = "persistent-disk-0" -> null
+          - force_attach                    = false -> null
+          - guest_os_features               = [
+              - "UEFI_COMPATIBLE",
+              - "VIRTIO_SCSI_MULTIQUEUE",
+              - "GVNIC",
+              - "SEV_CAPABLE",
+              - "SEV_LIVE_MIGRATABLE_V2",
+            ] -> null
+          - mode                            = "READ_WRITE" -> null
+          - source                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/zones/us-central1-b/disks/gcp-test-vm-2" -> null
+            # (6 unchanged attributes hidden)
+
+          - initialize_params {
+              - architecture                = "X86_64" -> null
+              - enable_confidential_compute = false -> null
+              - image                       = "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/debian-12-bookworm-v20260609" -> null
+              - labels                      = {} -> null
+              - provisioned_iops            = 0 -> null
+              - provisioned_throughput      = 0 -> null
+              - replica_zones               = [] -> null
+              - resource_manager_tags       = {} -> null
+              - resource_policies           = [] -> null
+              - size                        = 10 -> null
+              - type                        = "pd-standard" -> null
+                # (2 unchanged attributes hidden)
+            }
+        }
+
+      - network_interface {
+          - internal_ipv6_prefix_length = 0 -> null
+          - name                        = "nic0" -> null
+          - network                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+          - network_ip                  = "10.120.1.2" -> null
+          - queue_count                 = 0 -> null
+          - stack_type                  = "IPV4_ONLY" -> null
+          - subnetwork                  = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-1" -> null
+          - subnetwork_project          = "gcp-mastery-495919" -> null
+          - vlan                        = 0 -> null
+            # (6 unchanged attributes hidden)
+
+          - access_config {
+              - nat_ip                 = "34.173.235.81" -> null
+              - network_tier           = "PREMIUM" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+
+      - scheduling {
+          - automatic_restart           = true -> null
+          - availability_domain         = 0 -> null
+          - min_node_cpus               = 0 -> null
+          - on_host_maintenance         = "MIGRATE" -> null
+          - preemptible                 = false -> null
+          - provisioning_model          = "STANDARD" -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - shielded_instance_config {
+          - enable_integrity_monitoring = true -> null
+          - enable_secure_boot          = false -> null
+          - enable_vtpm                 = true -> null
+        }
+    }
+
+  # module.standard-gcp-gcp-2.google_compute_network.vpc_network will be destroyed
+  - resource "google_compute_network" "vpc_network" {
+      - auto_create_subnetworks                   = false -> null
+      - bgp_always_compare_med                    = false -> null
+      - bgp_best_path_selection_mode              = "LEGACY" -> null
+      - delete_bgp_always_compare_med             = false -> null
+      - delete_default_routes_on_create           = false -> null
+      - deletion_policy                           = "DELETE" -> null
+      - enable_ula_internal_ipv6                  = false -> null
+      - id                                        = "projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
+      - mtu                                       = 1460 -> null
+      - name                                      = "vpn-magic-2" -> null
+      - network_firewall_policy_enforcement_order = "AFTER_CLASSIC_FIREWALL" -> null
+      - network_id                                = "1565283362130431410" -> null
+      - numeric_id                                = "1565283362130431410" -> null
+      - project                                   = "gcp-mastery-495919" -> null
+      - routing_mode                              = "REGIONAL" -> null
+      - self_link                                 = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-gcp-2.google_compute_subnetwork.private-subnetwork-1 will be destroyed
+  - resource "google_compute_subnetwork" "private-subnetwork-1" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-06-15T19:22:33.139-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.120.12.1" -> null
+      - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-private-subnetwork-1" -> null
+      - ip_cidr_range                    = "10.120.12.0/24" -> null
+      - name                             = "vpn-magic-2-private-subnetwork-1" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
+      - private_ip_google_access         = true -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "gcp-mastery-495919" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "us-central1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-private-subnetwork-1" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 1173125020912520582 -> null
+        # (11 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-gcp-2.google_compute_subnetwork.private-subnetwork-2 will be destroyed
+  - resource "google_compute_subnetwork" "private-subnetwork-2" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-06-15T19:22:33.091-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.120.13.1" -> null
+      - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-private-subnetwork-2" -> null
+      - ip_cidr_range                    = "10.120.13.0/24" -> null
+      - name                             = "vpn-magic-2-private-subnetwork-2" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
+      - private_ip_google_access         = true -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "gcp-mastery-495919" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "us-central1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-private-subnetwork-2" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 5723717985707560326 -> null
+        # (11 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-1 will be destroyed
+  - resource "google_compute_subnetwork" "public-subnetwork-1" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-06-15T19:22:33.048-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.120.3.1" -> null
+      - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-public-subnetwork-1" -> null
+      - ip_cidr_range                    = "10.120.3.0/24" -> null
+      - name                             = "vpn-magic-2-public-subnetwork-1" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
+      - private_ip_google_access         = false -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "gcp-mastery-495919" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "us-central1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-public-subnetwork-1" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 3151853661481405830 -> null
+        # (11 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-2 will be destroyed
+  - resource "google_compute_subnetwork" "public-subnetwork-2" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-06-15T19:22:33.195-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.120.4.1" -> null
+      - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-public-subnetwork-2" -> null
+      - ip_cidr_range                    = "10.120.4.0/24" -> null
+      - name                             = "vpn-magic-2-public-subnetwork-2" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
+      - private_ip_google_access         = false -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "gcp-mastery-495919" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "us-central1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-public-subnetwork-2" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 8277912196002680198 -> null
+        # (11 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-vpc.google_compute_network.vpc_network will be destroyed
+  - resource "google_compute_network" "vpc_network" {
+      - auto_create_subnetworks                   = false -> null
+      - bgp_always_compare_med                    = false -> null
+      - bgp_best_path_selection_mode              = "LEGACY" -> null
+      - delete_bgp_always_compare_med             = false -> null
+      - delete_default_routes_on_create           = false -> null
+      - deletion_policy                           = "DELETE" -> null
+      - enable_ula_internal_ipv6                  = false -> null
+      - id                                        = "projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - mtu                                       = 1460 -> null
+      - name                                      = "vpn-magic" -> null
+      - network_firewall_policy_enforcement_order = "AFTER_CLASSIC_FIREWALL" -> null
+      - network_id                                = "6433148335629864369" -> null
+      - numeric_id                                = "6433148335629864369" -> null
+      - project                                   = "gcp-mastery-495919" -> null
+      - routing_mode                              = "REGIONAL" -> null
+      - self_link                                 = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-vpc.google_compute_subnetwork.private-subnetwork-1 will be destroyed
+  - resource "google_compute_subnetwork" "private-subnetwork-1" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-06-15T19:22:37.845-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.120.10.1" -> null
+      - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-private-subnetwork-1" -> null
+      - ip_cidr_range                    = "10.120.10.0/24" -> null
+      - name                             = "vpn-magic-private-subnetwork-1" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - private_ip_google_access         = true -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "gcp-mastery-495919" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "us-central1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-private-subnetwork-1" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 6555544290701675906 -> null
+        # (11 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-vpc.google_compute_subnetwork.private-subnetwork-2 will be destroyed
+  - resource "google_compute_subnetwork" "private-subnetwork-2" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-06-15T19:22:37.771-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.120.11.1" -> null
+      - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-private-subnetwork-2" -> null
+      - ip_cidr_range                    = "10.120.11.0/24" -> null
+      - name                             = "vpn-magic-private-subnetwork-2" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - private_ip_google_access         = true -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "gcp-mastery-495919" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "us-central1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-private-subnetwork-2" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 5106393711959149954 -> null
+        # (11 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-1 will be destroyed
+  - resource "google_compute_subnetwork" "public-subnetwork-1" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-06-15T19:22:33.367-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.120.1.1" -> null
+      - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-1" -> null
+      - ip_cidr_range                    = "10.120.1.0/24" -> null
+      - name                             = "vpn-magic-public-subnetwork-1" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - private_ip_google_access         = false -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "gcp-mastery-495919" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "us-central1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-1" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 8663746631668927878 -> null
+        # (11 unchanged attributes hidden)
+    }
+
+  # module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-2 will be destroyed
+  - resource "google_compute_subnetwork" "public-subnetwork-2" {
+      - allow_subnet_cidr_routes_overlap = false -> null
+      - creation_timestamp               = "2026-06-15T19:22:44.107-07:00" -> null
+      - deletion_policy                  = "DELETE" -> null
+      - gateway_address                  = "10.120.2.1" -> null
+      - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-2" -> null
+      - ip_cidr_range                    = "10.120.2.0/24" -> null
+      - name                             = "vpn-magic-public-subnetwork-2" -> null
+      - network                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
+      - private_ip_google_access         = false -> null
+      - private_ipv6_google_access       = "DISABLE_GOOGLE_ACCESS" -> null
+      - project                          = "gcp-mastery-495919" -> null
+      - purpose                          = "PRIVATE" -> null
+      - region                           = "us-central1" -> null
+      - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-2" -> null
+      - stack_type                       = "IPV4_ONLY" -> null
+      - subnetwork_id                    = 995515689292598683 -> null
+        # (11 unchanged attributes hidden)
+    }
+
+  # module.standard-vpc.aws_internet_gateway.main will be destroyed
+  - resource "aws_internet_gateway" "main" {
+      - arn      = "arn:aws:ec2:us-east-1:915742579869:internet-gateway/igw-08844b6b64693bf6d" -> null
+      - id       = "igw-08844b6b64693bf6d" -> null
+      - owner_id = "915742579869" -> null
+      - region   = "us-east-1" -> null
+      - tags     = {
+          - "Name" = "vpn-magic-1-igw"
+        } -> null
+      - tags_all = {
+          - "Name" = "vpn-magic-1-igw"
+        } -> null
+      - vpc_id   = "vpc-0ae64cf813f732306" -> null
+    }
+
+  # module.standard-vpc.aws_route_table.private will be destroyed
+  - resource "aws_route_table" "private" {
+      - arn              = "arn:aws:ec2:us-east-1:915742579869:route-table/rtb-089bc646f083b30b4" -> null
+      - id               = "rtb-089bc646f083b30b4" -> null
+      - owner_id         = "915742579869" -> null
+      - propagating_vgws = [
+          - "vgw-065095db0214d25c9",
+        ] -> null
+      - region           = "us-east-1" -> null
+      - route            = [
+          - {
+              - cidr_block                 = "10.99.0.0/16"
+              - gateway_id                 = "local"
+                # (12 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {
+          - "Name" = "vpn-magic-1-private-rt"
+        } -> null
+      - tags_all         = {
+          - "Name" = "vpn-magic-1-private-rt"
+        } -> null
+      - vpc_id           = "vpc-0ae64cf813f732306" -> null
+    }
+
+  # module.standard-vpc.aws_route_table.public will be destroyed
+  - resource "aws_route_table" "public" {
+      - arn              = "arn:aws:ec2:us-east-1:915742579869:route-table/rtb-0313d554d3d3985c0" -> null
+      - id               = "rtb-0313d554d3d3985c0" -> null
+      - owner_id         = "915742579869" -> null
+      - propagating_vgws = [
+          - "vgw-065095db0214d25c9",
+        ] -> null
+      - region           = "us-east-1" -> null
+      - route            = [
+          - {
+              - cidr_block                 = "0.0.0.0/0"
+              - gateway_id                 = "igw-08844b6b64693bf6d"
+                # (12 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {
+          - "Name" = "vpn-magic-1-public-rt"
+        } -> null
+      - tags_all         = {
+          - "Name" = "vpn-magic-1-public-rt"
+        } -> null
+      - vpc_id           = "vpc-0ae64cf813f732306" -> null
+    }
+
+  # module.standard-vpc.aws_route_table_association.private_1 will be destroyed
+  - resource "aws_route_table_association" "private_1" {
+      - id             = "rtbassoc-0be163980a1fdd42b" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-089bc646f083b30b4" -> null
+      - subnet_id      = "subnet-0db18d69e08099fa2" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.standard-vpc.aws_route_table_association.private_2 will be destroyed
+  - resource "aws_route_table_association" "private_2" {
+      - id             = "rtbassoc-0aa07897dd445d377" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-089bc646f083b30b4" -> null
+      - subnet_id      = "subnet-016e6e2eabc540b55" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.standard-vpc.aws_route_table_association.public_1 will be destroyed
+  - resource "aws_route_table_association" "public_1" {
+      - id             = "rtbassoc-0bcd4d2c04c5cee74" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-0313d554d3d3985c0" -> null
+      - subnet_id      = "subnet-07a9f084d6148acc5" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.standard-vpc.aws_route_table_association.public_2 will be destroyed
+  - resource "aws_route_table_association" "public_2" {
+      - id             = "rtbassoc-02b3321266ffa05c2" -> null
+      - region         = "us-east-1" -> null
+      - route_table_id = "rtb-0313d554d3d3985c0" -> null
+      - subnet_id      = "subnet-02e41414d14b94875" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.standard-vpc.aws_subnet.private_1 will be destroyed
+  - resource "aws_subnet" "private_1" {
+      - arn                                            = "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-0db18d69e08099fa2" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-1a" -> null
+      - availability_zone_id                           = "use1-az6" -> null
+      - cidr_block                                     = "10.99.10.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-0db18d69e08099fa2" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "915742579869" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - region                                         = "us-east-1" -> null
+      - tags                                           = {
+          - "Name" = "vpn-magic-1-private-subnet-1"
+          - "Type" = "Private"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "vpn-magic-1-private-subnet-1"
+          - "Type" = "Private"
+        } -> null
+      - vpc_id                                         = "vpc-0ae64cf813f732306" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # module.standard-vpc.aws_subnet.private_2 will be destroyed
+  - resource "aws_subnet" "private_2" {
+      - arn                                            = "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-016e6e2eabc540b55" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-1b" -> null
+      - availability_zone_id                           = "use1-az1" -> null
+      - cidr_block                                     = "10.99.11.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-016e6e2eabc540b55" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "915742579869" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - region                                         = "us-east-1" -> null
+      - tags                                           = {
+          - "Name" = "vpn-magic-1-private-subnet-2"
+          - "Type" = "Private"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "vpn-magic-1-private-subnet-2"
+          - "Type" = "Private"
+        } -> null
+      - vpc_id                                         = "vpc-0ae64cf813f732306" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # module.standard-vpc.aws_subnet.public_1 will be destroyed
+  - resource "aws_subnet" "public_1" {
+      - arn                                            = "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-07a9f084d6148acc5" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-1a" -> null
+      - availability_zone_id                           = "use1-az6" -> null
+      - cidr_block                                     = "10.99.1.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-07a9f084d6148acc5" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "915742579869" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - region                                         = "us-east-1" -> null
+      - tags                                           = {
+          - "Name" = "vpn-magic-1-public-subnet-1"
+          - "Type" = "Public"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "vpn-magic-1-public-subnet-1"
+          - "Type" = "Public"
+        } -> null
+      - vpc_id                                         = "vpc-0ae64cf813f732306" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # module.standard-vpc.aws_subnet.public_2 will be destroyed
+  - resource "aws_subnet" "public_2" {
+      - arn                                            = "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-02e41414d14b94875" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-1b" -> null
+      - availability_zone_id                           = "use1-az1" -> null
+      - cidr_block                                     = "10.99.2.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-02e41414d14b94875" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "915742579869" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - region                                         = "us-east-1" -> null
+      - tags                                           = {
+          - "Name" = "vpn-magic-1-public-subnet-2"
+          - "Type" = "Public"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "vpn-magic-1-public-subnet-2"
+          - "Type" = "Public"
+        } -> null
+      - vpc_id                                         = "vpc-0ae64cf813f732306" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # module.standard-vpc.aws_vpc.main will be destroyed
+  - resource "aws_vpc" "main" {
+      - arn                                  = "arn:aws:ec2:us-east-1:915742579869:vpc/vpc-0ae64cf813f732306" -> null
+      - assign_generated_ipv6_cidr_block     = false -> null
+      - cidr_block                           = "10.99.0.0/16" -> null
+      - default_network_acl_id               = "acl-0cb1e90e04029ff26" -> null
+      - default_route_table_id               = "rtb-05b7d0a32787e3be0" -> null
+      - default_security_group_id            = "sg-0c499f988fcc9ca2b" -> null
+      - dhcp_options_id                      = "dopt-00ec51e88a38e62ac" -> null
+      - enable_dns_hostnames                 = true -> null
+      - enable_dns_support                   = true -> null
+      - enable_network_address_usage_metrics = false -> null
+      - id                                   = "vpc-0ae64cf813f732306" -> null
+      - instance_tenancy                     = "default" -> null
+      - ipv6_netmask_length                  = 0 -> null
+      - main_route_table_id                  = "rtb-05b7d0a32787e3be0" -> null
+      - owner_id                             = "915742579869" -> null
+      - region                               = "us-east-1" -> null
+      - tags                                 = {
+          - "Name" = "vpn-magic-1-vpc"
+        } -> null
+      - tags_all                             = {
+          - "Name" = "vpn-magic-1-vpc"
+        } -> null
+        # (4 unchanged attributes hidden)
+    }
+
+Plan: 0 to add, 0 to change, 72 to destroy.
+
+Changes to Outputs:
+  - tunnel_1_1_aws_inside = "169.254.21.1" -> null
+  - tunnel_1_1_gcp_inside = "169.254.21.2" -> null
+  - tunnel_1_2_aws_inside = "169.254.21.5" -> null
+  - tunnel_1_2_gcp_inside = "169.254.21.6" -> null
+  - tunnel_2_1_aws_inside = "169.254.23.1" -> null
+  - tunnel_2_1_gcp_inside = "169.254.23.2" -> null
+  - tunnel_2_2_aws_inside = "169.254.23.5" -> null
+  - tunnel_2_2_gcp_inside = "169.254.23.6" -> null
+  - tunnel_data           = "169.254.23.6" -> null
+  - vm_private_ip_aws     = "10.99.1.107" -> null
+  - vm_private_ip_gcp     = "10.120.1.3" -> null
+  - vm_private_ip_gcp-2   = "10.120.1.2" -> null
+  - vm_public_ip_aws      = "54.81.73.64" -> null
+  - vm_public_ip_gcp      = "34.42.82.222" -> null
+  - vm_public_ip_gcp-2    = "34.173.235.81" -> null
