@@ -7,10 +7,10 @@ Terraform will perform the following actions:
 
   # aws_customer_gateway.router_ip_1 will be destroyed
   - resource "aws_customer_gateway" "router_ip_1" {
-      - arn              = "arn:aws:ec2:us-east-1:915742579869:customer-gateway/cgw-0dca5012a20c7fd17" -> null
+      - arn              = "arn:aws:ec2:us-east-1:814910273374:customer-gateway/cgw-02c4b1361871b2495" -> null
       - bgp_asn          = "65003" -> null
-      - id               = "cgw-0dca5012a20c7fd17" -> null
-      - ip_address       = "34.183.17.37" -> null
+      - id               = "cgw-02c4b1361871b2495" -> null
+      - ip_address       = "35.242.119.12" -> null
       - region           = "us-east-1" -> null
       - tags             = {
           - "Name" = "main-customer-gateway"
@@ -24,10 +24,10 @@ Terraform will perform the following actions:
 
   # aws_customer_gateway.router_ip_2 will be destroyed
   - resource "aws_customer_gateway" "router_ip_2" {
-      - arn              = "arn:aws:ec2:us-east-1:915742579869:customer-gateway/cgw-0249b3f1a4222c851" -> null
+      - arn              = "arn:aws:ec2:us-east-1:814910273374:customer-gateway/cgw-092337fe8695dab0b" -> null
       - bgp_asn          = "65003" -> null
-      - id               = "cgw-0249b3f1a4222c851" -> null
-      - ip_address       = "34.184.49.150" -> null
+      - id               = "cgw-092337fe8695dab0b" -> null
+      - ip_address       = "34.153.246.63" -> null
       - region           = "us-east-1" -> null
       - tags             = {
           - "Name" = "main-customer-gateway"
@@ -41,11 +41,11 @@ Terraform will perform the following actions:
 
   # aws_vpn_connection.tunnel_1 will be destroyed
   - resource "aws_vpn_connection" "tunnel_1" {
-      - arn                                     = "arn:aws:ec2:us-east-1:915742579869:vpn-connection/vpn-0a3695c1cbca1ec60" -> null
+      - arn                                     = "arn:aws:ec2:us-east-1:814910273374:vpn-connection/vpn-0e8a6f24b9575a267" -> null
       - customer_gateway_configuration          = (sensitive value) -> null
-      - customer_gateway_id                     = "cgw-0dca5012a20c7fd17" -> null
+      - customer_gateway_id                     = "cgw-02c4b1361871b2495" -> null
       - enable_acceleration                     = false -> null
-      - id                                      = "vpn-0a3695c1cbca1ec60" -> null
+      - id                                      = "vpn-0e8a6f24b9575a267" -> null
       - local_ipv4_network_cidr                 = "0.0.0.0/0" -> null
       - outside_ip_address_type                 = "PublicIpv4" -> null
       - preshared_key_storage                   = "Standard" -> null
@@ -59,7 +59,7 @@ Terraform will perform the following actions:
       - tags_all                                = {
           - "Name" = "1-main-site-to-site-vpn"
         } -> null
-      - tunnel1_address                         = "3.217.163.118" -> null
+      - tunnel1_address                         = "32.196.162.231" -> null
       - tunnel1_bgp_asn                         = "65000" -> null
       - tunnel1_bgp_holdtime                    = 30 -> null
       - tunnel1_cgw_inside_address              = "169.254.21.2" -> null
@@ -82,7 +82,7 @@ Terraform will perform the following actions:
       - tunnel1_rekey_margin_time_seconds       = 0 -> null
       - tunnel1_replay_window_size              = 0 -> null
       - tunnel1_vgw_inside_address              = "169.254.21.1" -> null
-      - tunnel2_address                         = "35.153.252.120" -> null
+      - tunnel2_address                         = "52.86.166.210" -> null
       - tunnel2_bgp_asn                         = "65000" -> null
       - tunnel2_bgp_holdtime                    = 30 -> null
       - tunnel2_cgw_inside_address              = "169.254.21.6" -> null
@@ -111,22 +111,22 @@ Terraform will perform the following actions:
       - vgw_telemetry                           = [
           - {
               - accepted_route_count = 4
-              - last_status_change   = "2026-06-16T02:35:05Z"
-              - outside_ip_address   = "35.153.252.120"
+              - last_status_change   = "2026-06-18T04:10:17Z"
+              - outside_ip_address   = "32.196.162.231"
               - status               = "UP"
               - status_message       = "4 BGP ROUTES"
                 # (1 unchanged attribute hidden)
             },
           - {
               - accepted_route_count = 4
-              - last_status_change   = "2026-06-16T02:35:20Z"
-              - outside_ip_address   = "3.217.163.118"
+              - last_status_change   = "2026-06-18T04:10:44Z"
+              - outside_ip_address   = "52.86.166.210"
               - status               = "UP"
               - status_message       = "4 BGP ROUTES"
                 # (1 unchanged attribute hidden)
             },
         ] -> null
-      - vpn_gateway_id                          = "vgw-065095db0214d25c9" -> null
+      - vpn_gateway_id                          = "vgw-0e5aa6171ecaead2e" -> null
         # (15 unchanged attributes hidden)
 
       - tunnel1_log_options {
@@ -148,11 +148,11 @@ Terraform will perform the following actions:
 
   # aws_vpn_connection.tunnel_2 will be destroyed
   - resource "aws_vpn_connection" "tunnel_2" {
-      - arn                                     = "arn:aws:ec2:us-east-1:915742579869:vpn-connection/vpn-019dba123c80df5fa" -> null
+      - arn                                     = "arn:aws:ec2:us-east-1:814910273374:vpn-connection/vpn-0227140f4bf36ba82" -> null
       - customer_gateway_configuration          = (sensitive value) -> null
-      - customer_gateway_id                     = "cgw-0249b3f1a4222c851" -> null
+      - customer_gateway_id                     = "cgw-092337fe8695dab0b" -> null
       - enable_acceleration                     = false -> null
-      - id                                      = "vpn-019dba123c80df5fa" -> null
+      - id                                      = "vpn-0227140f4bf36ba82" -> null
       - local_ipv4_network_cidr                 = "0.0.0.0/0" -> null
       - outside_ip_address_type                 = "PublicIpv4" -> null
       - preshared_key_storage                   = "Standard" -> null
@@ -166,7 +166,7 @@ Terraform will perform the following actions:
       - tags_all                                = {
           - "Name" = "2-main-site-to-site-vpn"
         } -> null
-      - tunnel1_address                         = "75.101.161.147" -> null
+      - tunnel1_address                         = "52.200.21.123" -> null
       - tunnel1_bgp_asn                         = "65000" -> null
       - tunnel1_bgp_holdtime                    = 30 -> null
       - tunnel1_cgw_inside_address              = "169.254.23.2" -> null
@@ -189,7 +189,7 @@ Terraform will perform the following actions:
       - tunnel1_rekey_margin_time_seconds       = 0 -> null
       - tunnel1_replay_window_size              = 0 -> null
       - tunnel1_vgw_inside_address              = "169.254.23.1" -> null
-      - tunnel2_address                         = "98.85.148.45" -> null
+      - tunnel2_address                         = "98.80.161.189" -> null
       - tunnel2_bgp_asn                         = "65000" -> null
       - tunnel2_bgp_holdtime                    = 30 -> null
       - tunnel2_cgw_inside_address              = "169.254.23.6" -> null
@@ -218,22 +218,22 @@ Terraform will perform the following actions:
       - vgw_telemetry                           = [
           - {
               - accepted_route_count = 4
-              - last_status_change   = "2026-06-16T02:33:37Z"
-              - outside_ip_address   = "98.85.148.45"
+              - last_status_change   = "2026-06-18T04:09:32Z"
+              - outside_ip_address   = "52.200.21.123"
               - status               = "UP"
               - status_message       = "4 BGP ROUTES"
                 # (1 unchanged attribute hidden)
             },
           - {
               - accepted_route_count = 4
-              - last_status_change   = "2026-06-16T02:34:35Z"
-              - outside_ip_address   = "75.101.161.147"
+              - last_status_change   = "2026-06-18T04:12:14Z"
+              - outside_ip_address   = "98.80.161.189"
               - status               = "UP"
               - status_message       = "4 BGP ROUTES"
                 # (1 unchanged attribute hidden)
             },
         ] -> null
-      - vpn_gateway_id                          = "vgw-065095db0214d25c9" -> null
+      - vpn_gateway_id                          = "vgw-0e5aa6171ecaead2e" -> null
         # (15 unchanged attributes hidden)
 
       - tunnel1_log_options {
@@ -256,28 +256,28 @@ Terraform will perform the following actions:
   # aws_vpn_gateway.vpn_gateway will be destroyed
   - resource "aws_vpn_gateway" "vpn_gateway" {
       - amazon_side_asn = "65000" -> null
-      - arn             = "arn:aws:ec2:us-east-1:915742579869:vpn-gateway/vgw-065095db0214d25c9" -> null
-      - id              = "vgw-065095db0214d25c9" -> null
+      - arn             = "arn:aws:ec2:us-east-1:814910273374:vpn-gateway/vgw-0e5aa6171ecaead2e" -> null
+      - id              = "vgw-0e5aa6171ecaead2e" -> null
       - region          = "us-east-1" -> null
       - tags            = {} -> null
       - tags_all        = {} -> null
-      - vpc_id          = "vpc-0ae64cf813f732306" -> null
+      - vpc_id          = "vpc-05efee3f512ccf8e4" -> null
     }
 
   # aws_vpn_gateway_route_propagation.private will be destroyed
   - resource "aws_vpn_gateway_route_propagation" "private" {
-      - id             = "vgw-065095db0214d25c9_rtb-089bc646f083b30b4" -> null
+      - id             = "vgw-0e5aa6171ecaead2e_rtb-0ee523208631d474b" -> null
       - region         = "us-east-1" -> null
-      - route_table_id = "rtb-089bc646f083b30b4" -> null
-      - vpn_gateway_id = "vgw-065095db0214d25c9" -> null
+      - route_table_id = "rtb-0ee523208631d474b" -> null
+      - vpn_gateway_id = "vgw-0e5aa6171ecaead2e" -> null
     }
 
   # aws_vpn_gateway_route_propagation.public will be destroyed
   - resource "aws_vpn_gateway_route_propagation" "public" {
-      - id             = "vgw-065095db0214d25c9_rtb-0313d554d3d3985c0" -> null
+      - id             = "vgw-0e5aa6171ecaead2e_rtb-0a94ea90fe4ba4515" -> null
       - region         = "us-east-1" -> null
-      - route_table_id = "rtb-0313d554d3d3985c0" -> null
-      - vpn_gateway_id = "vgw-065095db0214d25c9" -> null
+      - route_table_id = "rtb-0a94ea90fe4ba4515" -> null
+      - vpn_gateway_id = "vgw-0e5aa6171ecaead2e" -> null
     }
 
   # google_compute_external_vpn_gateway.gcp-to-aws-vpn-gw will be destroyed
@@ -300,22 +300,22 @@ Terraform will perform the following actions:
 
       - interface {
           - id           = 0 -> null
-          - ip_address   = "3.217.163.118" -> null
+          - ip_address   = "32.196.162.231" -> null
             # (1 unchanged attribute hidden)
         }
       - interface {
           - id           = 1 -> null
-          - ip_address   = "35.153.252.120" -> null
+          - ip_address   = "52.86.166.210" -> null
             # (1 unchanged attribute hidden)
         }
       - interface {
           - id           = 2 -> null
-          - ip_address   = "75.101.161.147" -> null
+          - ip_address   = "52.200.21.123" -> null
             # (1 unchanged attribute hidden)
         }
       - interface {
           - id           = 3 -> null
-          - ip_address   = "98.85.148.45" -> null
+          - ip_address   = "98.80.161.189" -> null
             # (1 unchanged attribute hidden)
         }
     }
@@ -343,12 +343,12 @@ Terraform will perform the following actions:
 
       - vpn_interfaces {
           - id                      = 0 -> null
-          - ip_address              = "34.183.17.37" -> null
+          - ip_address              = "35.242.119.12" -> null
             # (1 unchanged attribute hidden)
         }
       - vpn_interfaces {
           - id                      = 1 -> null
-          - ip_address              = "34.184.49.150" -> null
+          - ip_address              = "34.153.246.63" -> null
             # (1 unchanged attribute hidden)
         }
     }
@@ -376,19 +376,19 @@ Terraform will perform the following actions:
 
       - vpn_interfaces {
           - id                      = 0 -> null
-          - ip_address              = "34.183.17.229" -> null
+          - ip_address              = "35.242.113.90" -> null
             # (1 unchanged attribute hidden)
         }
       - vpn_interfaces {
           - id                      = 1 -> null
-          - ip_address              = "34.184.18.138" -> null
+          - ip_address              = "34.184.40.140" -> null
             # (1 unchanged attribute hidden)
         }
     }
 
   # google_compute_router.vpn-router will be destroyed
   - resource "google_compute_router" "vpn-router" {
-      - creation_timestamp            = "2026-06-15T19:22:44.103-07:00" -> null
+      - creation_timestamp            = "2026-06-17T20:59:38.424-07:00" -> null
       - deletion_policy               = "DELETE" -> null
       - encrypted_interconnect_router = false -> null
       - id                            = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
@@ -410,7 +410,7 @@ Terraform will perform the following actions:
 
   # google_compute_router.vpn-router-2 will be destroyed
   - resource "google_compute_router" "vpn-router-2" {
-      - creation_timestamp            = "2026-06-15T19:22:33.131-07:00" -> null
+      - creation_timestamp            = "2026-06-17T20:59:49.658-07:00" -> null
       - deletion_policy               = "DELETE" -> null
       - encrypted_interconnect_router = false -> null
       - id                            = "projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2" -> null
@@ -808,7 +808,7 @@ Terraform will perform the following actions:
 
   # google_compute_vpn_tunnel.aws_tunnel_1 will be destroyed
   - resource "google_compute_vpn_tunnel" "aws_tunnel_1" {
-      - creation_timestamp              = "2026-06-15T19:31:27.310-07:00" -> null
+      - creation_timestamp              = "2026-06-17T21:07:30.225-07:00" -> null
       - deletion_policy                 = "DELETE" -> null
       - detailed_status                 = "Tunnel is up and running." -> null
       - effective_labels                = {
@@ -824,7 +824,7 @@ Terraform will perform the following actions:
       - name                            = "gcp-to-aws-tunnel-1" -> null
       - peer_external_gateway           = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
       - peer_external_gateway_interface = 0 -> null
-      - peer_ip                         = "3.217.163.118" -> null
+      - peer_ip                         = "32.196.162.231" -> null
       - project                         = "gcp-mastery-495919" -> null
       - region                          = "us-central1" -> null
       - remote_traffic_selector         = [
@@ -833,12 +833,12 @@ Terraform will perform the following actions:
       - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
       - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1" -> null
       - shared_secret                   = (sensitive value) -> null
-      - shared_secret_hash              = "DyCsU6fH8go2Ay0mvwRN9VE51GXK" -> null
+      - shared_secret_hash              = "Bzsi3nbbWuPSbEljSD9jhVXWGzmx" -> null
       - shared_secret_wo                = (write-only attribute) -> null
       - terraform_labels                = {
           - "goog-terraform-provisioned" = "true"
         } -> null
-      - tunnel_id                       = "6540026333343058833" -> null
+      - tunnel_id                       = "6660380353588285934" -> null
       - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
       - vpn_gateway_interface           = 0 -> null
         # (4 unchanged attributes hidden)
@@ -846,7 +846,7 @@ Terraform will perform the following actions:
 
   # google_compute_vpn_tunnel.aws_tunnel_2 will be destroyed
   - resource "google_compute_vpn_tunnel" "aws_tunnel_2" {
-      - creation_timestamp              = "2026-06-15T19:31:27.192-07:00" -> null
+      - creation_timestamp              = "2026-06-17T21:07:30.319-07:00" -> null
       - deletion_policy                 = "DELETE" -> null
       - detailed_status                 = "Tunnel is up and running." -> null
       - effective_labels                = {
@@ -862,7 +862,7 @@ Terraform will perform the following actions:
       - name                            = "gcp-to-aws-tunnel-2" -> null
       - peer_external_gateway           = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
       - peer_external_gateway_interface = 1 -> null
-      - peer_ip                         = "35.153.252.120" -> null
+      - peer_ip                         = "52.86.166.210" -> null
       - project                         = "gcp-mastery-495919" -> null
       - region                          = "us-central1" -> null
       - remote_traffic_selector         = [
@@ -871,12 +871,12 @@ Terraform will perform the following actions:
       - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
       - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2" -> null
       - shared_secret                   = (sensitive value) -> null
-      - shared_secret_hash              = "Kj7mqvuGmc30uGC-N_btpXyJjrCX" -> null
+      - shared_secret_hash              = "0okxFfWHfUq6rlSw-dwpsyR31Fx6" -> null
       - shared_secret_wo                = (write-only attribute) -> null
       - terraform_labels                = {
           - "goog-terraform-provisioned" = "true"
         } -> null
-      - tunnel_id                       = "4045014766637091729" -> null
+      - tunnel_id                       = "7134965658451628525" -> null
       - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
       - vpn_gateway_interface           = 0 -> null
         # (4 unchanged attributes hidden)
@@ -884,7 +884,7 @@ Terraform will perform the following actions:
 
   # google_compute_vpn_tunnel.aws_tunnel_3 will be destroyed
   - resource "google_compute_vpn_tunnel" "aws_tunnel_3" {
-      - creation_timestamp              = "2026-06-15T19:31:27.264-07:00" -> null
+      - creation_timestamp              = "2026-06-17T21:07:30.392-07:00" -> null
       - deletion_policy                 = "DELETE" -> null
       - detailed_status                 = "Tunnel is up and running." -> null
       - effective_labels                = {
@@ -900,7 +900,7 @@ Terraform will perform the following actions:
       - name                            = "gcp-to-aws-tunnel-3" -> null
       - peer_external_gateway           = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
       - peer_external_gateway_interface = 2 -> null
-      - peer_ip                         = "75.101.161.147" -> null
+      - peer_ip                         = "52.200.21.123" -> null
       - project                         = "gcp-mastery-495919" -> null
       - region                          = "us-central1" -> null
       - remote_traffic_selector         = [
@@ -909,12 +909,12 @@ Terraform will perform the following actions:
       - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
       - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3" -> null
       - shared_secret                   = (sensitive value) -> null
-      - shared_secret_hash              = "qzNtAm1t8X8itQ6naGC9PGphgfcs" -> null
+      - shared_secret_hash              = "QMjp4L92RT5DJThjXFLODE2W0zms" -> null
       - shared_secret_wo                = (write-only attribute) -> null
       - terraform_labels                = {
           - "goog-terraform-provisioned" = "true"
         } -> null
-      - tunnel_id                       = "7826566267688258449" -> null
+      - tunnel_id                       = "5410839006992585198" -> null
       - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
       - vpn_gateway_interface           = 1 -> null
         # (4 unchanged attributes hidden)
@@ -922,7 +922,7 @@ Terraform will perform the following actions:
 
   # google_compute_vpn_tunnel.aws_tunnel_4 will be destroyed
   - resource "google_compute_vpn_tunnel" "aws_tunnel_4" {
-      - creation_timestamp              = "2026-06-15T19:31:27.337-07:00" -> null
+      - creation_timestamp              = "2026-06-17T21:07:30.404-07:00" -> null
       - deletion_policy                 = "DELETE" -> null
       - detailed_status                 = "Tunnel is up and running." -> null
       - effective_labels                = {
@@ -938,7 +938,7 @@ Terraform will perform the following actions:
       - name                            = "gcp-to-aws-tunnel-4" -> null
       - peer_external_gateway           = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/externalVpnGateways/gcp-to-aws-vpn-gw" -> null
       - peer_external_gateway_interface = 3 -> null
-      - peer_ip                         = "98.85.148.45" -> null
+      - peer_ip                         = "98.80.161.189" -> null
       - project                         = "gcp-mastery-495919" -> null
       - region                          = "us-central1" -> null
       - remote_traffic_selector         = [
@@ -947,12 +947,12 @@ Terraform will perform the following actions:
       - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
       - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4" -> null
       - shared_secret                   = (sensitive value) -> null
-      - shared_secret_hash              = "DK-QGiYqjvHkx3ihQjTeQHUhSuy1" -> null
+      - shared_secret_hash              = "SXTIn4jUHjWADnajLrFIzpaRc4pr" -> null
       - shared_secret_wo                = (write-only attribute) -> null
       - terraform_labels                = {
           - "goog-terraform-provisioned" = "true"
         } -> null
-      - tunnel_id                       = "8662127432502161" -> null
+      - tunnel_id                       = "8267688185268457965" -> null
       - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
       - vpn_gateway_interface           = 1 -> null
         # (4 unchanged attributes hidden)
@@ -960,7 +960,7 @@ Terraform will perform the following actions:
 
   # google_compute_vpn_tunnel.gcp_tunnel-2_1 will be destroyed
   - resource "google_compute_vpn_tunnel" "gcp_tunnel-2_1" {
-      - creation_timestamp              = "2026-06-15T19:22:55.562-07:00" -> null
+      - creation_timestamp              = "2026-06-17T21:00:10.922-07:00" -> null
       - deletion_policy                 = "DELETE" -> null
       - detailed_status                 = "Tunnel is up and running." -> null
       - effective_labels                = {
@@ -976,7 +976,7 @@ Terraform will perform the following actions:
       - name                            = "gcp-to-gcp-tunnel-3-1" -> null
       - peer_external_gateway_interface = 0 -> null
       - peer_gcp_gateway                = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
-      - peer_ip                         = "34.183.17.37" -> null
+      - peer_ip                         = "35.242.119.12" -> null
       - project                         = "gcp-mastery-495919" -> null
       - region                          = "us-central1" -> null
       - remote_traffic_selector         = [
@@ -985,12 +985,12 @@ Terraform will perform the following actions:
       - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2" -> null
       - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1" -> null
       - shared_secret                   = (sensitive value) -> null
-      - shared_secret_hash              = "jXpJ3fhRMYhRUVeLmPvp4WMXXp8u" -> null
+      - shared_secret_hash              = "QYdoPYnP9Za5F-EaQvpxI124nvDz" -> null
       - shared_secret_wo                = (write-only attribute) -> null
       - terraform_labels                = {
           - "goog-terraform-provisioned" = "true"
         } -> null
-      - tunnel_id                       = "1970926221325569424" -> null
+      - tunnel_id                       = "2529838677855490981" -> null
       - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
       - vpn_gateway_interface           = 0 -> null
         # (4 unchanged attributes hidden)
@@ -998,7 +998,7 @@ Terraform will perform the following actions:
 
   # google_compute_vpn_tunnel.gcp_tunnel2_2 will be destroyed
   - resource "google_compute_vpn_tunnel" "gcp_tunnel2_2" {
-      - creation_timestamp              = "2026-06-15T19:22:55.292-07:00" -> null
+      - creation_timestamp              = "2026-06-17T21:00:11.041-07:00" -> null
       - deletion_policy                 = "DELETE" -> null
       - detailed_status                 = "Tunnel is up and running." -> null
       - effective_labels                = {
@@ -1014,7 +1014,7 @@ Terraform will perform the following actions:
       - name                            = "gcp-to-gcp-tunnel-3-2" -> null
       - peer_external_gateway_interface = 0 -> null
       - peer_gcp_gateway                = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
-      - peer_ip                         = "34.184.49.150" -> null
+      - peer_ip                         = "34.153.246.63" -> null
       - project                         = "gcp-mastery-495919" -> null
       - region                          = "us-central1" -> null
       - remote_traffic_selector         = [
@@ -1023,12 +1023,12 @@ Terraform will perform the following actions:
       - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router-2" -> null
       - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2" -> null
       - shared_secret                   = (sensitive value) -> null
-      - shared_secret_hash              = "_5S93JB8PQymcbdhEt25uwG1KyHu" -> null
+      - shared_secret_hash              = "392iDnVqgl_BB8Hwgs-kC277adCp" -> null
       - shared_secret_wo                = (write-only attribute) -> null
       - terraform_labels                = {
           - "goog-terraform-provisioned" = "true"
         } -> null
-      - tunnel_id                       = "5557502485064387985" -> null
+      - tunnel_id                       = "7486885636484289445" -> null
       - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
       - vpn_gateway_interface           = 1 -> null
         # (4 unchanged attributes hidden)
@@ -1036,7 +1036,7 @@ Terraform will perform the following actions:
 
   # google_compute_vpn_tunnel.gcp_tunnel2__1 will be destroyed
   - resource "google_compute_vpn_tunnel" "gcp_tunnel2__1" {
-      - creation_timestamp              = "2026-06-15T19:23:05.295-07:00" -> null
+      - creation_timestamp              = "2026-06-17T21:00:01.656-07:00" -> null
       - deletion_policy                 = "DELETE" -> null
       - detailed_status                 = "Tunnel is up and running." -> null
       - effective_labels                = {
@@ -1052,7 +1052,7 @@ Terraform will perform the following actions:
       - name                            = "gcp-to-gcp-tunnel-2-1" -> null
       - peer_external_gateway_interface = 0 -> null
       - peer_gcp_gateway                = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
-      - peer_ip                         = "34.183.17.229" -> null
+      - peer_ip                         = "35.242.113.90" -> null
       - project                         = "gcp-mastery-495919" -> null
       - region                          = "us-central1" -> null
       - remote_traffic_selector         = [
@@ -1061,12 +1061,12 @@ Terraform will perform the following actions:
       - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
       - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1" -> null
       - shared_secret                   = (sensitive value) -> null
-      - shared_secret_hash              = "OsBhSsgTnqag_51hpdGQxDhOIPhS" -> null
+      - shared_secret_hash              = "HS2B8dY_LuO_6uDvumMXj9bWKIhp" -> null
       - shared_secret_wo                = (write-only attribute) -> null
       - terraform_labels                = {
           - "goog-terraform-provisioned" = "true"
         } -> null
-      - tunnel_id                       = "2594942071301016935" -> null
+      - tunnel_id                       = "6758489690235392942" -> null
       - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
       - vpn_gateway_interface           = 0 -> null
         # (4 unchanged attributes hidden)
@@ -1074,7 +1074,7 @@ Terraform will perform the following actions:
 
   # google_compute_vpn_tunnel.gcp_tunnel2__2 will be destroyed
   - resource "google_compute_vpn_tunnel" "gcp_tunnel2__2" {
-      - creation_timestamp              = "2026-06-15T19:23:05.395-07:00" -> null
+      - creation_timestamp              = "2026-06-17T21:00:03.448-07:00" -> null
       - deletion_policy                 = "DELETE" -> null
       - detailed_status                 = "Tunnel is up and running." -> null
       - effective_labels                = {
@@ -1090,7 +1090,7 @@ Terraform will perform the following actions:
       - name                            = "gcp-to-gcp-tunnel-2-2" -> null
       - peer_external_gateway_interface = 0 -> null
       - peer_gcp_gateway                = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-2" -> null
-      - peer_ip                         = "34.184.18.138" -> null
+      - peer_ip                         = "34.184.40.140" -> null
       - project                         = "gcp-mastery-495919" -> null
       - region                          = "us-central1" -> null
       - remote_traffic_selector         = [
@@ -1099,12 +1099,12 @@ Terraform will perform the following actions:
       - router                          = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/routers/vpn-router" -> null
       - self_link                       = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2" -> null
       - shared_secret                   = (sensitive value) -> null
-      - shared_secret_hash              = "yTsMBNCGztJmMzTQv_ns7Kr2gbQt" -> null
+      - shared_secret_hash              = "Qecwvwd-U5iEviNOfaEcuIHCXBI9" -> null
       - shared_secret_wo                = (write-only attribute) -> null
       - terraform_labels                = {
           - "goog-terraform-provisioned" = "true"
         } -> null
-      - tunnel_id                       = "8778871146979069286" -> null
+      - tunnel_id                       = "2278757565495956398" -> null
       - vpn_gateway                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnGateways/vpn-magic-ha-vpn-1" -> null
       - vpn_gateway_interface           = 1 -> null
         # (4 unchanged attributes hidden)
@@ -1215,7 +1215,7 @@ Terraform will perform the following actions:
   # module.aws_vm.aws_instance.vm will be destroyed
   - resource "aws_instance" "vm" {
       - ami                                  = "ami-0517aaaee33d8b971" -> null
-      - arn                                  = "arn:aws:ec2:us-east-1:915742579869:instance/i-0ee86a52a04cd1455" -> null
+      - arn                                  = "arn:aws:ec2:us-east-1:814910273374:instance/i-012e2b11f9559205c" -> null
       - associate_public_ip_address          = true -> null
       - availability_zone                    = "us-east-1a" -> null
       - disable_api_stop                     = false -> null
@@ -1224,7 +1224,7 @@ Terraform will perform the following actions:
       - force_destroy                        = false -> null
       - get_password_data                    = false -> null
       - hibernation                          = false -> null
-      - id                                   = "i-0ee86a52a04cd1455" -> null
+      - id                                   = "i-012e2b11f9559205c" -> null
       - instance_initiated_shutdown_behavior = "stop" -> null
       - instance_state                       = "running" -> null
       - instance_type                        = "t3.micro" -> null
@@ -1232,16 +1232,16 @@ Terraform will perform the following actions:
       - ipv6_addresses                       = [] -> null
       - monitoring                           = false -> null
       - placement_partition_number           = 0 -> null
-      - primary_network_interface_id         = "eni-0a870f0e8856bf0a8" -> null
-      - private_dns                          = "ip-10-99-1-107.ec2.internal" -> null
-      - private_ip                           = "10.99.1.107" -> null
-      - public_dns                           = "ec2-54-81-73-64.compute-1.amazonaws.com" -> null
-      - public_ip                            = "54.81.73.64" -> null
+      - primary_network_interface_id         = "eni-0b8df9a12430689cf" -> null
+      - private_dns                          = "ip-10-99-1-153.ec2.internal" -> null
+      - private_ip                           = "10.99.1.153" -> null
+      - public_dns                           = "ec2-98-92-153-123.compute-1.amazonaws.com" -> null
+      - public_ip                            = "98.92.153.123" -> null
       - region                               = "us-east-1" -> null
       - secondary_private_ips                = [] -> null
       - security_groups                      = [] -> null
       - source_dest_check                    = true -> null
-      - subnet_id                            = "subnet-07a9f084d6148acc5" -> null
+      - subnet_id                            = "subnet-0a31cb46e9b0b5e8d" -> null
       - tags                                 = {
           - "Name"    = "aws-test-vm-1"
           - "Project" = "vpn-magic"
@@ -1253,7 +1253,7 @@ Terraform will perform the following actions:
       - tenancy                              = "default" -> null
       - user_data_replace_on_change          = false -> null
       - vpc_security_group_ids               = [
-          - "sg-01f5ce1dbb7ecb572",
+          - "sg-0d332cf7bf9f3be18",
         ] -> null
         # (9 unchanged attributes hidden)
 
@@ -1289,7 +1289,7 @@ Terraform will perform the following actions:
 
       - primary_network_interface {
           - delete_on_termination = true -> null
-          - network_interface_id  = "eni-0a870f0e8856bf0a8" -> null
+          - network_interface_id  = "eni-0b8df9a12430689cf" -> null
         }
 
       - private_dns_name_options {
@@ -1306,7 +1306,7 @@ Terraform will perform the following actions:
           - tags                  = {} -> null
           - tags_all              = {} -> null
           - throughput            = 0 -> null
-          - volume_id             = "vol-0662696d2085e03a9" -> null
+          - volume_id             = "vol-05587037f6edb18aa" -> null
           - volume_size           = 8 -> null
           - volume_type           = "gp2" -> null
             # (1 unchanged attribute hidden)
@@ -1315,7 +1315,7 @@ Terraform will perform the following actions:
 
   # module.aws_vm.aws_security_group.vm_sg will be destroyed
   - resource "aws_security_group" "vm_sg" {
-      - arn                    = "arn:aws:ec2:us-east-1:915742579869:security-group/sg-01f5ce1dbb7ecb572" -> null
+      - arn                    = "arn:aws:ec2:us-east-1:814910273374:security-group/sg-0d332cf7bf9f3be18" -> null
       - description            = "Security group for aws-test-vm-1" -> null
       - egress                 = [
           - {
@@ -1332,7 +1332,7 @@ Terraform will perform the following actions:
               - to_port          = 0
             },
         ] -> null
-      - id                     = "sg-01f5ce1dbb7ecb572" -> null
+      - id                     = "sg-0d332cf7bf9f3be18" -> null
       - ingress                = [
           - {
               - cidr_blocks      = [
@@ -1362,7 +1362,7 @@ Terraform will perform the following actions:
             },
         ] -> null
       - name                   = "aws-test-vm-1-sg" -> null
-      - owner_id               = "915742579869" -> null
+      - owner_id               = "814910273374" -> null
       - region                 = "us-east-1" -> null
       - revoke_rules_on_delete = false -> null
       - tags                   = {
@@ -1373,13 +1373,13 @@ Terraform will perform the following actions:
           - "Name"    = "aws-test-vm-1-sg"
           - "Project" = "vpn-magic"
         } -> null
-      - vpc_id                 = "vpc-0ae64cf813f732306" -> null
+      - vpc_id                 = "vpc-05efee3f512ccf8e4" -> null
         # (1 unchanged attribute hidden)
     }
 
   # module.gcp_vm-1.google_compute_firewall.allow_egress will be destroyed
   - resource "google_compute_firewall" "allow_egress" {
-      - creation_timestamp      = "2026-06-15T19:22:44.401-07:00" -> null
+      - creation_timestamp      = "2026-06-17T20:59:49.471-07:00" -> null
       - deletion_policy         = "DELETE" -> null
       - destination_ranges      = [
           - "0.0.0.0/0",
@@ -1410,7 +1410,7 @@ Terraform will perform the following actions:
 
   # module.gcp_vm-1.google_compute_firewall.allow_ingress will be destroyed
   - resource "google_compute_firewall" "allow_ingress" {
-      - creation_timestamp      = "2026-06-15T21:49:57.865-07:00" -> null
+      - creation_timestamp      = "2026-06-17T20:59:42.536-07:00" -> null
       - deletion_policy         = "DELETE" -> null
       - destination_ranges      = [] -> null
       - direction               = "INGRESS" -> null
@@ -1450,8 +1450,8 @@ Terraform will perform the following actions:
   # module.gcp_vm-1.google_compute_instance.vm will be destroyed
   - resource "google_compute_instance" "vm" {
       - can_ip_forward             = false -> null
-      - cpu_platform               = "Intel Broadwell" -> null
-      - creation_timestamp         = "2026-06-15T19:22:55.754-07:00" -> null
+      - cpu_platform               = "AMD Rome" -> null
+      - creation_timestamp         = "2026-06-17T20:59:54.952-07:00" -> null
       - current_status             = "RUNNING" -> null
       - deletion_policy            = "DELETE" -> null
       - deletion_protection        = false -> null
@@ -1461,14 +1461,19 @@ Terraform will perform the following actions:
         } -> null
       - enable_display             = false -> null
       - id                         = "projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1" -> null
-      - instance_id                = "5167985355459988880" -> null
+      - instance_id                = "9167607249665709013" -> null
       - label_fingerprint          = "J0MOWcE8UEQ=" -> null
       - labels                     = {
           - "project" = "vpn-magic"
         } -> null
       - machine_type               = "e2-standard-2" -> null
-      - metadata                   = {} -> null
-      - metadata_fingerprint       = "4kc5Q2gD4tQ=" -> null
+      - metadata                   = {
+          - "ssh-keys" = <<-EOT
+                davekabeello:ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBOnazzGDdxx7MojKam5Hpgl8O8IJGD+SkrjQenacQP31rwfLLxWIhpqMeFWEVsw/AWJvgZNIb5EsmuZmllbk1Bs= google-ssh {"userName":"davekabeello@gmail.com","expireOn":"2026-06-18T04:07:27+0000"}
+                davekabeello:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCcuyUXUaBKfY2c6mHVlWRkjIB29dkYlj0ohqSSB1VVvHvOv9BXeOVGDMrt2PktAXYsmDkBsLzYHyfylaMHyvnbjONAlYsA/nPC6LT8j6AxpCb4lfeFPKDI+ls3f5+VSeqA0gIBkf6l6EB1i18LCJnVJPtTjMY5yzqO/RRPEPiQ3IiMkgIxsQAeTLxk1bKXRtJe5L9uzoZtYrnSvJ5aQH7ZzPtOkMBnqHifz6lLL4ctBlDOxTJk1du2ueAuzXlfe3mVPQzqdn2QN1Y/RTrU3H8r6wL7c38AdFgDtPRjDrkTV+RfGa2cVfnL683WO2XTL7HXcxGhKJ+Dc9q3+N5yriSt google-ssh {"userName":"davekabeello@gmail.com","expireOn":"2026-06-18T04:07:30+0000"}
+            EOT
+        } -> null
+      - metadata_fingerprint       = "dpsv0IiXolM=" -> null
       - name                       = "gcp-test-vm-1" -> null
       - project                    = "gcp-mastery-495919" -> null
       - resource_policies          = [] -> null
@@ -1520,7 +1525,7 @@ Terraform will perform the following actions:
           - internal_ipv6_prefix_length = 0 -> null
           - name                        = "nic0" -> null
           - network                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
-          - network_ip                  = "10.120.1.3" -> null
+          - network_ip                  = "10.120.1.2" -> null
           - queue_count                 = 0 -> null
           - stack_type                  = "IPV4_ONLY" -> null
           - subnetwork                  = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-1" -> null
@@ -1529,7 +1534,7 @@ Terraform will perform the following actions:
             # (6 unchanged attributes hidden)
 
           - access_config {
-              - nat_ip                 = "34.42.82.222" -> null
+              - nat_ip                 = "136.119.35.247" -> null
               - network_tier           = "PREMIUM" -> null
                 # (1 unchanged attribute hidden)
             }
@@ -1554,7 +1559,7 @@ Terraform will perform the following actions:
 
   # module.gcp_vm-2.google_compute_firewall.allow_egress will be destroyed
   - resource "google_compute_firewall" "allow_egress" {
-      - creation_timestamp      = "2026-06-15T19:22:44.375-07:00" -> null
+      - creation_timestamp      = "2026-06-17T20:59:38.352-07:00" -> null
       - deletion_policy         = "DELETE" -> null
       - destination_ranges      = [
           - "0.0.0.0/0",
@@ -1585,7 +1590,7 @@ Terraform will perform the following actions:
 
   # module.gcp_vm-2.google_compute_firewall.allow_ingress will be destroyed
   - resource "google_compute_firewall" "allow_ingress" {
-      - creation_timestamp      = "2026-06-15T21:49:57.815-07:00" -> null
+      - creation_timestamp      = "2026-06-17T20:59:38.656-07:00" -> null
       - deletion_policy         = "DELETE" -> null
       - destination_ranges      = [] -> null
       - direction               = "INGRESS" -> null
@@ -1626,7 +1631,7 @@ Terraform will perform the following actions:
   - resource "google_compute_instance" "vm" {
       - can_ip_forward             = false -> null
       - cpu_platform               = "Intel Broadwell" -> null
-      - creation_timestamp         = "2026-06-15T19:22:55.129-07:00" -> null
+      - creation_timestamp         = "2026-06-17T21:00:00.888-07:00" -> null
       - current_status             = "RUNNING" -> null
       - deletion_policy            = "DELETE" -> null
       - deletion_protection        = false -> null
@@ -1636,7 +1641,7 @@ Terraform will perform the following actions:
         } -> null
       - enable_display             = false -> null
       - id                         = "projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2" -> null
-      - instance_id                = "3860451006791617937" -> null
+      - instance_id                = "1241174869297517487" -> null
       - label_fingerprint          = "J0MOWcE8UEQ=" -> null
       - labels                     = {
           - "project" = "vpn-magic"
@@ -1695,7 +1700,7 @@ Terraform will perform the following actions:
           - internal_ipv6_prefix_length = 0 -> null
           - name                        = "nic0" -> null
           - network                     = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
-          - network_ip                  = "10.120.1.2" -> null
+          - network_ip                  = "10.120.1.3" -> null
           - queue_count                 = 0 -> null
           - stack_type                  = "IPV4_ONLY" -> null
           - subnetwork                  = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-1" -> null
@@ -1704,7 +1709,7 @@ Terraform will perform the following actions:
             # (6 unchanged attributes hidden)
 
           - access_config {
-              - nat_ip                 = "34.173.235.81" -> null
+              - nat_ip                 = "35.254.75.41" -> null
               - network_tier           = "PREMIUM" -> null
                 # (1 unchanged attribute hidden)
             }
@@ -1740,8 +1745,8 @@ Terraform will perform the following actions:
       - mtu                                       = 1460 -> null
       - name                                      = "vpn-magic-2" -> null
       - network_firewall_policy_enforcement_order = "AFTER_CLASSIC_FIREWALL" -> null
-      - network_id                                = "1565283362130431410" -> null
-      - numeric_id                                = "1565283362130431410" -> null
+      - network_id                                = "5231264702064940026" -> null
+      - numeric_id                                = "5231264702064940026" -> null
       - project                                   = "gcp-mastery-495919" -> null
       - routing_mode                              = "REGIONAL" -> null
       - self_link                                 = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic-2" -> null
@@ -1751,7 +1756,7 @@ Terraform will perform the following actions:
   # module.standard-gcp-gcp-2.google_compute_subnetwork.private-subnetwork-1 will be destroyed
   - resource "google_compute_subnetwork" "private-subnetwork-1" {
       - allow_subnet_cidr_routes_overlap = false -> null
-      - creation_timestamp               = "2026-06-15T19:22:33.139-07:00" -> null
+      - creation_timestamp               = "2026-06-17T20:59:51.009-07:00" -> null
       - deletion_policy                  = "DELETE" -> null
       - gateway_address                  = "10.120.12.1" -> null
       - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-private-subnetwork-1" -> null
@@ -1765,14 +1770,14 @@ Terraform will perform the following actions:
       - region                           = "us-central1" -> null
       - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-private-subnetwork-1" -> null
       - stack_type                       = "IPV4_ONLY" -> null
-      - subnetwork_id                    = 1173125020912520582 -> null
+      - subnetwork_id                    = 1621975139436385240 -> null
         # (11 unchanged attributes hidden)
     }
 
   # module.standard-gcp-gcp-2.google_compute_subnetwork.private-subnetwork-2 will be destroyed
   - resource "google_compute_subnetwork" "private-subnetwork-2" {
       - allow_subnet_cidr_routes_overlap = false -> null
-      - creation_timestamp               = "2026-06-15T19:22:33.091-07:00" -> null
+      - creation_timestamp               = "2026-06-17T20:59:49.608-07:00" -> null
       - deletion_policy                  = "DELETE" -> null
       - gateway_address                  = "10.120.13.1" -> null
       - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-private-subnetwork-2" -> null
@@ -1786,14 +1791,14 @@ Terraform will perform the following actions:
       - region                           = "us-central1" -> null
       - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-private-subnetwork-2" -> null
       - stack_type                       = "IPV4_ONLY" -> null
-      - subnetwork_id                    = 5723717985707560326 -> null
+      - subnetwork_id                    = 6435872268313613274 -> null
         # (11 unchanged attributes hidden)
     }
 
   # module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-1 will be destroyed
   - resource "google_compute_subnetwork" "public-subnetwork-1" {
       - allow_subnet_cidr_routes_overlap = false -> null
-      - creation_timestamp               = "2026-06-15T19:22:33.048-07:00" -> null
+      - creation_timestamp               = "2026-06-17T20:59:49.656-07:00" -> null
       - deletion_policy                  = "DELETE" -> null
       - gateway_address                  = "10.120.3.1" -> null
       - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-public-subnetwork-1" -> null
@@ -1807,14 +1812,14 @@ Terraform will perform the following actions:
       - region                           = "us-central1" -> null
       - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-public-subnetwork-1" -> null
       - stack_type                       = "IPV4_ONLY" -> null
-      - subnetwork_id                    = 3151853661481405830 -> null
+      - subnetwork_id                    = 4641822080396874714 -> null
         # (11 unchanged attributes hidden)
     }
 
   # module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-2 will be destroyed
   - resource "google_compute_subnetwork" "public-subnetwork-2" {
       - allow_subnet_cidr_routes_overlap = false -> null
-      - creation_timestamp               = "2026-06-15T19:22:33.195-07:00" -> null
+      - creation_timestamp               = "2026-06-17T20:59:49.738-07:00" -> null
       - deletion_policy                  = "DELETE" -> null
       - gateway_address                  = "10.120.4.1" -> null
       - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-public-subnetwork-2" -> null
@@ -1828,7 +1833,7 @@ Terraform will perform the following actions:
       - region                           = "us-central1" -> null
       - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-2-public-subnetwork-2" -> null
       - stack_type                       = "IPV4_ONLY" -> null
-      - subnetwork_id                    = 8277912196002680198 -> null
+      - subnetwork_id                    = 925356732792624090 -> null
         # (11 unchanged attributes hidden)
     }
 
@@ -1845,8 +1850,8 @@ Terraform will perform the following actions:
       - mtu                                       = 1460 -> null
       - name                                      = "vpn-magic" -> null
       - network_firewall_policy_enforcement_order = "AFTER_CLASSIC_FIREWALL" -> null
-      - network_id                                = "6433148335629864369" -> null
-      - numeric_id                                = "6433148335629864369" -> null
+      - network_id                                = "6285490117362504699" -> null
+      - numeric_id                                = "6285490117362504699" -> null
       - project                                   = "gcp-mastery-495919" -> null
       - routing_mode                              = "REGIONAL" -> null
       - self_link                                 = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/global/networks/vpn-magic" -> null
@@ -1856,7 +1861,7 @@ Terraform will perform the following actions:
   # module.standard-gcp-vpc.google_compute_subnetwork.private-subnetwork-1 will be destroyed
   - resource "google_compute_subnetwork" "private-subnetwork-1" {
       - allow_subnet_cidr_routes_overlap = false -> null
-      - creation_timestamp               = "2026-06-15T19:22:37.845-07:00" -> null
+      - creation_timestamp               = "2026-06-17T20:59:38.527-07:00" -> null
       - deletion_policy                  = "DELETE" -> null
       - gateway_address                  = "10.120.10.1" -> null
       - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-private-subnetwork-1" -> null
@@ -1870,14 +1875,14 @@ Terraform will perform the following actions:
       - region                           = "us-central1" -> null
       - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-private-subnetwork-1" -> null
       - stack_type                       = "IPV4_ONLY" -> null
-      - subnetwork_id                    = 6555544290701675906 -> null
+      - subnetwork_id                    = 1039569894697259973 -> null
         # (11 unchanged attributes hidden)
     }
 
   # module.standard-gcp-vpc.google_compute_subnetwork.private-subnetwork-2 will be destroyed
   - resource "google_compute_subnetwork" "private-subnetwork-2" {
       - allow_subnet_cidr_routes_overlap = false -> null
-      - creation_timestamp               = "2026-06-15T19:22:37.771-07:00" -> null
+      - creation_timestamp               = "2026-06-17T20:59:38.615-07:00" -> null
       - deletion_policy                  = "DELETE" -> null
       - gateway_address                  = "10.120.11.1" -> null
       - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-private-subnetwork-2" -> null
@@ -1891,14 +1896,14 @@ Terraform will perform the following actions:
       - region                           = "us-central1" -> null
       - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-private-subnetwork-2" -> null
       - stack_type                       = "IPV4_ONLY" -> null
-      - subnetwork_id                    = 5106393711959149954 -> null
+      - subnetwork_id                    = 443102613498418117 -> null
         # (11 unchanged attributes hidden)
     }
 
   # module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-1 will be destroyed
   - resource "google_compute_subnetwork" "public-subnetwork-1" {
       - allow_subnet_cidr_routes_overlap = false -> null
-      - creation_timestamp               = "2026-06-15T19:22:33.367-07:00" -> null
+      - creation_timestamp               = "2026-06-17T20:59:38.524-07:00" -> null
       - deletion_policy                  = "DELETE" -> null
       - gateway_address                  = "10.120.1.1" -> null
       - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-1" -> null
@@ -1912,14 +1917,14 @@ Terraform will perform the following actions:
       - region                           = "us-central1" -> null
       - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-1" -> null
       - stack_type                       = "IPV4_ONLY" -> null
-      - subnetwork_id                    = 8663746631668927878 -> null
+      - subnetwork_id                    = 5341871332686484421 -> null
         # (11 unchanged attributes hidden)
     }
 
   # module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-2 will be destroyed
   - resource "google_compute_subnetwork" "public-subnetwork-2" {
       - allow_subnet_cidr_routes_overlap = false -> null
-      - creation_timestamp               = "2026-06-15T19:22:44.107-07:00" -> null
+      - creation_timestamp               = "2026-06-17T20:59:38.372-07:00" -> null
       - deletion_policy                  = "DELETE" -> null
       - gateway_address                  = "10.120.2.1" -> null
       - id                               = "projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-2" -> null
@@ -1933,15 +1938,15 @@ Terraform will perform the following actions:
       - region                           = "us-central1" -> null
       - self_link                        = "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/subnetworks/vpn-magic-public-subnetwork-2" -> null
       - stack_type                       = "IPV4_ONLY" -> null
-      - subnetwork_id                    = 995515689292598683 -> null
+      - subnetwork_id                    = 7594938754429539269 -> null
         # (11 unchanged attributes hidden)
     }
 
   # module.standard-vpc.aws_internet_gateway.main will be destroyed
   - resource "aws_internet_gateway" "main" {
-      - arn      = "arn:aws:ec2:us-east-1:915742579869:internet-gateway/igw-08844b6b64693bf6d" -> null
-      - id       = "igw-08844b6b64693bf6d" -> null
-      - owner_id = "915742579869" -> null
+      - arn      = "arn:aws:ec2:us-east-1:814910273374:internet-gateway/igw-081bfb684c27d3bba" -> null
+      - id       = "igw-081bfb684c27d3bba" -> null
+      - owner_id = "814910273374" -> null
       - region   = "us-east-1" -> null
       - tags     = {
           - "Name" = "vpn-magic-1-igw"
@@ -1949,16 +1954,16 @@ Terraform will perform the following actions:
       - tags_all = {
           - "Name" = "vpn-magic-1-igw"
         } -> null
-      - vpc_id   = "vpc-0ae64cf813f732306" -> null
+      - vpc_id   = "vpc-05efee3f512ccf8e4" -> null
     }
 
   # module.standard-vpc.aws_route_table.private will be destroyed
   - resource "aws_route_table" "private" {
-      - arn              = "arn:aws:ec2:us-east-1:915742579869:route-table/rtb-089bc646f083b30b4" -> null
-      - id               = "rtb-089bc646f083b30b4" -> null
-      - owner_id         = "915742579869" -> null
+      - arn              = "arn:aws:ec2:us-east-1:814910273374:route-table/rtb-0ee523208631d474b" -> null
+      - id               = "rtb-0ee523208631d474b" -> null
+      - owner_id         = "814910273374" -> null
       - propagating_vgws = [
-          - "vgw-065095db0214d25c9",
+          - "vgw-0e5aa6171ecaead2e",
         ] -> null
       - region           = "us-east-1" -> null
       - route            = [
@@ -1974,22 +1979,22 @@ Terraform will perform the following actions:
       - tags_all         = {
           - "Name" = "vpn-magic-1-private-rt"
         } -> null
-      - vpc_id           = "vpc-0ae64cf813f732306" -> null
+      - vpc_id           = "vpc-05efee3f512ccf8e4" -> null
     }
 
   # module.standard-vpc.aws_route_table.public will be destroyed
   - resource "aws_route_table" "public" {
-      - arn              = "arn:aws:ec2:us-east-1:915742579869:route-table/rtb-0313d554d3d3985c0" -> null
-      - id               = "rtb-0313d554d3d3985c0" -> null
-      - owner_id         = "915742579869" -> null
+      - arn              = "arn:aws:ec2:us-east-1:814910273374:route-table/rtb-0a94ea90fe4ba4515" -> null
+      - id               = "rtb-0a94ea90fe4ba4515" -> null
+      - owner_id         = "814910273374" -> null
       - propagating_vgws = [
-          - "vgw-065095db0214d25c9",
+          - "vgw-0e5aa6171ecaead2e",
         ] -> null
       - region           = "us-east-1" -> null
       - route            = [
           - {
               - cidr_block                 = "0.0.0.0/0"
-              - gateway_id                 = "igw-08844b6b64693bf6d"
+              - gateway_id                 = "igw-081bfb684c27d3bba"
                 # (12 unchanged attributes hidden)
             },
         ] -> null
@@ -1999,61 +2004,61 @@ Terraform will perform the following actions:
       - tags_all         = {
           - "Name" = "vpn-magic-1-public-rt"
         } -> null
-      - vpc_id           = "vpc-0ae64cf813f732306" -> null
+      - vpc_id           = "vpc-05efee3f512ccf8e4" -> null
     }
 
   # module.standard-vpc.aws_route_table_association.private_1 will be destroyed
   - resource "aws_route_table_association" "private_1" {
-      - id             = "rtbassoc-0be163980a1fdd42b" -> null
+      - id             = "rtbassoc-0145b3161a94983f3" -> null
       - region         = "us-east-1" -> null
-      - route_table_id = "rtb-089bc646f083b30b4" -> null
-      - subnet_id      = "subnet-0db18d69e08099fa2" -> null
+      - route_table_id = "rtb-0ee523208631d474b" -> null
+      - subnet_id      = "subnet-0c74f5c43e8f42e3a" -> null
         # (1 unchanged attribute hidden)
     }
 
   # module.standard-vpc.aws_route_table_association.private_2 will be destroyed
   - resource "aws_route_table_association" "private_2" {
-      - id             = "rtbassoc-0aa07897dd445d377" -> null
+      - id             = "rtbassoc-027f3933757c6aecf" -> null
       - region         = "us-east-1" -> null
-      - route_table_id = "rtb-089bc646f083b30b4" -> null
-      - subnet_id      = "subnet-016e6e2eabc540b55" -> null
+      - route_table_id = "rtb-0ee523208631d474b" -> null
+      - subnet_id      = "subnet-0baa0ac2a9f8c7f7b" -> null
         # (1 unchanged attribute hidden)
     }
 
   # module.standard-vpc.aws_route_table_association.public_1 will be destroyed
   - resource "aws_route_table_association" "public_1" {
-      - id             = "rtbassoc-0bcd4d2c04c5cee74" -> null
+      - id             = "rtbassoc-00042350a8b47b1dd" -> null
       - region         = "us-east-1" -> null
-      - route_table_id = "rtb-0313d554d3d3985c0" -> null
-      - subnet_id      = "subnet-07a9f084d6148acc5" -> null
+      - route_table_id = "rtb-0a94ea90fe4ba4515" -> null
+      - subnet_id      = "subnet-0a31cb46e9b0b5e8d" -> null
         # (1 unchanged attribute hidden)
     }
 
   # module.standard-vpc.aws_route_table_association.public_2 will be destroyed
   - resource "aws_route_table_association" "public_2" {
-      - id             = "rtbassoc-02b3321266ffa05c2" -> null
+      - id             = "rtbassoc-04258fb8e4e5a9d87" -> null
       - region         = "us-east-1" -> null
-      - route_table_id = "rtb-0313d554d3d3985c0" -> null
-      - subnet_id      = "subnet-02e41414d14b94875" -> null
+      - route_table_id = "rtb-0a94ea90fe4ba4515" -> null
+      - subnet_id      = "subnet-0c289e1c2e72d0e89" -> null
         # (1 unchanged attribute hidden)
     }
 
   # module.standard-vpc.aws_subnet.private_1 will be destroyed
   - resource "aws_subnet" "private_1" {
-      - arn                                            = "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-0db18d69e08099fa2" -> null
+      - arn                                            = "arn:aws:ec2:us-east-1:814910273374:subnet/subnet-0c74f5c43e8f42e3a" -> null
       - assign_ipv6_address_on_creation                = false -> null
       - availability_zone                              = "us-east-1a" -> null
-      - availability_zone_id                           = "use1-az6" -> null
+      - availability_zone_id                           = "use1-az1" -> null
       - cidr_block                                     = "10.99.10.0/24" -> null
       - enable_dns64                                   = false -> null
       - enable_lni_at_device_index                     = 0 -> null
       - enable_resource_name_dns_a_record_on_launch    = false -> null
       - enable_resource_name_dns_aaaa_record_on_launch = false -> null
-      - id                                             = "subnet-0db18d69e08099fa2" -> null
+      - id                                             = "subnet-0c74f5c43e8f42e3a" -> null
       - ipv6_native                                    = false -> null
       - map_customer_owned_ip_on_launch                = false -> null
       - map_public_ip_on_launch                        = false -> null
-      - owner_id                                       = "915742579869" -> null
+      - owner_id                                       = "814910273374" -> null
       - private_dns_hostname_type_on_launch            = "ip-name" -> null
       - region                                         = "us-east-1" -> null
       - tags                                           = {
@@ -2064,26 +2069,26 @@ Terraform will perform the following actions:
           - "Name" = "vpn-magic-1-private-subnet-1"
           - "Type" = "Private"
         } -> null
-      - vpc_id                                         = "vpc-0ae64cf813f732306" -> null
+      - vpc_id                                         = "vpc-05efee3f512ccf8e4" -> null
         # (4 unchanged attributes hidden)
     }
 
   # module.standard-vpc.aws_subnet.private_2 will be destroyed
   - resource "aws_subnet" "private_2" {
-      - arn                                            = "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-016e6e2eabc540b55" -> null
+      - arn                                            = "arn:aws:ec2:us-east-1:814910273374:subnet/subnet-0baa0ac2a9f8c7f7b" -> null
       - assign_ipv6_address_on_creation                = false -> null
       - availability_zone                              = "us-east-1b" -> null
-      - availability_zone_id                           = "use1-az1" -> null
+      - availability_zone_id                           = "use1-az2" -> null
       - cidr_block                                     = "10.99.11.0/24" -> null
       - enable_dns64                                   = false -> null
       - enable_lni_at_device_index                     = 0 -> null
       - enable_resource_name_dns_a_record_on_launch    = false -> null
       - enable_resource_name_dns_aaaa_record_on_launch = false -> null
-      - id                                             = "subnet-016e6e2eabc540b55" -> null
+      - id                                             = "subnet-0baa0ac2a9f8c7f7b" -> null
       - ipv6_native                                    = false -> null
       - map_customer_owned_ip_on_launch                = false -> null
       - map_public_ip_on_launch                        = false -> null
-      - owner_id                                       = "915742579869" -> null
+      - owner_id                                       = "814910273374" -> null
       - private_dns_hostname_type_on_launch            = "ip-name" -> null
       - region                                         = "us-east-1" -> null
       - tags                                           = {
@@ -2094,26 +2099,26 @@ Terraform will perform the following actions:
           - "Name" = "vpn-magic-1-private-subnet-2"
           - "Type" = "Private"
         } -> null
-      - vpc_id                                         = "vpc-0ae64cf813f732306" -> null
+      - vpc_id                                         = "vpc-05efee3f512ccf8e4" -> null
         # (4 unchanged attributes hidden)
     }
 
   # module.standard-vpc.aws_subnet.public_1 will be destroyed
   - resource "aws_subnet" "public_1" {
-      - arn                                            = "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-07a9f084d6148acc5" -> null
+      - arn                                            = "arn:aws:ec2:us-east-1:814910273374:subnet/subnet-0a31cb46e9b0b5e8d" -> null
       - assign_ipv6_address_on_creation                = false -> null
       - availability_zone                              = "us-east-1a" -> null
-      - availability_zone_id                           = "use1-az6" -> null
+      - availability_zone_id                           = "use1-az1" -> null
       - cidr_block                                     = "10.99.1.0/24" -> null
       - enable_dns64                                   = false -> null
       - enable_lni_at_device_index                     = 0 -> null
       - enable_resource_name_dns_a_record_on_launch    = false -> null
       - enable_resource_name_dns_aaaa_record_on_launch = false -> null
-      - id                                             = "subnet-07a9f084d6148acc5" -> null
+      - id                                             = "subnet-0a31cb46e9b0b5e8d" -> null
       - ipv6_native                                    = false -> null
       - map_customer_owned_ip_on_launch                = false -> null
       - map_public_ip_on_launch                        = true -> null
-      - owner_id                                       = "915742579869" -> null
+      - owner_id                                       = "814910273374" -> null
       - private_dns_hostname_type_on_launch            = "ip-name" -> null
       - region                                         = "us-east-1" -> null
       - tags                                           = {
@@ -2124,26 +2129,26 @@ Terraform will perform the following actions:
           - "Name" = "vpn-magic-1-public-subnet-1"
           - "Type" = "Public"
         } -> null
-      - vpc_id                                         = "vpc-0ae64cf813f732306" -> null
+      - vpc_id                                         = "vpc-05efee3f512ccf8e4" -> null
         # (4 unchanged attributes hidden)
     }
 
   # module.standard-vpc.aws_subnet.public_2 will be destroyed
   - resource "aws_subnet" "public_2" {
-      - arn                                            = "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-02e41414d14b94875" -> null
+      - arn                                            = "arn:aws:ec2:us-east-1:814910273374:subnet/subnet-0c289e1c2e72d0e89" -> null
       - assign_ipv6_address_on_creation                = false -> null
       - availability_zone                              = "us-east-1b" -> null
-      - availability_zone_id                           = "use1-az1" -> null
+      - availability_zone_id                           = "use1-az2" -> null
       - cidr_block                                     = "10.99.2.0/24" -> null
       - enable_dns64                                   = false -> null
       - enable_lni_at_device_index                     = 0 -> null
       - enable_resource_name_dns_a_record_on_launch    = false -> null
       - enable_resource_name_dns_aaaa_record_on_launch = false -> null
-      - id                                             = "subnet-02e41414d14b94875" -> null
+      - id                                             = "subnet-0c289e1c2e72d0e89" -> null
       - ipv6_native                                    = false -> null
       - map_customer_owned_ip_on_launch                = false -> null
       - map_public_ip_on_launch                        = true -> null
-      - owner_id                                       = "915742579869" -> null
+      - owner_id                                       = "814910273374" -> null
       - private_dns_hostname_type_on_launch            = "ip-name" -> null
       - region                                         = "us-east-1" -> null
       - tags                                           = {
@@ -2154,27 +2159,27 @@ Terraform will perform the following actions:
           - "Name" = "vpn-magic-1-public-subnet-2"
           - "Type" = "Public"
         } -> null
-      - vpc_id                                         = "vpc-0ae64cf813f732306" -> null
+      - vpc_id                                         = "vpc-05efee3f512ccf8e4" -> null
         # (4 unchanged attributes hidden)
     }
 
   # module.standard-vpc.aws_vpc.main will be destroyed
   - resource "aws_vpc" "main" {
-      - arn                                  = "arn:aws:ec2:us-east-1:915742579869:vpc/vpc-0ae64cf813f732306" -> null
+      - arn                                  = "arn:aws:ec2:us-east-1:814910273374:vpc/vpc-05efee3f512ccf8e4" -> null
       - assign_generated_ipv6_cidr_block     = false -> null
       - cidr_block                           = "10.99.0.0/16" -> null
-      - default_network_acl_id               = "acl-0cb1e90e04029ff26" -> null
-      - default_route_table_id               = "rtb-05b7d0a32787e3be0" -> null
-      - default_security_group_id            = "sg-0c499f988fcc9ca2b" -> null
-      - dhcp_options_id                      = "dopt-00ec51e88a38e62ac" -> null
+      - default_network_acl_id               = "acl-00688869392b4cc16" -> null
+      - default_route_table_id               = "rtb-0a3f51f669825a959" -> null
+      - default_security_group_id            = "sg-01f1b8f54f9b87fe4" -> null
+      - dhcp_options_id                      = "dopt-0bf46db2819ae8da4" -> null
       - enable_dns_hostnames                 = true -> null
       - enable_dns_support                   = true -> null
       - enable_network_address_usage_metrics = false -> null
-      - id                                   = "vpc-0ae64cf813f732306" -> null
+      - id                                   = "vpc-05efee3f512ccf8e4" -> null
       - instance_tenancy                     = "default" -> null
       - ipv6_netmask_length                  = 0 -> null
-      - main_route_table_id                  = "rtb-05b7d0a32787e3be0" -> null
-      - owner_id                             = "915742579869" -> null
+      - main_route_table_id                  = "rtb-0a3f51f669825a959" -> null
+      - owner_id                             = "814910273374" -> null
       - region                               = "us-east-1" -> null
       - tags                                 = {
           - "Name" = "vpn-magic-1-vpc"
@@ -2197,9 +2202,9 @@ Changes to Outputs:
   - tunnel_2_2_aws_inside = "169.254.23.5" -> null
   - tunnel_2_2_gcp_inside = "169.254.23.6" -> null
   - tunnel_data           = "169.254.23.6" -> null
-  - vm_private_ip_aws     = "10.99.1.107" -> null
-  - vm_private_ip_gcp     = "10.120.1.3" -> null
-  - vm_private_ip_gcp-2   = "10.120.1.2" -> null
-  - vm_public_ip_aws      = "54.81.73.64" -> null
-  - vm_public_ip_gcp      = "34.42.82.222" -> null
-  - vm_public_ip_gcp-2    = "34.173.235.81" -> null
+  - vm_private_ip_aws     = "10.99.1.153" -> null
+  - vm_private_ip_gcp     = "10.120.1.2" -> null
+  - vm_private_ip_gcp-2   = "10.120.1.3" -> null
+  - vm_public_ip_aws      = "98.92.153.123" -> null
+  - vm_public_ip_gcp      = "136.119.35.247" -> null
+  - vm_public_ip_gcp-2    = "35.254.75.41" -> null

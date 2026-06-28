@@ -6,7 +6,7 @@ PURPLE="\033[1;35m"
 RED="\033[1;31m"
 RESET="\033[0m"
 
-file_number=1
+file_number=2
 
 # Creates an absolute path to the script directory
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

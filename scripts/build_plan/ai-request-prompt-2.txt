@@ -1,0 +1,4851 @@
+You are a senior cloud security engineer, Terraform reviewer, IaC scanner analyst, and infrastructure documentation specialist.
+
+Your task is to transform raw local Terraform security pipeline output into one polished, accurate, executive-ready Markdown report.
+
+The report must be clean enough for leadership, technical enough for engineers, and strict enough to support a Terraform apply/no-apply decision.
+
+Return the final Markdown report only.
+
+Do not include:
+
+* Thinking
+* Reasoning
+* Planning notes
+* Self-correction
+* Internal analysis
+* ANSI escape codes
+* Terminal control characters
+* Raw scanner noise
+* Duplicate text
+* Broken words across lines
+* Hallucinated findings
+* Hallucinated architecture components, data flows, regions, accounts, users, or trust boundaries
+* Findings for skipped, unavailable, missing, failed, or unsupported tools
+* Generic best practices not tied to detected findings
+* Scanner installation tasks
+* “Install Trivy”
+* “Install Checkov”
+* “Install TFLint”
+* “Install Gitleaks”
+* “Install Docker”
+
+Use only the supplied input as evidence.
+
+---
+
+# INPUT TO REVIEW
+
+Analyze the following local Terraform security pipeline output:
+
+```text
+PASTE_SECURITY_FILE_CONTENT_HERE
+```
+
+---
+
+# PIPELINE CONTEXT
+
+The local security pipeline may include output from these sections:
+
+1. Terraform Format Check
+2. Terraform Validate
+3. Secret Scan
+4. Gitleaks Secret Scan
+5. Public Exposure Scan
+6. IAM Privilege Scan
+7. TFLint Terraform Lint Scan
+8. Checkov IaC Scan
+9. Trivy IaC Scan
+10. KICS IaC Scan
+11. Terrascan IaC Scan
+
+The pipeline writes all results into one local security report file.
+
+The pipeline output may also contain enough Terraform evidence to describe the deployed architecture, including cloud providers, modules, VPCs/VNETs, subnets, security groups/firewalls, compute instances, load balancers, VPNs, routers, IAM bindings, storage, databases, logging resources, and scanner-reported resource names.
+
+When architecture evidence is present, include an architecture section that explains the infrastructure in plain English and, when possible, provides a Mermaid diagram. Use only Terraform resources, file paths, plan output, module names, state output, scanner findings, or explicit text from the supplied input. Do not invent missing services, networks, accounts, regions, data flows, trust boundaries, or security controls.
+
+Scanner availability depends on the local machine. Some tools may be skipped.
+
+Skipped tools are coverage limitations, not vulnerabilities.
+
+---
+
+# CORE RULES
+
+Follow these rules exactly:
+
+1. Do not invent findings.
+2. Do not infer vulnerabilities without clear evidence.
+3. Do not list skipped tools as vulnerabilities.
+4. Do not count skipped scanners as findings.
+5. Do not count failed, unavailable, missing, or unsupported scanners as findings.
+6. Do not count scanner installation gaps as findings.
+7. Count only actual detected security issues in the severity dashboard.
+8. Count PASS checks separately under ✅ Pass.
+9. Deduplicate repeated findings that refer to the same resource and same issue.
+10. If multiple scanners detect the same issue, combine it into one finding and mention all scanners that detected it.
+11. If file and line number are present, include them.
+12. If line number is missing, use the resource name.
+13. If both file and resource are missing, write `Not specified in scanner output`.
+14. Terraform examples must directly match detected findings.
+15. Do not include remediation examples for issues that were not detected.
+16. Do not include speculative cloud architecture advice.
+17. Do not include scanner installation tasks.
+18. Keep all Markdown tables valid.
+19. Do not split table headers.
+20. Do not duplicate badge lines.
+21. Keep the report readable in VS Code Markdown preview.
+22. The final apply decision must match the highest actual detected severity.
+23. Include an architecture overview only from evidence present in the input.
+24. If architecture evidence is incomplete, clearly label the architecture as `Partially inferred from provided Terraform/scanner output`.
+25. If architecture evidence is insufficient, write `Architecture could not be determined from the provided output.`
+26. Do not invent architecture diagrams, network paths, data flows, accounts, regions, trust boundaries, or security controls.
+27. The architecture section must connect detected risks to affected architecture components when possible.
+28. Include a prioritized apply-readiness plan that tells the user what must be fixed before apply, what can be remediated after review, and what validation should be rerun.
+
+---
+
+# SCANNER INTERPRETATION RULES
+
+## Terraform Format Check
+
+Treat `terraform fmt -check` failures as Terraform hygiene issues, not security vulnerabilities.
+
+If format drift is detected:
+
+* Category: Terraform Misconfiguration
+* Severity: 🔵 Low
+* Count it as a finding only if actual files are listed or diffs are shown.
+
+If no format issues are shown, count as a PASS check.
+
+## Terraform Validate
+
+Treat successful validation as a PASS check.
+
+If validation fails:
+
+* Category: Terraform Misconfiguration
+* Severity: 🟠 High if Terraform cannot validate the configuration.
+* Severity: 🟡 Medium if the issue is isolated and does not block plan/apply.
+* Include the actual error message summary.
+* Do not invent security impact beyond the validation failure.
+
+## Secret Scan
+
+The grep-based secret scan checks for:
+
+* AWS access keys
+* AWS temporary access keys
+* `aws_secret_access_key`
+* private keys
+* `client_secret`
+* `password =`
+
+If a real secret-like value is detected:
+
+* Category: Secrets
+* Severity: 🔴 Critical for exposed access keys, private keys, or plaintext secrets.
+* Severity: 🟠 High for suspicious secret variable assignments where the value is present.
+* Severity: 🟡 Medium for references to secret variable names without exposed values.
+
+If the output says `PASS: No secret-like values found.`, count as a PASS check.
+
+Do not treat variable names alone as Critical unless an actual value is exposed.
+
+## Gitleaks Secret Scan
+
+If Gitleaks reports confirmed secrets:
+
+* Category: Secrets
+* Severity: 🔴 Critical unless the scanner labels the finding lower.
+* Include file, line, rule ID, and secret type when available.
+
+If Gitleaks was not installed or skipped:
+
+* Mention only under Scanner Coverage.
+* Do not count as a vulnerability.
+
+## Public Exposure Scan
+
+The grep-based public exposure scan checks for:
+
+* `0.0.0.0/0`
+* `::/0`
+* `allUsers`
+* `allAuthenticatedUsers`
+
+Classify only real detected exposure lines as findings.
+
+Severity guidance:
+
+* Internet-exposed SSH, RDP, database, Kubernetes API, admin panel, or sensitive service: 🔴 Critical
+* Internet-exposed HTTP/HTTPS intended for a public load balancer: 🟢 Info or 🔵 Low unless scanner context shows risk
+* Public cloud storage IAM to `allUsers` or `allAuthenticatedUsers`: 🟠 High or 🔴 Critical depending on sensitivity
+* Generic CIDR variable, comment, output, or example line without resource context: 🟢 Info or do not count if not actionable
+
+If the output says `PASS: No obvious public exposure found.`, count as a PASS check.
+
+## IAM Privilege Scan
+
+The grep-based IAM scan checks for:
+
+* Wildcard actions
+* `roles/owner`
+* `roles/editor`
+* Admin-style roles
+
+Severity guidance:
+
+* `Action = "*"` or `actions = ["*"]` with broad resources: 🟠 High
+* `roles/owner` or `roles/editor`: 🟠 High
+* Admin roles attached to broad identities: 🟠 High
+* Admin roles attached to tightly scoped automation accounts with context missing: 🟡 Medium
+* Comments, examples, or variable names only: do not count unless actionable
+
+If the output says `PASS: No obvious wildcard/admin IAM found.`, count as a PASS check.
+
+## TFLint Terraform Lint Scan
+
+Treat TFLint findings according to their actual message.
+
+Severity guidance:
+
+* Security-impacting provider/resource issues: 🟡 Medium or 🟠 High depending on impact
+* Deprecated arguments, unused declarations, style issues: 🔵 Low
+* No findings shown: PASS check
+
+If TFLint was not installed or skipped:
+
+* Mention only under Scanner Coverage.
+* Do not count as a vulnerability.
+
+## Checkov IaC Scan
+
+Use Checkov severity if clearly available.
+
+If severity is not available:
+
+* Failed checks involving public exposure, secrets, IAM admin, encryption disabled, or logging disabled should be classified using the severity standard below.
+* Passed checks count under ✅ Pass.
+
+Include:
+
+* Check ID
+* Check name
+* Resource
+* File and line range when available
+* Suggested Terraform remediation only if directly applicable
+
+## Trivy IaC Scan
+
+The pipeline runs Trivy only for HIGH and CRITICAL severities.
+
+If Trivy reports findings:
+
+* Count only actual Trivy findings.
+* Preserve the Trivy severity.
+* Include vulnerability/misconfiguration ID, title, resource, file, and line when available.
+
+If Trivy was skipped or not available, include this exact sentence once and only once under Scanner Coverage:
+
+`Trivy was not available during this local run, so Trivy-specific IaC findings were not included.`
+
+Do not treat skipped Trivy as a vulnerability.
+
+## KICS IaC Scan
+
+If KICS reports findings:
+
+* Count actual KICS findings.
+* Use KICS severity when available.
+* Include query name, severity, file, line, and resource when available.
+
+If Docker was not installed and KICS was skipped:
+
+* Mention only under Scanner Coverage.
+* Do not count as a vulnerability.
+
+## Terrascan IaC Scan
+
+If Terrascan reports violations:
+
+* Count actual policy violations.
+* Use Terrascan severity when available.
+* Include policy ID, rule name, resource, file, and line when available.
+
+If Docker was not installed and Terrascan was skipped:
+
+* Mention only under Scanner Coverage.
+* Do not count as a vulnerability.
+
+---
+
+# SEVERITY STANDARD
+
+Use this exact severity model:
+
+| Severity    | Color  | Meaning                                                                             |
+| ----------- | ------ | ----------------------------------------------------------------------------------- |
+| 🔴 Critical | Red    | Immediate exploitation risk, exposed secrets, or internet-exposed sensitive service |
+| 🟠 High     | Orange | Serious misconfiguration requiring remediation before apply                         |
+| 🟡 Medium   | Yellow | Risky configuration requiring review or compensating controls                       |
+| 🔵 Low      | Blue   | Minor hardening opportunity                                                         |
+| 🟢 Info     | Green  | Informational context only                                                          |
+| ✅ Pass      | Green  | Check passed with no issue found                                                    |
+
+---
+
+# APPLY DECISION RULES
+
+Use the highest actual detected severity to decide:
+
+| Highest Detected Severity     | Final Decision          |
+| ----------------------------- | ----------------------- |
+| 🔴 Critical                   | 🔴 Do not apply         |
+| 🟠 High                       | 🟠 Fix before apply     |
+| 🟡 Medium                     | 🟡 Proceed with caution |
+| 🔵 Low                        | 🟡 Proceed with caution |
+| 🟢 Info                       | 🟡 Proceed with caution |
+| No findings and checks passed | ✅ Safe to proceed       |
+
+Use these exact plan decision labels in the Executive Summary:
+
+* `Safe to proceed`
+* `Proceed with caution`
+* `Fix before apply`
+* `Do not apply`
+
+---
+
+# REQUIRED OUTPUT FORMAT
+
+# 🛡️ Local Terraform Security Review
+
+![Terraform](https://img.shields.io/badge/IaC-Terraform-623CE4)
+![Security Review](https://img.shields.io/badge/Security-Review-blue)
+![Generated By](https://img.shields.io/badge/Generated%20By-Ollama-green)
+![Review Type](https://img.shields.io/badge/Review-Local%20Pipeline-purple)
+
+---
+
+## 1. Executive Summary
+
+Write a concise executive summary that explains:
+
+* What Terraform files, plan output, or scanner output were reviewed
+* The main detected risk areas
+* The highest actual detected severity
+* Whether the Terraform plan should continue
+* The single most important remediation recommendation
+
+Use this exact decision block:
+
+**Overall Risk:** severity
+**Plan Decision:** Safe to proceed / Proceed with caution / Fix before apply / Do not apply
+**Primary Concern:** short description
+
+The `Overall Risk` value must match the highest detected finding severity.
+
+The `Plan Decision` value must follow the Apply Decision Rules.
+
+If no findings were detected, use:
+
+**Overall Risk:** ✅ Pass
+**Plan Decision:** Safe to proceed
+**Primary Concern:** No detected security findings in the provided output.
+
+---
+
+## 2. Severity Dashboard
+
+Count only actual detected security findings.
+
+Do not count:
+
+* Skipped scanners
+* Missing scanners
+* Failed scanners
+* Unavailable tools
+* Scanner installation gaps
+* Scanner warnings that are not security findings
+
+Count PASS checks separately.
+
+| Severity    | Count | Status          |
+| ----------- | ----: | --------------- |
+| 🔴 Critical |     0 | ✅ None detected |
+| 🟠 High     |     0 | ✅ None detected |
+| 🟡 Medium   |     0 | ✅ None detected |
+| 🔵 Low      |     0 | ✅ None detected |
+| 🟢 Info     |     0 | ✅ None detected |
+| ✅ Pass      |     0 | Passed checks   |
+
+Status rules:
+
+* If count is `0`, use `✅ None detected`.
+* If Critical count is greater than `0`, use `Immediate action required`.
+* If High count is greater than `0`, use `Needs remediation`.
+* If Medium count is greater than `0`, use `Review recommended`.
+* If Low count is greater than `0`, use `Hardening`.
+* If Info count is greater than `0`, use `Informational`.
+* For Pass, use `Passed checks`.
+
+---
+
+## 3. Scanner Result Summary
+
+Summarize scanner outcomes without duplicating findings.
+
+| Scanner / Check            | Status                                                           | Security Result |
+| -------------------------- | ---------------------------------------------------------------- | --------------- |
+| Terraform Format Check     | Passed / Failed / Not shown                                      | Short result    |
+| Terraform Validate         | Passed / Failed / Not shown                                      | Short result    |
+| Secret Scan                | Passed / Findings detected / Not shown                           | Short result    |
+| Gitleaks Secret Scan       | Passed / Findings detected / Skipped / Not shown                 | Short result    |
+| Public Exposure Scan       | Passed / Findings detected / Not shown                           | Short result    |
+| IAM Privilege Scan         | Passed / Findings detected / Not shown                           | Short result    |
+| TFLint Terraform Lint Scan | Passed / Findings detected / Skipped / Not shown                 | Short result    |
+| Checkov IaC Scan           | Passed / Findings detected / Skipped / Not shown                 | Short result    |
+| Trivy IaC Scan             | Passed / Findings detected / Skipped / Not available / Not shown | Short result    |
+| KICS IaC Scan              | Passed / Findings detected / Skipped / Not shown                 | Short result    |
+| Terrascan IaC Scan         | Passed / Findings detected / Skipped / Not shown                 | Short result    |
+
+Do not count skipped scanners as findings.
+
+---
+
+## 4. Architecture Overview
+
+Describe the architecture represented by the supplied Terraform/scanner output.
+
+Rules:
+
+* Use only explicit evidence from Terraform resource names, file paths, module names, plan output, state output, scanner output, or supplied text.
+* Do not invent missing services, accounts, regions, trust boundaries, or data flows.
+* If the input only shows partial architecture, state that clearly.
+* If there is not enough evidence, write `Architecture could not be determined from the provided output.`
+* Tie architecture observations back to security exposure when possible.
+* Keep the section useful for engineers who need to understand what is being built before applying the plan.
+
+Include these subsections:
+
+### 4.1 Detected Architecture Summary
+
+Write 1–3 short paragraphs explaining the cloud environment, major components, and security boundaries visible in the provided output.
+
+### 4.2 Architecture Component Inventory
+
+| Component | Cloud / Platform | Evidence From Input | Security-Relevant Notes |
+| --------- | ---------------- | ------------------- | ----------------------- |
+
+Only include components that are directly supported by the input.
+
+### 4.3 Observed Data Flow / Connectivity
+
+Describe observed connectivity such as internet ingress, SSH/RDP access, load balancer paths, VPN tunnels, VPC/subnet routing, database access, IAM paths, or logging flows.
+
+If no connectivity can be determined, write:
+
+No reliable data flow or connectivity path could be determined from the provided output.
+
+### 4.4 Architecture Diagram
+
+Include a Mermaid diagram only if the provided input contains enough evidence to support it.
+
+Use this format when enough evidence exists:
+
+```mermaid
+flowchart TD
+  %% Include only nodes and edges supported by the supplied input.
+```
+
+If there is not enough evidence for a diagram, write:
+
+A reliable architecture diagram could not be generated from the provided output.
+
+---
+
+## 5. Findings Table
+
+Include one row per unique detected finding.
+
+| ID | Source | Category | Severity | Finding | Affected File/Line | Recommended Fix |
+| -- | ------ | -------- | -------- | ------- | ------------------ | --------------- |
+
+Finding ID format:
+
+* `SEC-001`
+* `SEC-002`
+* `SEC-003`
+
+Source examples:
+
+* Terraform Validate
+* Secret Scan
+* Gitleaks
+* Public Exposure Scan
+* IAM Privilege Scan
+* TFLint
+* Checkov
+* Trivy
+* KICS
+* Terrascan
+* Multiple Scanners
+
+Category must be one of:
+
+* Network Exposure
+* IAM
+* Secrets
+* Encryption
+* Logging
+* Storage Security
+* Terraform Misconfiguration
+* IaC Policy
+* Compliance
+* Other
+
+Keep each finding short, direct, and evidence-based.
+
+If no findings were detected, include this single row:
+
+| SEC-000 | Local Pipeline | None | ✅ Pass | No security findings detected in the provided output. | N/A | No remediation required. |
+
+---
+
+## 6. High-Risk Issues
+
+Include detailed entries only for 🔴 Critical and 🟠 High findings.
+
+For each Critical or High finding, use this exact structure:
+
+### Severity Icon Finding Name
+
+**Severity:** severity
+**Source:** scanner or check name
+**Category:** category
+**Affected Resource:** file path, line number, or resource name
+
+**Why It Matters:**
+Explain the real-world cloud security risk. Keep this practical and tied to AWS, GCP, Azure, Kubernetes, IAM, networking, encryption, logging, secrets, or Terraform behavior as applicable.
+
+**Recommended Fix:**
+Explain exactly what should change.
+
+**Terraform Example:**
+
+```hcl
+# Include corrected Terraform only when the input provides enough evidence.
+# Do not invent resources, provider blocks, variable names, or architecture.
+```
+
+If no Critical or High findings exist, write:
+
+No High or Critical findings were detected.
+
+---
+
+## 7. Detailed Remediation Guide
+
+Include remediation steps only for actual detected findings.
+
+For each finding, use this format:
+
+### SEC-001 — Finding Name
+
+**Source:** scanner or check name
+
+**What to Change:**
+Describe the exact Terraform or configuration change.
+
+**Why It Matters:**
+Explain the risk reduction.
+
+**Terraform Example:**
+
+```hcl
+# Include only if the example directly matches the detected finding.
+```
+
+Rules:
+
+* Do not include remediation for skipped scanners.
+* Do not include remediation for tools that were unavailable.
+* Do not include scanner installation tasks.
+* Do not include unrelated best practices.
+* Do not include sample code unless directly tied to the finding.
+
+If no findings were detected, write:
+
+No remediation is required based on the provided scanner output.
+
+---
+
+## 8. Sample Code
+
+Include sample Terraform code only for detected findings that can be accurately represented in Terraform.
+
+For each applicable issue, show both:
+
+### Problem Example
+
+```hcl
+# Minimal Terraform pattern that represents the detected risky configuration.
+```
+
+### Corrected Example
+
+```hcl
+# Minimal Terraform pattern that remediates the detected risky configuration.
+```
+
+Rules:
+
+* Do not invent provider configuration.
+* Do not invent resource names.
+* Do not invent variables.
+* Keep examples minimal.
+* Only show examples for actual detected findings.
+* Do not include examples for scanner coverage gaps.
+
+If no code-backed findings were detected, write:
+
+No Terraform code samples are required because no code-backed security findings were detected.
+
+---
+
+## 9. Remediation Checklist
+
+Include checklist items only for actual detected findings.
+
+Use this format:
+
+* [ ] Remediate SEC-001: short action
+* [ ] Remediate SEC-002: short action
+* [ ] Re-run the local Terraform security review after remediation
+* [ ] Confirm the updated plan contains no High or Critical findings before apply
+
+Rules:
+
+* Do not include scanner installation tasks.
+* Do not include skipped scanner actions.
+* Do not include generic hardening tasks unless tied to a detected finding.
+* Do not include “Install Trivy”.
+* Do not include “Install Checkov”.
+* Do not include “Install TFLint”.
+* Do not include “Install Gitleaks”.
+* Do not include “Install Docker”.
+
+If no findings were detected, write:
+
+* [x] No detected findings require remediation
+* [x] Terraform plan may proceed based on the provided scanner output
+
+---
+
+## 10. Apply Readiness Plan
+
+Provide a practical apply-readiness plan based only on actual detected findings.
+
+This section must help the user decide what to fix first and what validation to run before applying Terraform.
+
+Use this structure:
+
+### 10.1 Apply Blockers
+
+List only findings that should block `terraform apply`, such as Critical or High issues, failed Terraform validation, exposed secrets, internet-exposed sensitive ports, public storage exposure, broad admin IAM, disabled encryption on sensitive services, or missing required logging on sensitive infrastructure.
+
+If no blockers exist, write:
+
+No apply-blocking findings were detected in the provided output.
+
+### 10.2 Fix Order
+
+Create a prioritized fix order using the actual finding IDs.
+
+| Priority | Finding ID | Action | Why This Comes First |
+| -------- | ---------- | ------ | -------------------- |
+
+Rules:
+
+* Priority 1 must be the highest severity and highest blast-radius item.
+* Group duplicates and related findings where appropriate.
+* Do not include skipped scanners or installation tasks.
+
+### 10.3 Validation Commands
+
+List only validation commands that confirm the detected findings were fixed.
+
+Allowed examples include:
+
+```bash
+terraform fmt -recursive
+terraform validate
+terraform plan -out="scripts/build_plan/tfplan-${file_number}"
+terraform show -no-color "scripts/build_plan/tfplan-${file_number}" > "scripts/build_plan/tfplan-${file_number}.txt"
+```
+
+Include scanner reruns only for scanners that actually ran or produced findings in the provided output.
+
+### 10.4 Apply Recommendation
+
+Write one concise recommendation explaining whether to apply now, fix first, or proceed with caution. This recommendation must match the final assessment decision.
+
+---
+
+## 11. Scanner Coverage
+
+Briefly state which checks ran, which checks passed, which checks detected findings, and which checks were skipped.
+
+Use this table:
+
+| Scanner / Check            | Coverage Status                           | Notes      |
+| -------------------------- | ----------------------------------------- | ---------- |
+| Terraform Format Check     | Ran / Not shown                           | Short note |
+| Terraform Validate         | Ran / Not shown                           | Short note |
+| Secret Scan                | Ran / Not shown                           | Short note |
+| Gitleaks Secret Scan       | Ran / Skipped / Not shown                 | Short note |
+| Public Exposure Scan       | Ran / Not shown                           | Short note |
+| IAM Privilege Scan         | Ran / Not shown                           | Short note |
+| TFLint Terraform Lint Scan | Ran / Skipped / Not shown                 | Short note |
+| Checkov IaC Scan           | Ran / Skipped / Not shown                 | Short note |
+| Trivy IaC Scan             | Ran / Skipped / Not available / Not shown | Short note |
+| KICS IaC Scan              | Ran / Skipped / Not shown                 | Short note |
+| Terrascan IaC Scan         | Ran / Skipped / Not shown                 | Short note |
+
+If Trivy was skipped or not available, include this exact sentence once and only once below the table:
+
+Trivy was not available during this local run, so Trivy-specific IaC findings were not included.
+
+Do not treat skipped scanners as vulnerabilities.
+
+---
+
+## 12. Final Assessment
+
+End with exactly one of these decisions:
+
+* ✅ Safe to proceed
+* 🟡 Proceed with caution
+* 🟠 Fix before apply
+* 🔴 Do not apply
+
+Then provide one short final recommendation.
+
+Decision rules:
+
+* Use `🔴 Do not apply` if any Critical finding exists.
+* Use `🟠 Fix before apply` if any High finding exists and no Critical exists.
+* Use `🟡 Proceed with caution` if only Medium, Low, or Info findings exist.
+* Use `✅ Safe to proceed` if no findings exist and the provided checks passed.
+
+Final recommendation format:
+
+**Recommendation:** one short sentence.
+
+At the very end of the completed report, after the final recommendation, print this exact final marker:
+
+<!-- END_SECURITY_REVIEW -->
+
+Do not stop before section 12 is complete.
+
+---
+
+# FINAL QUALITY GATE
+
+Before returning the report, silently verify:
+
+* The report contains only Markdown.
+* The report follows the required section order from section 1 through section 12.
+* The architecture section uses only evidence from the supplied input.
+* The apply-readiness plan references only actual findings and actual scanner output.
+* Severity counts match the findings table.
+* PASS count is separate from security findings.
+* Skipped scanners are not counted as vulnerabilities.
+* Scanner failures are not counted as vulnerabilities unless they expose a real Terraform security issue.
+* Trivy skip sentence appears only once if applicable.
+* No scanner installation task appears anywhere.
+* No finding is invented.
+* No Terraform example is unrelated to a detected issue.
+* No table header is split.
+* No badge line is duplicated.
+* No duplicate findings exist.
+* The final decision matches the highest actual detected severity.
+* The report is readable in VS Code Markdown preview.
+* The report ends with `<!-- END_SECURITY_REVIEW -->`.
+
+RAW TERRAFORM SECURITY FINDINGS:
+
+# Security Findings - Plan 2
+
+## Terraform Format Check
+
+## Terraform Validate
+Success! The configuration is valid.
+
+
+## Secret Scan
+PASS: No secret-like values found.
+
+## Gitleaks Secret Scan
+Finding:     shared_secret_hash              = "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        scripts/destroy_plan/destroyplan-1.txt
+Line:        836
+Fingerprint: scripts/destroy_plan/destroyplan-1.txt:generic-api-key:836
+
+Finding:     shared_secret_hash              = "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/destroy_plan/destroyplan-1.txt
+Line:        874
+Fingerprint: scripts/destroy_plan/destroyplan-1.txt:generic-api-key:874
+
+Finding:     shared_secret_hash              = "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        scripts/destroy_plan/destroyplan-1.txt
+Line:        912
+Fingerprint: scripts/destroy_plan/destroyplan-1.txt:generic-api-key:912
+
+Finding:     shared_secret_hash              = "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        scripts/destroy_plan/destroyplan-1.txt
+Line:        950
+Fingerprint: scripts/destroy_plan/destroyplan-1.txt:generic-api-key:950
+
+Finding:     shared_secret_hash              = "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        scripts/destroy_plan/destroyplan-1.txt
+Line:        988
+Fingerprint: scripts/destroy_plan/destroyplan-1.txt:generic-api-key:988
+
+Finding:     shared_secret_hash              = "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        scripts/destroy_plan/destroyplan-1.txt
+Line:        1026
+Fingerprint: scripts/destroy_plan/destroyplan-1.txt:generic-api-key:1026
+
+Finding:     shared_secret_hash              = "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        scripts/destroy_plan/destroyplan-1.txt
+Line:        1064
+Fingerprint: scripts/destroy_plan/destroyplan-1.txt:generic-api-key:1064
+
+Finding:     shared_secret_hash              = "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/destroy_plan/destroyplan-1.txt
+Line:        1102
+Fingerprint: scripts/destroy_plan/destroyplan-1.txt:generic-api-key:1102
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/build_plan/tfplan-1.json
+Line:        275
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:275
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/build_plan/tfplan-1.json
+Line:        315
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:315
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/build_plan/tfplan-1.json
+Line:        458
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:458
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/build_plan/tfplan-1.json
+Line:        498
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:498
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/build_plan/tfplan-1.json
+Line:        1639
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1639
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        scripts/build_plan/tfplan-1.json
+Line:        1640
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1640
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/build_plan/tfplan-1.json
+Line:        1709
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1709
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/build_plan/tfplan-1.json
+Line:        1710
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1710
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/build_plan/tfplan-1.json
+Line:        1779
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1779
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        scripts/build_plan/tfplan-1.json
+Line:        1780
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1780
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/build_plan/tfplan-1.json
+Line:        1849
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1849
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        scripts/build_plan/tfplan-1.json
+Line:        1850
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1850
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/build_plan/tfplan-1.json
+Line:        1919
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1919
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        scripts/build_plan/tfplan-1.json
+Line:        1920
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1920
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/build_plan/tfplan-1.json
+Line:        1989
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1989
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        scripts/build_plan/tfplan-1.json
+Line:        1990
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:1990
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/build_plan/tfplan-1.json
+Line:        2059
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:2059
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        scripts/build_plan/tfplan-1.json
+Line:        2060
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:2060
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/build_plan/tfplan-1.json
+Line:        2129
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:2129
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/build_plan/tfplan-1.json
+Line:        2130
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:2130
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        216
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:216
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        256
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:256
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        406
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:406
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        446
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:446
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        1757
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:1757
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        1758
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:1758
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        1833
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:1833
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        1834
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:1834
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        1909
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:1909
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        1910
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:1910
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        1985
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:1985
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        1986
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:1986
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        2061
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:2061
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        2062
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:2062
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        2137
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:2137
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        2138
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:2138
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        2213
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:2213
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        2214
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:2214
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        2289
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:2289
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        2290
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:2290
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/build_plan/tfplan-1.json
+Line:        4617
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:4617
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/build_plan/tfplan-1.json
+Line:        4657
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:4657
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/build_plan/tfplan-1.json
+Line:        4748
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:4748
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/build_plan/tfplan-1.json
+Line:        4788
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:4788
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/build_plan/tfplan-1.json
+Line:        4980
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:4980
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/build_plan/tfplan-1.json
+Line:        5020
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:5020
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        5291
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:5291
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        5331
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:5331
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        5484
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:5484
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        5524
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:5524
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/build_plan/tfplan-1.json
+Line:        5111
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:5111
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/build_plan/tfplan-1.json
+Line:        5151
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:5151
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        terraform.tfstate.backup
+Line:        297
+Fingerprint: terraform.tfstate.backup:generic-api-key:297
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        terraform.tfstate.backup
+Line:        337
+Fingerprint: terraform.tfstate.backup:generic-api-key:337
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        terraform.tfstate.backup
+Line:        471
+Fingerprint: terraform.tfstate.backup:generic-api-key:471
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        terraform.tfstate.backup
+Line:        511
+Fingerprint: terraform.tfstate.backup:generic-api-key:511
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        terraform.tfstate.backup
+Line:        1889
+Fingerprint: terraform.tfstate.backup:generic-api-key:1889
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        terraform.tfstate.backup
+Line:        1890
+Fingerprint: terraform.tfstate.backup:generic-api-key:1890
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        terraform.tfstate.backup
+Line:        1973
+Fingerprint: terraform.tfstate.backup:generic-api-key:1973
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        terraform.tfstate.backup
+Line:        1974
+Fingerprint: terraform.tfstate.backup:generic-api-key:1974
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        terraform.tfstate.backup
+Line:        2057
+Fingerprint: terraform.tfstate.backup:generic-api-key:2057
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        terraform.tfstate.backup
+Line:        2058
+Fingerprint: terraform.tfstate.backup:generic-api-key:2058
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        terraform.tfstate.backup
+Line:        2141
+Fingerprint: terraform.tfstate.backup:generic-api-key:2141
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        terraform.tfstate.backup
+Line:        2142
+Fingerprint: terraform.tfstate.backup:generic-api-key:2142
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        terraform.tfstate.backup
+Line:        2225
+Fingerprint: terraform.tfstate.backup:generic-api-key:2225
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        terraform.tfstate.backup
+Line:        2226
+Fingerprint: terraform.tfstate.backup:generic-api-key:2226
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        terraform.tfstate.backup
+Line:        2301
+Fingerprint: terraform.tfstate.backup:generic-api-key:2301
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        terraform.tfstate.backup
+Line:        2302
+Fingerprint: terraform.tfstate.backup:generic-api-key:2302
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        terraform.tfstate.backup
+Line:        2377
+Fingerprint: terraform.tfstate.backup:generic-api-key:2377
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        terraform.tfstate.backup
+Line:        2378
+Fingerprint: terraform.tfstate.backup:generic-api-key:2378
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        terraform.tfstate.backup
+Line:        2453
+Fingerprint: terraform.tfstate.backup:generic-api-key:2453
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        terraform.tfstate.backup
+Line:        2454
+Fingerprint: terraform.tfstate.backup:generic-api-key:2454
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        6936
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:6936
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        6937
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:6937
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7022
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7022
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7023
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7023
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7108
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7108
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7109
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7109
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7194
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7194
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7195
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7195
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7280
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7280
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7281
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7281
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/build_plan/tfplan-1.json
+Line:        7289
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7289
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        scripts/build_plan/tfplan-1.json
+Line:        7290
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7290
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/build_plan/tfplan-1.json
+Line:        7331
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7331
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        scripts/build_plan/tfplan-1.json
+Line:        7332
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7332
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/build_plan/tfplan-1.json
+Line:        7424
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7424
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/build_plan/tfplan-1.json
+Line:        7425
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7425
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/build_plan/tfplan-1.json
+Line:        7466
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7466
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/build_plan/tfplan-1.json
+Line:        7467
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7467
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/build_plan/tfplan-1.json
+Line:        7559
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7559
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        scripts/build_plan/tfplan-1.json
+Line:        7560
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7560
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/build_plan/tfplan-1.json
+Line:        7601
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7601
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        scripts/build_plan/tfplan-1.json
+Line:        7602
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7602
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/build_plan/tfplan-1.json
+Line:        7694
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7694
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        scripts/build_plan/tfplan-1.json
+Line:        7695
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7695
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7358
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7358
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7359
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7359
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7436
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7436
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7437
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7437
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7514
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7514
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/destroy_plan/destroyplan-1.json
+Line:        7515
+Fingerprint: scripts/destroy_plan/destroyplan-1.json:generic-api-key:7515
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/build_plan/tfplan-1.json
+Line:        7736
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7736
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        scripts/build_plan/tfplan-1.json
+Line:        7737
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7737
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/build_plan/tfplan-1.json
+Line:        7829
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7829
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        scripts/build_plan/tfplan-1.json
+Line:        7830
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7830
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/build_plan/tfplan-1.json
+Line:        7871
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7871
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        scripts/build_plan/tfplan-1.json
+Line:        7872
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7872
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/build_plan/tfplan-1.json
+Line:        7964
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7964
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        scripts/build_plan/tfplan-1.json
+Line:        7965
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:7965
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/build_plan/tfplan-1.json
+Line:        8006
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8006
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        scripts/build_plan/tfplan-1.json
+Line:        8007
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8007
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/build_plan/tfplan-1.json
+Line:        8099
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8099
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        scripts/build_plan/tfplan-1.json
+Line:        8100
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8100
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/build_plan/tfplan-1.json
+Line:        8141
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8141
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        scripts/build_plan/tfplan-1.json
+Line:        8142
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8142
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/build_plan/tfplan-1.json
+Line:        8234
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8234
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/build_plan/tfplan-1.json
+Line:        8235
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8235
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/build_plan/tfplan-1.json
+Line:        8276
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8276
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/build_plan/tfplan-1.json
+Line:        8277
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:8277
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/build_plan/tfplan-1.json
+Line:        13144
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:13144
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/build_plan/tfplan-1.json
+Line:        13184
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:13184
+
+Finding:     tunnel1_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/build_plan/tfplan-1.json
+Line:        13337
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:13337
+
+Finding:     tunnel2_preshared_key": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/build_plan/tfplan-1.json
+Line:        13377
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:13377
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.760648
+File:        scripts/build_plan/tfplan-1.json
+Line:        14789
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:14789
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.735926
+File:        scripts/build_plan/tfplan-1.json
+Line:        14790
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:14790
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.607265
+File:        scripts/build_plan/tfplan-1.json
+Line:        14875
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:14875
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/build_plan/tfplan-1.json
+Line:        14876
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:14876
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.413716
+File:        scripts/build_plan/tfplan-1.json
+Line:        14961
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:14961
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.494680
+File:        scripts/build_plan/tfplan-1.json
+Line:        14962
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:14962
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.478232
+File:        scripts/build_plan/tfplan-1.json
+Line:        15047
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15047
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.351823
+File:        scripts/build_plan/tfplan-1.json
+Line:        15048
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15048
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/build_plan/tfplan-1.json
+Line:        15133
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15133
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.253434
+File:        scripts/build_plan/tfplan-1.json
+Line:        15134
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15134
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/build_plan/tfplan-1.json
+Line:        15211
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15211
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.593069
+File:        scripts/build_plan/tfplan-1.json
+Line:        15212
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15212
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.631616
+File:        scripts/build_plan/tfplan-1.json
+Line:        15289
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15289
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.235926
+File:        scripts/build_plan/tfplan-1.json
+Line:        15290
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15290
+
+Finding:     shared_secret": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.542748
+File:        scripts/build_plan/tfplan-1.json
+Line:        15367
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15367
+
+Finding:     shared_secret_hash": "REDACTED"
+Secret:      REDACTED
+RuleID:      generic-api-key
+Entropy:     4.378784
+File:        scripts/build_plan/tfplan-1.json
+Line:        15368
+Fingerprint: scripts/build_plan/tfplan-1.json:generic-api-key:15368
+
+
+## Public Exposure Scan
+./1-aws-vpc.tf:190:  ssh_cidr_blocks = ["0.0.0.0/0"]
+./2-gcp-vpc.tf:434:  ssh_source_ranges = ["0.0.0.0/0"]
+./3-gcp-gcp.tf:196:  ssh_source_ranges = ["0.0.0.0/0"]
+./Modules/AWS-VM/main.tf:27:    cidr_blocks = ["0.0.0.0/0"]
+./Modules/AWS-VM/variable.tf:42:  default     = ["0.0.0.0/0"]
+./Modules/GCP-VM/main.tf:31:  destination_ranges = ["0.0.0.0/0"]
+./Modules/GCP-VM/variable.tf:47:  default     = ["0.0.0.0/0"]
+./Modules/Standard-VPC-AWS/main.tf:93:    cidr_block = "0.0.0.0/0"
+
+## IAM Privilege Scan
+PASS: No obvious wildcard/admin IAM found.
+
+## TFLint Terraform Lint Scan
+All plugins are already installed
+14 issue(s) found:
+
+Modules\GCP-VM\main.tf:35:1: Warning - Missing version constraint for provider "google" in `required_providers` (terraform_required_providers)
+Modules\GCP-VM\main.tf:1:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
+Modules\GCP-VM\variable.tf:50:1: Warning - variable "tags" is declared but not used (terraform_unused_declarations)
+Modules\Standard-VPC-AWS\main.tf:145:1: Warning - Missing version constraint for provider "aws" in `required_providers` (terraform_required_providers)
+Modules\Standard-VPC-AWS\main.tf:1:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
+Modules\Standard-VPC-AWS\variable.tf:2:1: Warning - variable "aws_region" is declared but not used (terraform_unused_declarations)
+Modules\AWS-VM\main.tf:38:1: Warning - Missing version constraint for provider "aws" in `required_providers` (terraform_required_providers)
+Modules\AWS-VM\main.tf:1:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
+Modules\Standard-VPC-GCP\main.tf:30:1: Warning - Missing version constraint for provider "google" in `required_providers` (terraform_required_providers)
+Modules\Standard-VPC-GCP\main.tf:1:1: Warning - terraform "required_version" attribute is required (terraform_required_version)
+Modules\Standard-VPC-GCP\variable.tf:16:1: Warning - variable "gcp_vpc_cidrs" is declared but not used (terraform_unused_declarations)
+3-gcp-gcp.tf:55:1: Warning - Missing version constraint for provider "random" in `required_providers` (terraform_required_providers)
+3-gcp-gcp.tf:160:1: Warning - Missing version constraint for provider "google" in `required_providers` (terraform_required_providers)
+gcp-variable.tf:6:1: Warning - variable "gcp_region2" is declared but not used (terraform_unused_declarations)
+
+## Checkov IaC Scan
+terraform scan results:
+
+Passed checks: 49, Failed checks: 39, Skipped checks: 0
+
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: module.aws_vm.aws_security_group.vm_sg
+	File: \Modules\AWS-VM\main.tf:1-36
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382
+Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+	FAILED for resource: module.aws_vm.aws_security_group.vm_sg
+	File: \Modules\AWS-VM\main.tf:1-36
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security
+Check: CKV_AWS_277: "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1"
+	FAILED for resource: module.aws_vm.aws_security_group.vm_sg
+	File: \Modules\AWS-VM\main.tf:1-36
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports
+Check: CKV_AWS_126: "Ensure that detailed monitoring is enabled for EC2 instances"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/ensure-that-detailed-monitoring-is-enabled-for-ec2-instances
+Check: CKV_AWS_135: "Ensure that EC2 is EBS optimized"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-ec2-is-ebs-optimized
+Check: CKV_AWS_88: "EC2 instance should not have public IP."
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/public-policies/public-12
+Check: CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-31
+Check: CKV_AWS_8: "Ensure all data stored in the Launch configuration or instance Elastic Blocks Store is securely encrypted"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Calling File: \1-aws-vpc.tf:180-195
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-13
+Check: CKV_GCP_2: "Ensure Google compute firewall ingress does not allow unrestricted ssh access"
+	FAILED for resource: module.gcp_vm-1.google_compute_firewall.allow_ingress
+	File: \Modules\GCP-VM\main.tf:1-19
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-1
+Check: CKV_GCP_106: "Ensure Google compute firewall ingress does not allow unrestricted http port 80 access"
+	FAILED for resource: module.gcp_vm-1.google_compute_firewall.allow_ingress
+	File: \Modules\GCP-VM\main.tf:1-19
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-google-compute-firewall-ingress-does-not-allow-unrestricted-http-port-80-access
+Check: CKV_GCP_32: "Ensure 'Block Project-wide SSH keys' is enabled for VM instances"
+	FAILED for resource: module.gcp_vm-1.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-8
+Check: CKV_GCP_38: "Ensure VM disks for critical VMs are encrypted with Customer Supplied Encryption Keys (CSEK)"
+	FAILED for resource: module.gcp_vm-1.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/encrypt-boot-disks-for-instances-with-cseks
+Check: CKV_GCP_40: "Ensure that Compute instances do not have public IP addresses"
+	FAILED for resource: module.gcp_vm-1.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-public-policies/bc-gcp-public-2
+Check: CKV_GCP_39: "Ensure Compute instances are launched with Shielded VM enabled"
+	FAILED for resource: module.gcp_vm-1.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \2-gcp-vpc.tf:415-439
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/bc-gcp-general-y
+Check: CKV_GCP_2: "Ensure Google compute firewall ingress does not allow unrestricted ssh access"
+	FAILED for resource: module.gcp_vm-2.google_compute_firewall.allow_ingress
+	File: \Modules\GCP-VM\main.tf:1-19
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-1
+Check: CKV_GCP_106: "Ensure Google compute firewall ingress does not allow unrestricted http port 80 access"
+	FAILED for resource: module.gcp_vm-2.google_compute_firewall.allow_ingress
+	File: \Modules\GCP-VM\main.tf:1-19
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/ensure-gcp-google-compute-firewall-ingress-does-not-allow-unrestricted-http-port-80-access
+Check: CKV_GCP_32: "Ensure 'Block Project-wide SSH keys' is enabled for VM instances"
+	FAILED for resource: module.gcp_vm-2.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-networking-8
+Check: CKV_GCP_38: "Ensure VM disks for critical VMs are encrypted with Customer Supplied Encryption Keys (CSEK)"
+	FAILED for resource: module.gcp_vm-2.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/encrypt-boot-disks-for-instances-with-cseks
+Check: CKV_GCP_40: "Ensure that Compute instances do not have public IP addresses"
+	FAILED for resource: module.gcp_vm-2.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-public-policies/bc-gcp-public-2
+Check: CKV_GCP_39: "Ensure Compute instances are launched with Shielded VM enabled"
+	FAILED for resource: module.gcp_vm-2.google_compute_instance.vm
+	File: \Modules\GCP-VM\main.tf:35-60
+	Calling File: \3-gcp-gcp.tf:183-205
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/bc-gcp-general-y
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: module.standard-vpc.aws_subnet.public_1
+	File: \Modules\Standard-VPC-AWS\main.tf:33-43
+	Calling File: \1-aws-vpc.tf:25-37
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: module.standard-vpc.aws_subnet.public_2
+	File: \Modules\Standard-VPC-AWS\main.tf:45-55
+	Calling File: \1-aws-vpc.tf:25-37
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:8-13
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+Check: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:8-13
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:14-19
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+Check: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.public-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:14-19
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.private-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:22-28
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_subnetwork.private-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:30-36
+	Calling File: \2-gcp-vpc.tf:10-22
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:8-13
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+Check: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:8-13
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:14-19
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+Check: CKV_GCP_74: "Ensure that private_ip_google_access is enabled for Subnet"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.public-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:14-19
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-general-policies/ensure-gcp-subnet-has-a-private-ip-google-access
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.private-subnetwork-1
+	File: \Modules\Standard-VPC-GCP\main.tf:22-28
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+Check: CKV_GCP_26: "Ensure that VPC Flow Logs is enabled for every subnet in a VPC Network"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_subnetwork.private-subnetwork-2
+	File: \Modules\Standard-VPC-GCP\main.tf:30-36
+	Calling File: \3-gcp-gcp.tf:11-23
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/logging-policies-1/bc-gcp-logging-1
+Check: CKV2_AWS_41: "Ensure an IAM role is attached to EC2 instance"
+	FAILED for resource: module.aws_vm.aws_instance.vm
+	File: \Modules\AWS-VM\main.tf:38-52
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-an-iam-role-is-attached-to-ec2-instance
+Check: CKV2_AWS_11: "Ensure VPC flow logging is enabled in all VPCs"
+	FAILED for resource: module.standard-vpc.aws_vpc.main
+	File: \Modules\Standard-VPC-AWS\main.tf:5-13
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-9-enable-vpc-flow-logging
+Check: CKV2_AWS_12: "Ensure the default security group of every VPC restricts all traffic"
+	FAILED for resource: module.standard-vpc.aws_vpc.main
+	File: \Modules\Standard-VPC-AWS\main.tf:5-13
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-4
+Check: CKV2_GCP_18: "Ensure GCP network defines a firewall and does not use the default firewall"
+	FAILED for resource: module.standard-gcp-vpc.google_compute_network.vpc_network
+	File: \Modules\Standard-VPC-GCP\main.tf:1-6
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-2-18
+Check: CKV2_GCP_18: "Ensure GCP network defines a firewall and does not use the default firewall"
+	FAILED for resource: module.standard-gcp-gcp-2.google_compute_network.vpc_network
+	File: \Modules\Standard-VPC-GCP\main.tf:1-6
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/google-cloud-policies/google-cloud-networking-policies/bc-gcp-2-18
+
+## Trivy IaC Scan
+Scan config files for misconfigurations
+
+Usage:
+  trivy config [flags] DIR
+
+Aliases:
+  config, conf
+
+Cache Flags
+      --cache-backend string   [EXPERIMENTAL] cache backend (e.g. redis://localhost:6379) (default "memory")
+      --cache-ttl duration     cache TTL when using redis as cache backend
+      --redis-ca string        redis ca file location, if using redis as cache backend
+      --redis-cert string      redis certificate file location, if using redis as cache backend
+      --redis-key string       redis key file location, if using redis as cache backend
+      --redis-tls              enable redis TLS with public certificates, if using redis as cache backend
+
+Misconfiguration Flags
+      --ansible-extra-vars strings        set additional variables as key=value or @file (YAML/JSON)
+      --ansible-inventory strings         specify inventory host path or comma separated host list
+      --ansible-playbook strings          specify playbook file path(s) to scan
+      --cf-params strings                 specify paths to override the CloudFormation parameters files
+      --checks-bundle-repository string   OCI registry URL to retrieve checks bundle from (default "mirror.gcr.io/aquasec/trivy-checks:2")
+      --config-file-schemas strings       specify paths to JSON configuration file schemas to determine that a file matches some configuration and pass the schema to Rego checks for type checking
+      --helm-api-versions strings         Available API versions used for Capabilities.APIVersions. This flag is the same as the api-versions flag of the helm template command. (can specify multiple or separate values with commas: policy/v1/PodDisruptionBudget,apps/v1/Deployment)
+      --helm-kube-version string          Kubernetes version used for Capabilities.KubeVersion. This flag is the same as the kube-version flag of the helm template command.
+      --helm-set strings                  specify Helm values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+      --helm-set-file strings             specify Helm values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
+      --helm-set-string strings           specify Helm string values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+      --helm-values strings               specify paths to override the Helm values.yaml files
+      --include-non-failures              include successes, available with '--scanners misconfig'
+      --misconfig-scanners strings        comma-separated list of misconfig scanners to use for misconfiguration scanning (default [azure-arm,cloudformation,dockerfile,helm,kubernetes,terraform,terraformplan-json,terraformplan-snapshot,ansible])
+      --raw-config-scanners strings       specify the types of scanners that will also scan raw configurations. For example, scanners will scan a non-adapted configuration into a shared state (allowed values: terraform)
+      --render-cause strings              specify configuration types for which the rendered causes will be shown in the table report (allowed values: terraform,ansible)
+      --tf-exclude-downloaded-modules     exclude misconfigurations for downloaded terraform modules
+      --tf-vars strings                   specify paths to override the Terraform tfvars files
+
+Module Flags
+      --enable-modules strings   [EXPERIMENTAL] module names to enable
+      --module-dir string        specify directory to the wasm modules that will be loaded (default "C:\\Users\\davek\\.trivy\\modules")
+
+Registry Flags
+      --password strings        password. Comma-separated passwords allowed. TRIVY_PASSWORD should be used for security reasons.
+      --password-stdin          password from stdin. Comma-separated passwords are not supported.
+      --registry-token string   registry token
+      --username strings        username. Comma-separated usernames allowed.
+
+Rego Flags
+      --check-namespaces strings    Rego namespaces
+      --config-check strings        specify the paths to the Rego check files or to the directories containing them, applying config files
+      --config-data strings         specify paths from which data for the Rego checks will be recursively loaded
+      --include-deprecated-checks   include deprecated checks
+      --rego-error-limit int        maximum number of compile errors allowed during Rego policy evaluation (default 10)
+      --skip-check-update           skip fetching rego check updates
+      --trace-rego                  enable more verbose trace output for custom queries
+
+Kubernetes Flags
+      --k8s-version string   specify k8s version to validate outdated api by it (example: 1.21.0)
+
+Report Flags
+      --compliance string          compliance report to generate
+      --exit-code int              specify exit code when any security issues are found
+  -f, --format string              format
+                                   Allowed values:
+                                     - table
+                                     - json
+                                     - template
+                                     - sarif
+                                     - cyclonedx
+                                     - spdx
+                                     - spdx-json
+                                     - github
+                                     - cosign-vuln
+                                    (default "table")
+      --ignore-policy string       specify the Rego file path to evaluate each vulnerability
+      --ignorefile string          specify .trivyignore file (default ".trivyignore")
+  -o, --output string              output file name
+      --output-plugin-arg string   [EXPERIMENTAL] output plugin arguments
+      --report string              specify a compliance report format for the output (allowed values: all,summary) (default "all")
+  -s, --severity strings           severities of security issues to be displayed
+                                   Allowed values:
+                                     - UNKNOWN
+                                     - LOW
+                                     - MEDIUM
+                                     - HIGH
+                                     - CRITICAL
+                                    (default [UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL])
+      --table-mode strings         [EXPERIMENTAL] tables that will be displayed in 'table' format (allowed values: summary,detailed) (default [summary,detailed])
+  -t, --template string            output template
+
+Scan Flags
+      --disable-telemetry       disable sending anonymous usage data to Aqua
+      --file-patterns strings   specify config file patterns
+      --skip-dirs strings       specify the directories or glob patterns to skip
+      --skip-files strings      specify the files or glob patterns to skip
+      --skip-version-check      suppress notices about version updates and Trivy announcements
+
+Global Flags:
+      --cacert string             Path to PEM-encoded CA certificate file
+      --cache-dir string          cache directory (default "C:\\Users\\davek\\AppData\\Local\\trivy")
+  -c, --config string             config path (default "trivy.yaml")
+  -d, --debug                     debug mode
+      --generate-default-config   write the default config to trivy-default.yaml
+      --insecure                  allow insecure server connections
+  -q, --quiet                     suppress progress bar and log output
+      --timeout duration          timeout (default 5m0s)
+  -v, --version                   show version
+
+## KICS IaC Scan
+
+
+
+   MLLLLLM             MLLLLLLLLL   LLLLLLL             KLLLLLLLLLLLLLLLL       LLLLLLLLLLLLLLLLLLLLLLL
+   MMMMMMM           MMMMMMMMMML    MMMMMMMK       LMMMMMMMMMMMMMMMMMMMML   KLMMMMMMMMMMMMMMMMMMMMMMMMM
+   MMMMMMM         MMMMMMMMML       MMMMMMMK     LMMMMMMMMMMMMMMMMMMMMMML  LMMMMMMMMMMMMMMMMMMMMMMMMMMM
+   MMMMMMM      MMMMMMMMMML         MMMMMMMK   LMMMMMMMMMMMMMMMMMMMMMMMML LMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+   MMMMMMM    LMMMMMMMMML           MMMMMMMK  LMMMMMMMMMLLMLLLLLLLLLLLLLL LMMMMMMMLLLLLLLLLLLLLLLLLLLLM
+   MMMMMMM  MMMMMMMMMLM             MMMMMMMK LMMMMMMMM                    LMMMMMML
+   MMMMMMMLMMMMMMMML                MMMMMMMK MMMMMMML                     LMMMMMMMMLLLLLLLLLLLLLMLL
+   MMMMMMMMMMMMMMMM                 MMMMMMMK MMMMMML                       LMMMMMMMMMMMMMMMMMMMMMMMMML
+   MMMMMMMMMMMMMMMMMM               MMMMMMMK MMMMMMM                         LMMMMMMMMMMMMMMMMMMMMMMMML
+   MMMMMMM KLMMMMMMMMML             MMMMMMMK LMMMMMMM                                          MMMMMMMML
+   MMMMMMM    LMMMMMMMMMM           MMMMMMMK LMMMMMMMMLL                                        MMMMMMML
+   MMMMMMM      LMMMMMMMMMLL        MMMMMMMK  LMMMMMMMMMMMMMMMMMMMMMMMMML LLLLLLLLLLLLLLLLLLLLMMMMMMMMMM
+   MMMMMMM        MMMMMMMMMMML      MMMMMMMK   MMMMMMMMMMMMMMMMMMMMMMMMML LMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+   MMMMMMM          LLMMMMMMMMML    MMMMMMMK     LLMMMMMMMMMMMMMMMMMMMMML LMMMMMMMMMMMMMMMMMMMMMMMMMML
+   MMMMMMM             MMMMMMMMMML  MMMMMMMK         KLMMMMMMMMMMMMMMMMML LMMMMMMMMMMMMMMMMMMMMMMMLK
+
+
+
+
+Scanning with Keeping Infrastructure as Code Secure v2.1.20
+
+
+
+
+
+Security Group Not Used, Severity: INFO, Results: 1
+Description: Security group must be used or not declared
+Platform: Terraform
+CWE: 284
+Risk Score: 0.0
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/4849211b-ac39-479e-ae78-5694d506cb24
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+Resource Not Using Tags, Severity: INFO, Results: 20
+Description: AWS services resource tags are an essential part of managing components. As a best practice, the field 'tags' should have additional tags defined other than 'Name'
+Platform: Terraform
+CWE: 665
+Risk Score: 0.0
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/e38a8e0a-b88b-4902-b3fe-b0fcb17d5c10
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[2]: ../../src/Modules/Standard-VPC-AWS/main.tf:10
+
+		009:
+		010:   tags = {
+		011:     Name = "${var.project_name}-vpc"
+
+
+	[3]: ../../src/Modules/AWS-VM/main.tf:46
+
+		045:
+		046:   tags = merge(
+		047:     var.tags,
+
+
+	[4]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[5]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[6]: ../../src/1-aws-vpc.tf:97
+
+		096:
+		097:   tags = {
+		098:     Name = "1-main-site-to-site-vpn"
+
+
+	[7]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[8]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[9]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[10]: ../../src/1-aws-vpc.tf:60
+
+		059:
+		060: resource "aws_vpn_gateway" "vpn_gateway" {
+		061:   vpc_id = module.standard-vpc.vpc_id
+
+
+	[11]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[12]: ../../src/1-aws-vpc.tf:44
+
+		043:
+		044:   tags = {
+		045:     Name = "main-customer-gateway"
+
+
+	[13]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[14]: ../../src/1-aws-vpc.tf:135
+
+		134:
+		135:   tags = {
+		136:     Name = "2-main-site-to-site-vpn"
+
+
+	[15]: ../../src/1-aws-vpc.tf:54
+
+		053:
+		054:   tags = {
+		055:     Name = "main-customer-gateway"
+
+
+	[16]: ../../src/Modules/Standard-VPC-AWS/main.tf:97
+
+		096:
+		097:   tags = {
+		098:     Name = "${var.project_name}-public-rt"
+
+
+	[17]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[18]: ../../src/Modules/Standard-VPC-AWS/main.tf:23
+
+		022:
+		023:   tags = {
+		024:     Name = "${var.project_name}-igw"
+
+
+	[19]: ../../src/Modules/Standard-VPC-AWS/main.tf:125
+
+		124:
+		125:   tags = {
+		126:     Name = "${var.project_name}-private-rt"
+
+
+	[20]: ../../src/Modules/AWS-VM/main.tf:30
+
+		029:
+		030:   tags = merge(
+		031:     var.tags,
+
+
+Output Without Description, Severity: INFO, Results: 24
+Description: All outputs should contain a valid description.
+Platform: Terraform
+CWE: 710
+Risk Score: 0.0
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/59312e8a-a64e-41e7-a252-618533dd1ea8
+
+	[1]: ../../src/4-output.tf:9
+
+		008:
+		009: output "tunnel_1_2_aws_inside" {
+		010:   value = aws_vpn_connection.tunnel_1.tunnel2_vgw_inside_address
+
+
+	[2]: ../../src/4-output.tf:50
+
+		049: ##  Private Instance IPs
+		050: output "vm_private_ip_aws" {
+		051:   value = module.aws_vm.private_ip
+
+
+	[3]: ../../src/4-output.tf:1
+
+		001: output "tunnel_1_1_aws_inside" {
+		002:   value = aws_vpn_connection.tunnel_1.tunnel1_vgw_inside_address
+		003: }
+
+
+	[4]: ../../src/Modules/AWS-VM/output.tf:5
+
+		004:
+		005: output "public_ip" {
+		006:   value = aws_instance.vm.public_ip
+
+
+	[5]: ../../src/Modules/AWS-VM/output.tf:13
+
+		012:
+		013: output "security_group_id" {
+		014:   value = aws_security_group.vm_sg.id
+
+
+	[6]: ../../src/4-output.tf:32
+
+		031: }
+		032: output "tunnel_data" {
+		033:   value = aws_vpn_connection.tunnel_2.tunnel2_cgw_inside_address
+
+
+	[7]: ../../src/Modules/GCP-VM/output.tf:17
+
+		016:
+		017: output "self_link" {
+		018:   value = google_compute_instance.vm.self_link
+
+
+	[8]: ../../src/Modules/GCP-VM/output.tf:9
+
+		008:
+		009: output "private_ip" {
+		010:   value = google_compute_instance.vm.network_interface[0].network_ip
+
+
+	[9]: ../../src/4-output.tf:25
+
+		024:
+		025: output "tunnel_2_2_aws_inside" {
+		026:   value = aws_vpn_connection.tunnel_2.tunnel2_vgw_inside_address
+
+
+	[10]: ../../src/4-output.tf:54
+
+		053:
+		054: output "vm_private_ip_gcp" {
+		055:   value = module.gcp_vm-1.private_ip
+
+
+	[11]: ../../src/Modules/AWS-VM/output.tf:1
+
+		001: output "instance_id" {
+		002:   value = aws_instance.vm.id
+		003: }
+
+
+	[12]: ../../src/Modules/GCP-VM/output.tf:13
+
+		012:
+		013: output "public_ip" {
+		014:   value = try(google_compute_instance.vm.network_interface[0].access_config[0].nat_ip, null)
+
+
+	[13]: ../../src/4-output.tf:17
+
+		016:
+		017: output "tunnel_2_1_aws_inside" {
+		018:   value = aws_vpn_connection.tunnel_2.tunnel1_vgw_inside_address
+
+
+	[14]: ../../src/4-output.tf:21
+
+		020:
+		021: output "tunnel_2_1_gcp_inside" {
+		022:   value = aws_vpn_connection.tunnel_2.tunnel1_cgw_inside_address
+
+
+	[15]: ../../src/4-output.tf:29
+
+		028:
+		029: output "tunnel_2_2_gcp_inside" {
+		030:   value = aws_vpn_connection.tunnel_2.tunnel2_cgw_inside_address
+
+
+	[16]: ../../src/Modules/GCP-VM/output.tf:1
+
+		001: output "instance_id" {
+		002:   value = google_compute_instance.vm.id
+		003: }
+
+
+	[17]: ../../src/4-output.tf:58
+
+		057:
+		058: output "vm_private_ip_gcp-2" {
+		059:   value = module.gcp_vm-2.private_ip
+
+
+	[18]: ../../src/4-output.tf:5
+
+		004:
+		005: output "tunnel_1_1_gcp_inside" {
+		006:   value = aws_vpn_connection.tunnel_1.tunnel1_cgw_inside_address
+
+
+	[19]: ../../src/4-output.tf:41
+
+		040:
+		041: output "vm_public_ip_gcp" {
+		042:   value = module.gcp_vm-1.public_ip
+
+
+	[20]: ../../src/4-output.tf:45
+
+		044:
+		045: output "vm_public_ip_gcp-2" {
+		046:   value = module.gcp_vm-2.public_ip
+
+
+	[21]: ../../src/4-output.tf:37
+
+		036: ##  Public Instance IPs
+		037: output "vm_public_ip_aws" {
+		038:   value = module.aws_vm.public_ip
+
+
+	[22]: ../../src/Modules/AWS-VM/output.tf:9
+
+		008:
+		009: output "private_ip" {
+		010:   value = aws_instance.vm.private_ip
+
+
+	[23]: ../../src/4-output.tf:13
+
+		012:
+		013: output "tunnel_1_2_gcp_inside" {
+		014:   value = aws_vpn_connection.tunnel_1.tunnel2_cgw_inside_address
+
+
+	[24]: ../../src/Modules/GCP-VM/output.tf:5
+
+		004:
+		005: output "instance_name" {
+		006:   value = google_compute_instance.vm.name
+
+
+Name Is Not Snake Case, Severity: INFO, Results: 87
+Description: All names should follow snake case pattern.
+Platform: Terraform
+CWE: 710
+Risk Score: 0.0
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/1e434b25-8763-4b00-a5ca-ca03b7abbb66
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:4080
+
+		4079:               "schema_version": 0,
+		4080:               "values": {
+		4081:                 "gateway_id": "",
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:3930
+
+		3929:               "schema_version": 0,
+		3930:               "values": {
+		3931:                 "arn": "arn:aws:ec2:us-east-1:915742579869:internet-gateway/igw-08844b6b64693bf6d",
+
+
+	[3]: ../../src/scripts/build_plan/tfplan-1.json:4280
+
+		4279:               "schema_version": 1,
+		4280:               "values": {
+		4281:                 "arn": "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-07a9f084d6148acc5",
+
+
+	[4]: ../../src/scripts/build_plan/tfplan-1.json:2228
+
+		2227:           "schema_version": 3,
+		2228:           "values": {
+		2229:             "bcrypt_hash": "$2a$10$q6QX7I01ZNszqxttHRFBGuQRSxRR0ptdpmKLwM3C3QbtBgjjr.MZy",
+
+
+	[5]: ../../src/scripts/build_plan/tfplan-1.json:3668
+
+		3667:               "schema_version": 0,
+		3668:               "values": {
+		3669:                 "auto_create_subnetworks": false,
+
+
+	[6]: ../../src/scripts/build_plan/tfplan-1.json:580
+
+		579:           "schema_version": 0,
+		580:           "values": {
+		581:             "amazon_side_asn": "65000",
+
+
+	[7]: ../../src/scripts/build_plan/tfplan-1.json:3817
+
+		3816:               "schema_version": 0,
+		3817:               "values": {
+		3818:                 "allow_subnet_cidr_routes_overlap": false,
+
+
+	[8]: ../../src/scripts/build_plan/tfplan-1.json:3871
+
+		3870:               "schema_version": 0,
+		3871:               "values": {
+		3872:                 "allow_subnet_cidr_routes_overlap": false,
+
+
+	[9]: ../../src/Modules/Standard-VPC-GCP/main.tf:22
+
+		021: ########         Private Subnetworks
+		022: resource "google_compute_subnetwork" "private-subnetwork-1" {
+		023:   name                     = "${var.project_name}-private-subnetwork-1"
+
+
+	[10]: ../../src/scripts/build_plan/tfplan-1.json:618
+
+		617:           "schema_version": 0,
+		618:           "values": {
+		619:             "id": "vgw-065095db0214d25c9_rtb-0313d554d3d3985c0",
+
+
+	[11]: ../../src/scripts/build_plan/tfplan-1.json:634
+
+		633:           "schema_version": 0,
+		634:           "values": {
+		635:             "deletion_policy": "DELETE",
+
+
+	[12]: ../../src/scripts/build_plan/tfplan-1.json:2286
+
+		2285:           "schema_version": 3,
+		2286:           "values": {
+		2287:             "bcrypt_hash": "$2a$10$hSncm5K5XWYKSIxXlEER5egEQa91q7h8cfvpQmqRJkgxGEUnWIiou",
+
+
+	[13]: ../../src/scripts/build_plan/tfplan-1.json:2540
+
+		2539:               "schema_version": 1,
+		2540:               "values": {
+		2541:                 "arn": "arn:aws:ec2:us-east-1:915742579869:security-group/sg-01f5ce1dbb7ecb572",
+
+
+	[14]: ../../src/scripts/build_plan/tfplan-1.json:3183
+
+		3182:               "schema_version": 6,
+		3183:               "values": {
+		3184:                 "advanced_machine_features": [],
+
+
+	[15]: ../../src/scripts/build_plan/tfplan-1.json:3555
+
+		3554:               "schema_version": 0,
+		3555:               "values": {
+		3556:                 "allow_subnet_cidr_routes_overlap": false,
+
+
+	[16]: ../../src/scripts/build_plan/tfplan-1.json:4149
+
+		4148:               "schema_version": 0,
+		4149:               "values": {
+		4150:                 "gateway_id": "",
+
+
+	[17]: ../../src/2-gcp-vpc.tf:49
+
+		048:
+		049: resource "google_compute_external_vpn_gateway" "gcp-to-aws-vpn-gw" {
+		050:   #count           = var.second_workflow_enabled ? 1 : 0
+
+
+	[18]: ../../src/2-gcp-vpc.tf:290
+
+		289: # Tunnel 1
+		290: resource "google_compute_vpn_tunnel" "gcp_tunnel2__2" {
+		291:   name   = "gcp-to-gcp-tunnel-2-2"
+
+
+	[19]: ../../src/scripts/build_plan/tfplan-1.json:1680
+
+		1679:           "schema_version": 0,
+		1680:           "values": {
+		1681:             "cipher_suite": [],
+
+
+	[20]: ../../src/scripts/build_plan/tfplan-1.json:2654
+
+		2653:               "schema_version": 1,
+		2654:               "values": {
+		2655:                 "allow": [
+
+
+	[21]: ../../src/scripts/build_plan/tfplan-1.json:156
+
+		155:           "schema_version": 0,
+		156:           "values": {
+		157:             "arn": "arn:aws:ec2:us-east-1:915742579869:customer-gateway/cgw-0dca5012a20c7fd17",
+
+
+	[22]: ../../src/scripts/build_plan/tfplan-1.json:914
+
+		913:           "schema_version": 0,
+		914:           "values": {
+		915:             "deletion_policy": "DELETE",
+
+
+	[23]: ../../src/scripts/build_plan/tfplan-1.json:1548
+
+		1547:           "schema_version": 0,
+		1548:           "values": {
+		1549:             "advertise_mode": "DEFAULT",
+
+
+	[24]: ../../src/scripts/build_plan/tfplan-1.json:865
+
+		864:           "schema_version": 0,
+		865:           "values": {
+		866:             "bgp": [
+
+
+	[25]: ../../src/scripts/build_plan/tfplan-1.json:1820
+
+		1819:           "schema_version": 0,
+		1820:           "values": {
+		1821:             "cipher_suite": [],
+
+
+	[26]: ../../src/scripts/build_plan/tfplan-1.json:397
+
+		396:           "schema_version": 0,
+		397:           "values": {
+		398:             "arn": "arn:aws:ec2:us-east-1:915742579869:vpn-connection/vpn-019dba123c80df5fa",
+
+
+	[27]: ../../src/scripts/build_plan/tfplan-1.json:758
+
+		757:           "schema_version": 1,
+		758:           "values": {
+		759:             "deletion_policy": "DELETE",
+
+
+	[28]: ../../src/scripts/build_plan/tfplan-1.json:964
+
+		963:           "schema_version": 0,
+		964:           "values": {
+		965:             "deletion_policy": "DELETE",
+
+
+	[29]: ../../src/scripts/build_plan/tfplan-1.json:1750
+
+		1749:           "schema_version": 0,
+		1750:           "values": {
+		1751:             "cipher_suite": [],
+
+
+	[30]: ../../src/scripts/build_plan/tfplan-1.json:2170
+
+		2169:           "schema_version": 3,
+		2170:           "values": {
+		2171:             "bcrypt_hash": "$2a$10$xbysLZoDLdr6QbOqzYL0Qe8bRpet5q8xlJcvaRuIyiI0XRk.sH0Me",
+
+
+	[31]: ../../src/scripts/build_plan/tfplan-1.json:4388
+
+		4387:               "schema_version": 1,
+		4388:               "values": {
+		4389:                 "arn": "arn:aws:ec2:us-east-1:915742579869:vpc/vpc-0ae64cf813f732306",
+
+
+	[32]: ../../src/scripts/build_plan/tfplan-1.json:4126
+
+		4125:               "schema_version": 0,
+		4126:               "values": {
+		4127:                 "gateway_id": "",
+
+
+	[33]: ../../src/3-gcp-gcp.tf:11
+
+		010:
+		011: module "standard-gcp-gcp-2" {
+		012:   source = "./Modules/Standard-VPC-GCP"
+
+
+	[34]: ../../src/scripts/build_plan/tfplan-1.json:1424
+
+		1423:           "schema_version": 0,
+		1424:           "values": {
+		1425:             "advertise_mode": "DEFAULT",
+
+
+	[35]: ../../src/scripts/build_plan/tfplan-1.json:1114
+
+		1113:           "schema_version": 0,
+		1114:           "values": {
+		1115:             "advertise_mode": "DEFAULT",
+
+
+	[36]: ../../src/scripts/build_plan/tfplan-1.json:1064
+
+		1063:           "schema_version": 0,
+		1064:           "values": {
+		1065:             "deletion_policy": "DELETE",
+
+
+	[37]: ../../src/2-gcp-vpc.tf:415
+
+		414:
+		415: module "gcp_vm-1" {
+		416:   source = "./Modules/GCP-VM"
+
+
+	[38]: ../../src/scripts/build_plan/tfplan-1.json:2030
+
+		2029:           "schema_version": 0,
+		2030:           "values": {
+		2031:             "cipher_suite": [],
+
+
+	[39]: ../../src/2-gcp-vpc.tf:274
+
+		273: # Tunnel 0
+		274: resource "google_compute_vpn_tunnel" "gcp_tunnel2__1" {
+		275:   name   = "gcp-to-gcp-tunnel-2-1"
+
+
+	[40]: ../../src/scripts/build_plan/tfplan-1.json:185
+
+		184:           "schema_version": 0,
+		185:           "values": {
+		186:             "arn": "arn:aws:ec2:us-east-1:915742579869:customer-gateway/cgw-0249b3f1a4222c851",
+
+
+	[41]: ../../src/scripts/build_plan/tfplan-1.json:4103
+
+		4102:               "schema_version": 0,
+		4103:               "values": {
+		4104:                 "gateway_id": "",
+
+
+	[42]: ../../src/scripts/build_plan/tfplan-1.json:2100
+
+		2099:           "schema_version": 0,
+		2100:           "values": {
+		2101:             "cipher_suite": [],
+
+
+	[43]: ../../src/scripts/build_plan/tfplan-1.json:3099
+
+		3098:               "schema_version": 1,
+		3099:               "values": {
+		3100:                 "allow": [
+
+
+	[44]: ../../src/scripts/build_plan/tfplan-1.json:3962
+
+		3961:               "schema_version": 0,
+		3962:               "values": {
+		3963:                 "arn": "arn:aws:ec2:us-east-1:915742579869:route-table/rtb-089bc646f083b30b4",
+
+
+	[45]: ../../src/2-gcp-vpc.tf:25
+
+		024:
+		025: resource "google_compute_router" "vpn-router" {
+		026:   name                          = "vpn-router"
+
+
+	[46]: ../../src/3-gcp-gcp.tf:26
+
+		025:
+		026: resource "google_compute_router" "vpn-router-2" {
+		027:   name                          = "vpn-router-2"
+
+
+	[47]: ../../src/scripts/build_plan/tfplan-1.json:1890
+
+		1889:           "schema_version": 0,
+		1890:           "values": {
+		1891:             "cipher_suite": [],
+
+
+	[48]: ../../src/scripts/build_plan/tfplan-1.json:3709
+
+		3708:               "schema_version": 0,
+		3709:               "values": {
+		3710:                 "allow_subnet_cidr_routes_overlap": false,
+
+
+	[49]: ../../src/scripts/build_plan/tfplan-1.json:3763
+
+		3762:               "schema_version": 0,
+		3763:               "values": {
+		3764:                 "allow_subnet_cidr_routes_overlap": false,
+
+
+	[50]: ../../src/scripts/build_plan/tfplan-1.json:4334
+
+		4333:               "schema_version": 1,
+		4334:               "values": {
+		4335:                 "arn": "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-02e41414d14b94875",
+
+
+	[51]: ../../src/scripts/build_plan/tfplan-1.json:816
+
+		815:           "schema_version": 0,
+		816:           "values": {
+		817:             "bgp": [
+
+
+	[52]: ../../src/scripts/build_plan/tfplan-1.json:2723
+
+		2722:               "schema_version": 1,
+		2723:               "values": {
+		2724:                 "allow": [
+
+
+	[53]: ../../src/1-aws-vpc.tf:25
+
+		024:
+		025: module "standard-vpc" {
+		026:   source = "./Modules/Standard-VPC-AWS"
+
+
+	[54]: ../../src/Modules/Standard-VPC-GCP/main.tf:8
+
+		007: ########         Public Subnetworks
+		008: resource "google_compute_subnetwork" "public-subnetwork-1" {
+		009:   name          = "${var.project_name}-public-subnetwork-1"
+
+
+	[55]: ../../src/scripts/build_plan/tfplan-1.json:1238
+
+		1237:           "schema_version": 0,
+		1238:           "values": {
+		1239:             "advertise_mode": "DEFAULT",
+
+
+	[56]: ../../src/scripts/build_plan/tfplan-1.json:989
+
+		988:           "schema_version": 0,
+		989:           "values": {
+		990:             "deletion_policy": "DELETE",
+
+
+	[57]: ../../src/Modules/Standard-VPC-GCP/main.tf:14
+
+		013: }
+		014: resource "google_compute_subnetwork" "public-subnetwork-2" {
+		015:   name          = "${var.project_name}-public-subnetwork-2"
+
+
+	[58]: ../../src/3-gcp-gcp.tf:183
+
+		182:
+		183: module "gcp_vm-2" {
+		184:   source = "./Modules/GCP-VM"
+
+
+	[59]: ../../src/scripts/build_plan/tfplan-1.json:4021
+
+		4020:               "schema_version": 0,
+		4021:               "values": {
+		4022:                 "arn": "arn:aws:ec2:us-east-1:915742579869:route-table/rtb-0313d554d3d3985c0",
+
+
+	[60]: ../../src/2-gcp-vpc.tf:10
+
+		009:
+		010: module "standard-gcp-vpc" {
+		011:   source = "./Modules/Standard-VPC-GCP"
+
+
+	[61]: ../../src/3-gcp-gcp.tf:64
+
+		063: # Tunnel 0
+		064: resource "google_compute_vpn_tunnel" "gcp_tunnel-2_1" {
+		065:   name   = "gcp-to-gcp-tunnel-3-1"
+
+
+	[62]: ../../src/scripts/build_plan/tfplan-1.json:1960
+
+		1959:           "schema_version": 0,
+		1960:           "values": {
+		1961:             "cipher_suite": [],
+
+
+	[63]: ../../src/scripts/build_plan/tfplan-1.json:3030
+
+		3029:               "schema_version": 1,
+		3030:               "values": {
+		3031:                 "allow": [
+
+
+	[64]: ../../src/scripts/build_plan/tfplan-1.json:1610
+
+		1609:           "schema_version": 0,
+		1610:           "values": {
+		1611:             "cipher_suite": [],
+
+
+	[65]: ../../src/scripts/build_plan/tfplan-1.json:3501
+
+		3500:               "schema_version": 0,
+		3501:               "values": {
+		3502:                 "allow_subnet_cidr_routes_overlap": false,
+
+
+	[66]: ../../src/scripts/build_plan/tfplan-1.json:1176
+
+		1175:           "schema_version": 0,
+		1176:           "values": {
+		1177:             "advertise_mode": "DEFAULT",
+
+
+	[67]: ../../src/scripts/build_plan/tfplan-1.json:1300
+
+		1299:           "schema_version": 0,
+		1300:           "values": {
+		1301:             "advertise_mode": "DEFAULT",
+
+
+	[68]: ../../src/scripts/build_plan/tfplan-1.json:3447
+
+		3446:               "schema_version": 0,
+		3447:               "values": {
+		3448:                 "allow_subnet_cidr_routes_overlap": false,
+
+
+	[69]: ../../src/scripts/build_plan/tfplan-1.json:4172
+
+		4171:               "schema_version": 1,
+		4172:               "values": {
+		4173:                 "arn": "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-0db18d69e08099fa2",
+
+
+	[70]: ../../src/scripts/build_plan/tfplan-1.json:1014
+
+		1013:           "schema_version": 0,
+		1014:           "values": {
+		1015:             "deletion_policy": "DELETE",
+
+
+	[71]: ../../src/scripts/build_plan/tfplan-1.json:3406
+
+		3405:               "schema_version": 0,
+		3406:               "values": {
+		3407:                 "auto_create_subnetworks": false,
+
+
+	[72]: ../../src/Modules/Standard-VPC-GCP/main.tf:30
+
+		029:
+		030: resource "google_compute_subnetwork" "private-subnetwork-2" {
+		031:   name                     = "${var.project_name}-private-subnetwork-2"
+
+
+	[73]: ../../src/scripts/build_plan/tfplan-1.json:602
+
+		601:           "schema_version": 0,
+		602:           "values": {
+		603:             "id": "vgw-065095db0214d25c9_rtb-089bc646f083b30b4",
+
+
+	[74]: ../../src/scripts/build_plan/tfplan-1.json:2257
+
+		2256:           "schema_version": 3,
+		2257:           "values": {
+		2258:             "bcrypt_hash": "$2a$10$Mg3mW7aGdtrJV4QZVZlfwu4yjHTdywlu4585SLbluGIeIZbbRDw.C",
+
+
+	[75]: ../../src/scripts/build_plan/tfplan-1.json:1039
+
+		1038:           "schema_version": 0,
+		1039:           "values": {
+		1040:             "deletion_policy": "DELETE",
+
+
+	[76]: ../../src/scripts/build_plan/tfplan-1.json:3609
+
+		3608:               "schema_version": 0,
+		3609:               "values": {
+		3610:                 "allow_subnet_cidr_routes_overlap": false,
+
+
+	[77]: ../../src/scripts/build_plan/tfplan-1.json:4226
+
+		4225:               "schema_version": 1,
+		4226:               "values": {
+		4227:                 "arn": "arn:aws:ec2:us-east-1:915742579869:subnet/subnet-016e6e2eabc540b55",
+
+
+	[78]: ../../src/scripts/build_plan/tfplan-1.json:2199
+
+		2198:           "schema_version": 3,
+		2199:           "values": {
+		2200:             "bcrypt_hash": "$2a$10$hpNeSkDF14ANx8mqlTmike0xm.W0dXtvQ0dTJimVkfhYRLK8tO9Im",
+
+
+	[79]: ../../src/scripts/build_plan/tfplan-1.json:700
+
+		699:           "schema_version": 1,
+		700:           "values": {
+		701:             "deletion_policy": "DELETE",
+
+
+	[80]: ../../src/scripts/build_plan/tfplan-1.json:1486
+
+		1485:           "schema_version": 0,
+		1486:           "values": {
+		1487:             "advertise_mode": "DEFAULT",
+
+
+	[81]: ../../src/scripts/build_plan/tfplan-1.json:2348
+
+		2347:               "schema_version": 2,
+		2348:               "values": {
+		2349:                 "ami": "ami-0517aaaee33d8b971",
+
+
+	[82]: ../../src/scripts/build_plan/tfplan-1.json:2807
+
+		2806:               "schema_version": 6,
+		2807:               "values": {
+		2808:                 "advanced_machine_features": [],
+
+
+	[83]: ../../src/scripts/build_plan/tfplan-1.json:2315
+
+		2314:           "schema_version": 3,
+		2315:           "values": {
+		2316:             "bcrypt_hash": "$2a$10$0q0jyPTReFPQPagkNwT5POJ77B9nHUvAJChwYLebxG1Pw.Gy/P/NO",
+
+
+	[84]: ../../src/scripts/build_plan/tfplan-1.json:939
+
+		938:           "schema_version": 0,
+		939:           "values": {
+		940:             "deletion_policy": "DELETE",
+
+
+	[85]: ../../src/scripts/build_plan/tfplan-1.json:214
+
+		213:           "schema_version": 0,
+		214:           "values": {
+		215:             "arn": "arn:aws:ec2:us-east-1:915742579869:vpn-connection/vpn-0a3695c1cbca1ec60",
+
+
+	[86]: ../../src/scripts/build_plan/tfplan-1.json:1089
+
+		1088:           "schema_version": 0,
+		1089:           "values": {
+		1090:             "deletion_policy": "DELETE",
+
+
+	[87]: ../../src/scripts/build_plan/tfplan-1.json:1362
+
+		1361:           "schema_version": 0,
+		1362:           "values": {
+		1363:             "advertise_mode": "DEFAULT",
+
+
+EC2 Not EBS Optimized, Severity: INFO, Results: 1
+Description: It's considered a best practice for an EC2 instance to use an EBS optimized instance. This provides the best performance for your EBS volumes by minimizing contention between Amazon EBS I/O and other traffic from your instance
+Platform: Terraform
+CWE: 710
+Risk Score: 0.0
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/60224630-175a-472a-9e23-133827040766
+
+	[1]: ../../src/Modules/AWS-VM/main.tf:38
+
+		037:
+		038: resource "aws_instance" "vm" {
+		039:   ami                         = var.ami_id
+
+
+Instance Uses Metadata Service IMDSv1, Severity: LOW, Results: 2
+Description: Instance metadata can be accessed with both IMDSv1 or IMDSv2. Although, IMDSv2 service is a session-oriented service, granting additional protection against exposure of metadata information. That version should be used instead of IMDSv1 in order to mitigate those situations.
+Platform: Terraform
+CWE: 200
+Risk Score: 1.0
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/c306ac53-ee5b-41d3-86a9-0fd2722b4e67
+
+	[1]: ../../src/Modules/AWS-VM/main.tf:38
+
+		037:
+		038: resource "aws_instance" "vm" {
+		039:   ami                         = var.ami_id
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:2404
+
+		2403:                 ],
+		2404:                 "metadata_options": [
+		2405:                   {
+
+
+IAM Access Analyzer Not Enabled, Severity: LOW, Results: 4
+Description: IAM Access Analyzer should be enabled and configured to continuously monitor resource permissions
+Platform: Terraform
+CWE: 710
+Risk Score: 3.5
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/e592a0c5-5bdb-414c-9066-5dba7cdea370
+
+	[1]: ../../src/Modules/Standard-VPC-AWS/main.tf:5
+
+		004:
+		005: resource "aws_vpc" "main" {
+		006:   cidr_block           = var.vpc_cidr
+
+
+	[2]: ../../src/Modules/AWS-VM/main.tf:1
+
+		001: resource "aws_security_group" "vm_sg" {
+		002:   name        = "${var.name}-sg"
+		003:   description = "Security group for ${var.name}"
+
+
+	[3]: ../../src/1-aws-vpc.tf:39
+
+		038:
+		039: resource "aws_customer_gateway" "router_ip_1" {
+		040:   bgp_asn    = google_compute_router.vpn-router.bgp[0].asn
+
+
+	[4]: ../../src/scripts/build_plan/tfplan-1.json:22246
+
+		22245:               "project_name": {
+		22246:                 "description": "Project name for resource naming and tagging"
+		22247:               },
+
+
+Google Compute Subnetwork with Private Google Access Disabled, Severity: LOW, Results: 6
+Description: Google Compute Subnetwork should have Private Google Access enabled, which means 'private_ip_google_access' should be set to true
+Platform: Terraform
+CWE: 732
+Risk Score: 2.9
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/gcp/ee7b93c1-b3f8-4a3b-9588-146d481814f5
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:3836
+
+		3835:                 "params": [],
+		3836:                 "private_ip_google_access": false,
+		3837:                 "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:3890
+
+		3889:                 "params": [],
+		3890:                 "private_ip_google_access": false,
+		3891:                 "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+
+
+	[3]: ../../src/Modules/Standard-VPC-GCP/main.tf:8
+
+		007: ########         Public Subnetworks
+		008: resource "google_compute_subnetwork" "public-subnetwork-1" {
+		009:   name          = "${var.project_name}-public-subnetwork-1"
+
+
+	[4]: ../../src/scripts/build_plan/tfplan-1.json:3628
+
+		3627:                 "params": [],
+		3628:                 "private_ip_google_access": false,
+		3629:                 "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+
+
+	[5]: ../../src/Modules/Standard-VPC-GCP/main.tf:14
+
+		013: }
+		014: resource "google_compute_subnetwork" "public-subnetwork-2" {
+		015:   name          = "${var.project_name}-public-subnetwork-2"
+
+
+	[6]: ../../src/scripts/build_plan/tfplan-1.json:3574
+
+		3573:                 "params": [],
+		3574:                 "private_ip_google_access": false,
+		3575:                 "private_ipv6_google_access": "DISABLE_GOOGLE_ACCESS",
+
+
+VPC Without Network Firewall, Severity: MEDIUM, Results: 2
+Description: VPC should have a Network Firewall associated
+Platform: Terraform
+CWE: 311
+Risk Score: 5.2
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/fd632aaf-b8a1-424d-a4d1-0de22fd3247a
+
+	[1]: ../../src/Modules/Standard-VPC-AWS/main.tf:5
+
+		004:
+		005: resource "aws_vpc" "main" {
+		006:   cidr_block           = var.vpc_cidr
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:4388
+
+		4387:               "schema_version": 1,
+		4388:               "values": {
+		4389:                 "arn": "arn:aws:ec2:us-east-1:915742579869:vpc/vpc-0ae64cf813f732306",
+
+
+VPC Subnet Assigns Public IP, Severity: MEDIUM, Results: 4
+Description: VPC Subnet should not assign public IP
+Platform: Terraform
+CWE: 732
+Risk Score: 5.2
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/52f04a44-6bfa-4c41-b1d3-4ae99a2de05c
+
+	[1]: ../../src/Modules/Standard-VPC-AWS/main.tf:37
+
+		036:   availability_zone       = data.aws_availability_zones.available.names[0]
+		037:   map_public_ip_on_launch = true
+		038:
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:4354
+
+		4353:                 "map_customer_owned_ip_on_launch": false,
+		4354:                 "map_public_ip_on_launch": true,
+		4355:                 "outpost_arn": "",
+
+
+	[3]: ../../src/Modules/Standard-VPC-AWS/main.tf:49
+
+		048:   availability_zone       = data.aws_availability_zones.available.names[1]
+		049:   map_public_ip_on_launch = true
+		050:
+
+
+	[4]: ../../src/scripts/build_plan/tfplan-1.json:4300
+
+		4299:                 "map_customer_owned_ip_on_launch": false,
+		4300:                 "map_public_ip_on_launch": true,
+		4301:                 "outpost_arn": "",
+
+
+VPC FlowLogs Disabled, Severity: MEDIUM, Results: 2
+Description: Every VPC resource should have an associated Flow Log
+Platform: Terraform
+CWE: 778
+Risk Score: 5.1
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/f83121ea-03da-434f-9277-9cd247ab3047
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:4388
+
+		4387:               "schema_version": 1,
+		4388:               "values": {
+		4389:                 "arn": "arn:aws:ec2:us-east-1:915742579869:vpc/vpc-0ae64cf813f732306",
+
+
+	[2]: ../../src/Modules/Standard-VPC-AWS/main.tf:5
+
+		004:
+		005: resource "aws_vpc" "main" {
+		006:   cidr_block           = var.vpc_cidr
+
+
+Using Default Service Account, Severity: MEDIUM, Results: 3
+Description: Instances should not be configured to use the Default Service Account, that has full access to all Cloud APIs, which means the attribute 'service_account' and its sub attribute 'email' must be defined. Additionally, 'email' must not be empty and must also not be a default Google Compute Engine service account.
+Platform: Terraform
+CWE: 250
+Risk Score: 5.8
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/gcp/3cb4af0b-056d-4fb1-8b95-fdc4593625ff
+
+	[1]: ../../src/Modules/GCP-VM/main.tf:35
+
+		034:
+		035: resource "google_compute_instance" "vm" {
+		036:   name         = var.name
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[3]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+Security Group With Unrestricted Access To SSH, Severity: MEDIUM, Results: 2
+Description: 'SSH' (TCP:22) should not be public in AWS Security Group
+Platform: Terraform
+CWE: 732
+Risk Score: 5.2
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/65905cec-d691-4320-b320-2000436cb696
+
+	[1]: ../../src/Modules/AWS-VM/main.tf:6
+
+		005:
+		006:   ingress {
+		007:     description = "SSH"
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:2574
+
+		2573:                   {
+		2574:                     "cidr_blocks": [
+		2575:                       "0.0.0.0/0"
+
+
+SSH Access Is Not Restricted, Severity: MEDIUM, Results: 3
+Description: Google Firewall should not allow SSH access (port 22) from the Internet (public CIDR block) to ensure the principle of least privileges
+Platform: Terraform
+CWE: 732
+Risk Score: 5.2
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/gcp/c4dcdcdf-10dd-4bf4-b4a0-8f6239e6aaa0
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[3]: ../../src/Modules/GCP-VM/main.tf:10
+
+		009:     protocol = "tcp"
+		010:     ports    = ["22", "80", "443"]
+		011:   }
+
+
+Project-wide SSH Keys Are Enabled In VM Instances, Severity: MEDIUM, Results: 3
+Description: VM Instance should block project-wide SSH keys
+Platform: Terraform
+CWE: 284
+Risk Score: 6.8
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/gcp/3e4d5ce6-3280-4027-8010-c26eeea1ec01
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+	[2]: ../../src/Modules/GCP-VM/main.tf:35
+
+		034:
+		035: resource "google_compute_instance" "vm" {
+		036:   name         = var.name
+
+
+	[3]: ../../src/scripts/build_plan/tfplan-1.json:1
+
+
+
+Google Compute Subnetwork Logging Disabled, Severity: MEDIUM, Results: 4
+Description: This query checks if logs are enabled for a Google Compute Subnetwork resource.
+Platform: Terraform
+CWE: 788
+Risk Score: 5.1
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/gcp/40430747-442d-450a-a34f-dc57149f4609
+
+	[1]: ../../src/Modules/Standard-VPC-GCP/main.tf:14
+
+		013: }
+		014: resource "google_compute_subnetwork" "public-subnetwork-2" {
+		015:   name          = "${var.project_name}-public-subnetwork-2"
+
+
+	[2]: ../../src/Modules/Standard-VPC-GCP/main.tf:30
+
+		029:
+		030: resource "google_compute_subnetwork" "private-subnetwork-2" {
+		031:   name                     = "${var.project_name}-private-subnetwork-2"
+
+
+	[3]: ../../src/Modules/Standard-VPC-GCP/main.tf:8
+
+		007: ########         Public Subnetworks
+		008: resource "google_compute_subnetwork" "public-subnetwork-1" {
+		009:   name          = "${var.project_name}-public-subnetwork-1"
+
+
+	[4]: ../../src/Modules/Standard-VPC-GCP/main.tf:22
+
+		021: ########         Private Subnetworks
+		022: resource "google_compute_subnetwork" "private-subnetwork-1" {
+		023:   name                     = "${var.project_name}-private-subnetwork-1"
+
+
+EC2 Instance Monitoring Disabled, Severity: MEDIUM, Results: 2
+Description: EC2 Instance should have detailed monitoring enabled. With detailed monitoring enabled data is available in 1-minute periods
+Platform: Terraform
+CWE: 778
+Risk Score: 5.1
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/23b70e32-032e-4fa6-ba5c-82f56b9980e6
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:2413
+
+		2412:                 ],
+		2413:                 "monitoring": false,
+		2414:                 "network_interface": [],
+
+
+	[2]: ../../src/Modules/AWS-VM/main.tf:38
+
+		037:
+		038: resource "aws_instance" "vm" {
+		039:   ami                         = var.ami_id
+
+
+EC2 Instance Has Public IP, Severity: MEDIUM, Results: 1
+Description: EC2 Instance should not have a public IP address.
+Platform: Terraform
+CWE: 200
+Risk Score: 5.1
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/5a2486aa-facf-477d-a5c1-b010789459ce
+
+	[1]: ../../src/Modules/AWS-VM/main.tf:44
+
+		043:   key_name                    = var.key_name
+		044:   associate_public_ip_address = var.associate_public_ip_address
+		045:
+
+
+VPC Peering Route Table with Unrestricted CIDR, Severity: HIGH, Results: 1
+Description: VPC Peering Route Table should restrict CIDR
+Platform: Terraform
+CWE: 284
+Risk Score: 7.7
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/b3a41501-f712-4c4f-81e5-db9a7dc0e34e
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:4029
+
+		4028:                 "region": "us-east-1",
+		4029:                 "route": [
+		4030:                   {
+
+
+Unrestricted Security Group Ingress, Severity: HIGH, Results: 4
+Description: Security groups allow ingress from 0.0.0.0:0 and/or ::/0
+Platform: Terraform
+CWE: 668
+Risk Score: 7.2
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/4728cd65-a20c-49da-8b31-9c08b423e4db
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:2574
+
+		2573:                   {
+		2574:                     "cidr_blocks": [
+		2575:                       "0.0.0.0/0"
+
+
+	[2]: ../../src/Modules/AWS-VM/main.tf:19
+
+		018:     protocol    = "icmp"
+		019:     cidr_blocks = var.ssh_cidr_blocks
+		020:   }
+
+
+	[3]: ../../src/Modules/AWS-VM/main.tf:11
+
+		010:     protocol    = "tcp"
+		011:     cidr_blocks = var.ssh_cidr_blocks
+		012:   }
+
+
+	[4]: ../../src/scripts/build_plan/tfplan-1.json:2561
+
+		2560:                   {
+		2561:                     "cidr_blocks": [
+		2562:                       "0.0.0.0/0"
+
+
+Unknown Port Exposed To Internet, Severity: HIGH, Results: 2
+Description: AWS Security Group should not have an unknown port exposed to the entire Internet
+Platform: Terraform
+CWE: 200
+Risk Score: 7.1
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/590d878b-abdc-428f-895a-e2b68a0e1998
+
+	[1]: ../../src/Modules/AWS-VM/main.tf:14
+
+		013:
+		014:   ingress {
+		015:     description = "ICMP"
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:2561
+
+		2560:                   {
+		2561:                     "cidr_blocks": [
+		2562:                       "0.0.0.0/0"
+
+
+Sensitive Port Is Exposed To Entire Network, Severity: HIGH, Results: 2
+Description: A sensitive port, such as port 23 or port 110, is open for the whole network in either TCP or UDP protocol
+Platform: Terraform
+CWE: 200
+Risk Score: 7.7
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/381c3f2a-ef6f-4eff-99f7-b169cda3422c
+
+	[1]: ../../src/Modules/AWS-VM/main.tf:6
+
+		005:
+		006:   ingress {
+		007:     description = "SSH"
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:2574
+
+		2573:                   {
+		2574:                     "cidr_blocks": [
+		2575:                       "0.0.0.0/0"
+
+
+Passwords And Secrets - Generic Secret, Severity: HIGH, Results: 56
+Description: Query to find passwords and secrets in infrastructure code.
+Platform: Common
+CWE: 798
+Risk Score: 7.8
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/common-queries/a88baa34-e2ad-44ea-ad6f-8cac87bc7c71
+
+	[1]: ../../src/2-gcp-vpc.tf:299
+
+		298:
+		299:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+		300:   ike_version   = 2
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:1919
+
+		1918:             "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1",
+		1919:             "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1920:             "shared_secret_hash": "jXpJ3fhRMYhRUVeLmPvp4WMXXp8u",
+
+
+	[3]: ../../src/scripts/build_plan/tfplan-1.json:7694
+
+		7693:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4",
+		7694:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7695:           "shared_secret_hash": "DK-QGiYqjvHkx3ihQjTeQHUhSuy1",
+
+
+	[4]: ../../src/scripts/destroy_plan/destroyplan-1.json:7358
+
+		7357:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2",
+		7358:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7359:               "shared_secret_hash": "_5S93JB8PQymcbdhEt25uwG1KyHu",
+
+
+	[5]: ../../src/2-gcp-vpc.tf:283
+
+		282:
+		283:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+		284:   ike_version   = 2
+
+
+	[6]: ../../src/scripts/destroy_plan/destroyplan-1.json:1757
+
+		1756:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1",
+		1757:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1758:           "shared_secret_hash": "DyCsU6fH8go2Ay0mvwRN9VE51GXK",
+
+
+	[7]: ../../src/3-gcp-gcp.tf:73
+
+		072:
+		073:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+		074:   ike_version   = 2
+
+
+	[8]: ../../src/scripts/build_plan/tfplan-1.json:15047
+
+		15046:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4",
+		15047:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		15048:               "shared_secret_hash": "DK-QGiYqjvHkx3ihQjTeQHUhSuy1",
+
+
+	[9]: ../../src/scripts/build_plan/tfplan-1.json:2129
+
+		2128:             "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2",
+		2129:             "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		2130:             "shared_secret_hash": "yTsMBNCGztJmMzTQv_ns7Kr2gbQt",
+
+
+	[10]: ../../src/2-gcp-vpc.tf:88
+
+		087:
+		088:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+		089:   ike_version   = 2
+
+
+	[11]: ../../src/scripts/build_plan/tfplan-1.json:8099
+
+		8098:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1",
+		8099:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		8100:           "shared_secret_hash": "OsBhSsgTnqag_51hpdGQxDhOIPhS",
+
+
+	[12]: ../../src/scripts/build_plan/tfplan-1.json:15211
+
+		15210:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2",
+		15211:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		15212:               "shared_secret_hash": "_5S93JB8PQymcbdhEt25uwG1KyHu",
+
+
+	[13]: ../../src/scripts/build_plan/tfplan-1.json:15133
+
+		15132:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1",
+		15133:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		15134:               "shared_secret_hash": "jXpJ3fhRMYhRUVeLmPvp4WMXXp8u",
+
+
+	[14]: ../../src/scripts/build_plan/tfplan-1.json:15289
+
+		15288:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1",
+		15289:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		15290:               "shared_secret_hash": "OsBhSsgTnqag_51hpdGQxDhOIPhS",
+
+
+	[15]: ../../src/scripts/build_plan/tfplan-1.json:8234
+
+		8233:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2",
+		8234:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		8235:           "shared_secret_hash": "yTsMBNCGztJmMzTQv_ns7Kr2gbQt",
+
+
+	[16]: ../../src/scripts/build_plan/tfplan-1.json:7559
+
+		7558:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3",
+		7559:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7560:           "shared_secret_hash": "qzNtAm1t8X8itQ6naGC9PGphgfcs",
+
+
+	[17]: ../../src/scripts/build_plan/tfplan-1.json:1639
+
+		1638:             "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1",
+		1639:             "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1640:             "shared_secret_hash": "DyCsU6fH8go2Ay0mvwRN9VE51GXK",
+
+
+	[18]: ../../src/scripts/destroy_plan/destroyplan-1.json:6936
+
+		6935:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1",
+		6936:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		6937:               "shared_secret_hash": "DyCsU6fH8go2Ay0mvwRN9VE51GXK",
+
+
+	[19]: ../../src/3-gcp-gcp.tf:89
+
+		088:
+		089:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+		090:   ike_version   = 2
+
+
+	[20]: ../../src/scripts/destroy_plan/destroyplan-1.json:2289
+
+		2288:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2",
+		2289:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		2290:           "shared_secret_hash": "yTsMBNCGztJmMzTQv_ns7Kr2gbQt",
+
+
+	[21]: ../../src/scripts/build_plan/tfplan-1.json:7601
+
+		7600:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3",
+		7601:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7602:           "shared_secret_hash": "qzNtAm1t8X8itQ6naGC9PGphgfcs",
+
+
+	[22]: ../../src/2-gcp-vpc.tf:139
+
+		138:
+		139:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+		140:   ike_version   = 2
+
+
+	[23]: ../../src/scripts/destroy_plan/destroyplan-1.json:2137
+
+		2136:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2",
+		2137:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		2138:           "shared_secret_hash": "_5S93JB8PQymcbdhEt25uwG1KyHu",
+
+
+	[24]: ../../src/scripts/build_plan/tfplan-1.json:1849
+
+		1848:             "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4",
+		1849:             "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1850:             "shared_secret_hash": "DK-QGiYqjvHkx3ihQjTeQHUhSuy1",
+
+
+	[25]: ../../src/scripts/build_plan/tfplan-1.json:8006
+
+		8005:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2",
+		8006:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		8007:           "shared_secret_hash": "_5S93JB8PQymcbdhEt25uwG1KyHu",
+
+
+	[26]: ../../src/scripts/destroy_plan/destroyplan-1.json:7022
+
+		7021:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2",
+		7022:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7023:               "shared_secret_hash": "Kj7mqvuGmc30uGC-N_btpXyJjrCX",
+
+
+	[27]: ../../src/scripts/build_plan/tfplan-1.json:14961
+
+		14960:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3",
+		14961:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		14962:               "shared_secret_hash": "qzNtAm1t8X8itQ6naGC9PGphgfcs",
+
+
+	[28]: ../../src/scripts/destroy_plan/destroyplan-1.json:2061
+
+		2060:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1",
+		2061:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		2062:           "shared_secret_hash": "jXpJ3fhRMYhRUVeLmPvp4WMXXp8u",
+
+
+	[29]: ../../src/scripts/build_plan/tfplan-1.json:15367
+
+		15366:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2",
+		15367:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		15368:               "shared_secret_hash": "yTsMBNCGztJmMzTQv_ns7Kr2gbQt",
+
+
+	[30]: ../../src/scripts/build_plan/tfplan-1.json:2059
+
+		2058:             "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1",
+		2059:             "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		2060:             "shared_secret_hash": "OsBhSsgTnqag_51hpdGQxDhOIPhS",
+
+
+	[31]: ../../src/scripts/destroy_plan/destroyplan-1.json:7108
+
+		7107:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3",
+		7108:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7109:               "shared_secret_hash": "qzNtAm1t8X8itQ6naGC9PGphgfcs",
+
+
+	[32]: ../../src/scripts/destroy_plan/destroyplan-1.json:7280
+
+		7279:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1",
+		7280:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7281:               "shared_secret_hash": "jXpJ3fhRMYhRUVeLmPvp4WMXXp8u",
+
+
+	[33]: ../../src/2-gcp-vpc.tf:122
+
+		121:
+		122:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+		123:   ike_version   = 2
+
+
+	[34]: ../../src/scripts/destroy_plan/destroyplan-1.json:2213
+
+		2212:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1",
+		2213:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		2214:           "shared_secret_hash": "OsBhSsgTnqag_51hpdGQxDhOIPhS",
+
+
+	[35]: ../../src/scripts/build_plan/tfplan-1.json:1779
+
+		1778:             "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3",
+		1779:             "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1780:             "shared_secret_hash": "qzNtAm1t8X8itQ6naGC9PGphgfcs",
+
+
+	[36]: ../../src/scripts/destroy_plan/destroyplan-1.json:1909
+
+		1908:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-3",
+		1909:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1910:           "shared_secret_hash": "qzNtAm1t8X8itQ6naGC9PGphgfcs",
+
+
+	[37]: ../../src/scripts/build_plan/tfplan-1.json:1989
+
+		1988:             "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2",
+		1989:             "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1990:             "shared_secret_hash": "_5S93JB8PQymcbdhEt25uwG1KyHu",
+
+
+	[38]: ../../src/scripts/build_plan/tfplan-1.json:7736
+
+		7735:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4",
+		7736:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7737:           "shared_secret_hash": "DK-QGiYqjvHkx3ihQjTeQHUhSuy1",
+
+
+	[39]: ../../src/scripts/build_plan/tfplan-1.json:7829
+
+		7828:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1",
+		7829:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7830:           "shared_secret_hash": "jXpJ3fhRMYhRUVeLmPvp4WMXXp8u",
+
+
+	[40]: ../../src/scripts/destroy_plan/destroyplan-1.json:7436
+
+		7435:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1",
+		7436:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7437:               "shared_secret_hash": "OsBhSsgTnqag_51hpdGQxDhOIPhS",
+
+
+	[41]: ../../src/scripts/build_plan/tfplan-1.json:7331
+
+		7330:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1",
+		7331:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7332:           "shared_secret_hash": "DyCsU6fH8go2Ay0mvwRN9VE51GXK",
+
+
+	[42]: ../../src/scripts/destroy_plan/destroyplan-1.json:1985
+
+		1984:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4",
+		1985:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1986:           "shared_secret_hash": "DK-QGiYqjvHkx3ihQjTeQHUhSuy1",
+
+
+	[43]: ../../src/scripts/build_plan/tfplan-1.json:7871
+
+		7870:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-1",
+		7871:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7872:           "shared_secret_hash": "jXpJ3fhRMYhRUVeLmPvp4WMXXp8u",
+
+
+	[44]: ../../src/scripts/build_plan/tfplan-1.json:14875
+
+		14874:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2",
+		14875:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		14876:               "shared_secret_hash": "Kj7mqvuGmc30uGC-N_btpXyJjrCX",
+
+
+	[45]: ../../src/scripts/build_plan/tfplan-1.json:7466
+
+		7465:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2",
+		7466:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7467:           "shared_secret_hash": "Kj7mqvuGmc30uGC-N_btpXyJjrCX",
+
+
+	[46]: ../../src/scripts/build_plan/tfplan-1.json:1709
+
+		1708:             "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2",
+		1709:             "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1710:             "shared_secret_hash": "Kj7mqvuGmc30uGC-N_btpXyJjrCX",
+
+
+	[47]: ../../src/scripts/build_plan/tfplan-1.json:14789
+
+		14788:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1",
+		14789:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		14790:               "shared_secret_hash": "DyCsU6fH8go2Ay0mvwRN9VE51GXK",
+
+
+	[48]: ../../src/scripts/build_plan/tfplan-1.json:8276
+
+		8275:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2",
+		8276:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		8277:           "shared_secret_hash": "yTsMBNCGztJmMzTQv_ns7Kr2gbQt",
+
+
+	[49]: ../../src/2-gcp-vpc.tf:105
+
+		104:
+		105:   shared_secret = <SECRET-MASKED-ON-PURPOSE>
+		106:   ike_version   = 2
+
+
+	[50]: ../../src/scripts/destroy_plan/destroyplan-1.json:7514
+
+		7513:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-2",
+		7514:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7515:               "shared_secret_hash": "yTsMBNCGztJmMzTQv_ns7Kr2gbQt",
+
+
+	[51]: ../../src/scripts/destroy_plan/destroyplan-1.json:7194
+
+		7193:               "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-4",
+		7194:               "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7195:               "shared_secret_hash": "DK-QGiYqjvHkx3ihQjTeQHUhSuy1",
+
+
+	[52]: ../../src/scripts/build_plan/tfplan-1.json:7964
+
+		7963:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-3-2",
+		7964:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7965:           "shared_secret_hash": "_5S93JB8PQymcbdhEt25uwG1KyHu",
+
+
+	[53]: ../../src/scripts/build_plan/tfplan-1.json:7424
+
+		7423:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2",
+		7424:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7425:           "shared_secret_hash": "Kj7mqvuGmc30uGC-N_btpXyJjrCX",
+
+
+	[54]: ../../src/scripts/build_plan/tfplan-1.json:8141
+
+		8140:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-gcp-tunnel-2-1",
+		8141:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		8142:           "shared_secret_hash": "OsBhSsgTnqag_51hpdGQxDhOIPhS",
+
+
+	[55]: ../../src/scripts/destroy_plan/destroyplan-1.json:1833
+
+		1832:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-2",
+		1833:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		1834:           "shared_secret_hash": "Kj7mqvuGmc30uGC-N_btpXyJjrCX",
+
+
+	[56]: ../../src/scripts/build_plan/tfplan-1.json:7289
+
+		7288:           "self_link": "https://www.googleapis.com/compute/v1/projects/gcp-mastery-495919/regions/us-central1/vpnTunnels/gcp-to-aws-tunnel-1",
+		7289:           "shared_secret": <SECRET-MASKED-ON-PURPOSE>
+		7290:           "shared_secret_hash": "DyCsU6fH8go2Ay0mvwRN9VE51GXK",
+
+
+Passwords And Secrets - Encryption Key, Severity: HIGH, Results: 72
+Description: Query to find passwords and secrets in infrastructure code.
+Platform: Common
+CWE: 798
+Risk Score: 7.8
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/common-queries/a88baa34-e2ad-44ea-ad6f-8cac87bc7c71
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:3350
+
+		3349:                         "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3350:                         "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3351:                       }
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:9941
+
+		9940:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9941:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9942:                 }
+
+
+	[3]: ../../src/scripts/build_plan/tfplan-1.json:9742
+
+		9741:                   "snapshot": "",
+		9742:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9743:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[4]: ../../src/scripts/destroy_plan/destroyplan-1.json:3069
+
+		3068:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3069:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3070:                   "storage_pool": "",
+
+
+	[5]: ../../src/scripts/destroy_plan/destroyplan-1.json:8391
+
+		8390:                   "guest_accelerator": [],
+		8391:                   "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8392:                   "labels": {},
+
+
+	[6]: ../../src/scripts/build_plan/tfplan-1.json:3358
+
+		3357:                 "guest_accelerator": [],
+		3358:                 "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3359:                 "labels": {},
+
+
+	[7]: ../../src/scripts/build_plan/tfplan-1.json:16236
+
+		16235:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16236:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16237:                         }
+
+
+	[8]: ../../src/scripts/destroy_plan/destroyplan-1.json:3212
+
+		3211:           "guest_accelerator": [],
+		3212:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3213:           "labels": {},
+
+
+	[9]: ../../src/scripts/build_plan/tfplan-1.json:10474
+
+		10473:                   "snapshot": "",
+		10474:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10475:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[10]: ../../src/scripts/build_plan/tfplan-1.json:9940
+
+		9939:                   "resource_policies": [],
+		9940:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9941:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[11]: ../../src/scripts/destroy_plan/destroyplan-1.json:3068
+
+		3067:                   "snapshot": "",
+		3068:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3069:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[12]: ../../src/scripts/build_plan/tfplan-1.json:10617
+
+		10616:           "guest_accelerator": [],
+		10617:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10618:           "labels": {},
+
+
+	[13]: ../../src/scripts/destroy_plan/destroyplan-1.json:8249
+
+		8248:                           "snapshot": "",
+		8249:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8250:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[14]: ../../src/scripts/build_plan/tfplan-1.json:9771
+
+		9770:           "id": "projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1",
+		9771:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9772:           "instance_id": "5167985355459988880",
+
+
+	[15]: ../../src/scripts/build_plan/tfplan-1.json:10609
+
+		10608:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10609:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10610:                 }
+
+
+	[16]: ../../src/scripts/destroy_plan/destroyplan-1.json:3605
+
+		3604:           "guest_accelerator": [],
+		3605:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3606:           "labels": {},
+
+
+	[17]: ../../src/scripts/destroy_plan/destroyplan-1.json:8383
+
+		8382:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8383:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8384:                         }
+
+
+	[18]: ../../src/scripts/build_plan/tfplan-1.json:9743
+
+		9742:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9743:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9744:                   "storage_pool": "",
+
+
+	[19]: ../../src/scripts/build_plan/tfplan-1.json:10328
+
+		10327:                   "snapshot": "",
+		10328:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10329:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[20]: ../../src/scripts/build_plan/tfplan-1.json:2973
+
+		2972:                         "resource_policies": [],
+		2973:                         "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		2974:                         "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[21]: ../../src/scripts/build_plan/tfplan-1.json:10357
+
+		10356:           "id": "projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2",
+		10357:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10358:           "instance_id": "3860451006791617937",
+
+
+	[22]: ../../src/scripts/build_plan/tfplan-1.json:10672
+
+		10671:                   "resource_policies": [],
+		10672:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10673:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[23]: ../../src/scripts/build_plan/tfplan-1.json:16489
+
+		16488:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16489:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16490:                           "storage_pool": "",
+
+
+	[24]: ../../src/scripts/build_plan/tfplan-1.json:3245
+
+		3244:                 "id": "projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2",
+		3245:                 "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3246:                 "instance_id": "3860451006791617937",
+
+
+	[25]: ../../src/scripts/build_plan/tfplan-1.json:16244
+
+		16243:                   "guest_accelerator": [],
+		16244:                   "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16245:                   "labels": {},
+
+
+	[26]: ../../src/scripts/destroy_plan/destroyplan-1.json:8250
+
+		8249:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8250:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8251:                           "storage_pool": "",
+
+
+	[27]: ../../src/scripts/build_plan/tfplan-1.json:16621
+
+		16620:                           "resource_policies": [],
+		16621:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16622:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[28]: ../../src/scripts/destroy_plan/destroyplan-1.json:3462
+
+		3461:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3462:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3463:                   "storage_pool": "",
+
+
+	[29]: ../../src/scripts/build_plan/tfplan-1.json:9949
+
+		9948:           "guest_accelerator": [],
+		9949:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9950:           "labels": {},
+
+
+	[30]: ../../src/scripts/build_plan/tfplan-1.json:9625
+
+		9624:           "id": "projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1",
+		9625:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9626:           "instance_id": "5167985355459988880",
+
+
+	[31]: ../../src/scripts/build_plan/tfplan-1.json:16517
+
+		16516:                   "id": "projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2",
+		16517:                   "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16518:                   "instance_id": "3860451006791617937",
+
+
+	[32]: ../../src/scripts/build_plan/tfplan-1.json:16630
+
+		16629:                   "guest_accelerator": [],
+		16630:                   "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16631:                   "labels": {},
+
+
+	[33]: ../../src/scripts/build_plan/tfplan-1.json:3216
+
+		3215:                         "snapshot": "",
+		3216:                         "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3217:                         "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[34]: ../../src/scripts/destroy_plan/destroyplan-1.json:3204
+
+		3203:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3204:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3205:                 }
+
+
+	[35]: ../../src/scripts/destroy_plan/destroyplan-1.json:3596
+
+		3595:                   "resource_policies": [],
+		3596:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3597:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[36]: ../../src/scripts/build_plan/tfplan-1.json:9876
+
+		9875:                   "resource_policies": [],
+		9876:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9877:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[37]: ../../src/scripts/destroy_plan/destroyplan-1.json:8382
+
+		8381:                           "resource_policies": [],
+		8382:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8383:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[38]: ../../src/scripts/build_plan/tfplan-1.json:9597
+
+		9596:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9597:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9598:                   "storage_pool": "",
+
+
+	[39]: ../../src/scripts/build_plan/tfplan-1.json:10475
+
+		10474:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10475:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10476:                   "storage_pool": "",
+
+
+	[40]: ../../src/scripts/destroy_plan/destroyplan-1.json:8777
+
+		8776:                   "guest_accelerator": [],
+		8777:                   "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8778:                   "labels": {},
+
+
+	[41]: ../../src/scripts/build_plan/tfplan-1.json:9596
+
+		9595:                   "snapshot": "",
+		9596:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9597:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[42]: ../../src/scripts/build_plan/tfplan-1.json:2869
+
+		2868:                 "id": "projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1",
+		2869:                 "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		2870:                 "instance_id": "5167985355459988880",
+
+
+	[43]: ../../src/scripts/build_plan/tfplan-1.json:16235
+
+		16234:                           "resource_policies": [],
+		16235:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16236:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[44]: ../../src/scripts/destroy_plan/destroyplan-1.json:3203
+
+		3202:                   "resource_policies": [],
+		3203:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3204:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[45]: ../../src/scripts/destroy_plan/destroyplan-1.json:3597
+
+		3596:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3597:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3598:                 }
+
+
+	[46]: ../../src/scripts/destroy_plan/destroyplan-1.json:8635
+
+		8634:                           "snapshot": "",
+		8635:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8636:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[47]: ../../src/scripts/destroy_plan/destroyplan-1.json:8664
+
+		8663:                   "id": "projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2",
+		8664:                   "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8665:                   "instance_id": "3860451006791617937",
+
+
+	[48]: ../../src/scripts/build_plan/tfplan-1.json:10608
+
+		10607:                   "resource_policies": [],
+		10608:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10609:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[49]: ../../src/scripts/build_plan/tfplan-1.json:16622
+
+		16621:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16622:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16623:                         }
+
+
+	[50]: ../../src/scripts/build_plan/tfplan-1.json:10503
+
+		10502:           "id": "projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2",
+		10503:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10504:           "instance_id": "3860451006791617937",
+
+
+	[51]: ../../src/scripts/destroy_plan/destroyplan-1.json:8768
+
+		8767:                           "resource_policies": [],
+		8768:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8769:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[52]: ../../src/scripts/destroy_plan/destroyplan-1.json:8278
+
+		8277:                   "id": "projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1",
+		8278:                   "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8279:                   "instance_id": "5167985355459988880",
+
+
+	[53]: ../../src/scripts/build_plan/tfplan-1.json:2974
+
+		2973:                         "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		2974:                         "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		2975:                       }
+
+
+	[54]: ../../src/scripts/build_plan/tfplan-1.json:9885
+
+		9884:           "guest_accelerator": [],
+		9885:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9886:           "labels": {},
+
+
+	[55]: ../../src/scripts/build_plan/tfplan-1.json:3217
+
+		3216:                         "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3217:                         "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3218:                         "storage_pool": "",
+
+
+	[56]: ../../src/scripts/build_plan/tfplan-1.json:3349
+
+		3348:                         "resource_policies": [],
+		3349:                         "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3350:                         "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[57]: ../../src/scripts/build_plan/tfplan-1.json:10673
+
+		10672:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10673:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10674:                 }
+
+
+	[58]: ../../src/scripts/build_plan/tfplan-1.json:16131
+
+		16130:                   "id": "projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1",
+		16131:                   "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16132:                   "instance_id": "5167985355459988880",
+
+
+	[59]: ../../src/scripts/build_plan/tfplan-1.json:16102
+
+		16101:                           "snapshot": "",
+		16102:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16103:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[60]: ../../src/scripts/build_plan/tfplan-1.json:16488
+
+		16487:                           "snapshot": "",
+		16488:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16489:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[61]: ../../src/scripts/destroy_plan/destroyplan-1.json:3461
+
+		3460:                   "snapshot": "",
+		3461:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3462:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[62]: ../../src/scripts/build_plan/tfplan-1.json:10329
+
+		10328:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10329:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10330:                   "storage_pool": "",
+
+
+	[63]: ../../src/scripts/build_plan/tfplan-1.json:2982
+
+		2981:                 "guest_accelerator": [],
+		2982:                 "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		2983:                 "labels": {},
+
+
+	[64]: ../../src/scripts/build_plan/tfplan-1.json:9877
+
+		9876:                   "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9877:                   "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		9878:                 }
+
+
+	[65]: ../../src/scripts/destroy_plan/destroyplan-1.json:8769
+
+		8768:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8769:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8770:                         }
+
+
+	[66]: ../../src/scripts/build_plan/tfplan-1.json:2840
+
+		2839:                         "snapshot": "",
+		2840:                         "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		2841:                         "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+
+
+	[67]: ../../src/scripts/build_plan/tfplan-1.json:16103
+
+		16102:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16103:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		16104:                           "storage_pool": "",
+
+
+	[68]: ../../src/scripts/destroy_plan/destroyplan-1.json:3490
+
+		3489:           "id": "projects/gcp-mastery-495919/zones/us-central1-b/instances/gcp-test-vm-2",
+		3490:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3491:           "instance_id": "3860451006791617937",
+
+
+	[69]: ../../src/scripts/destroy_plan/destroyplan-1.json:8636
+
+		8635:                           "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8636:                           "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		8637:                           "storage_pool": "",
+
+
+	[70]: ../../src/scripts/destroy_plan/destroyplan-1.json:3097
+
+		3096:           "id": "projects/gcp-mastery-495919/zones/us-central1-a/instances/gcp-test-vm-1",
+		3097:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		3098:           "instance_id": "5167985355459988880",
+
+
+	[71]: ../../src/scripts/build_plan/tfplan-1.json:10681
+
+		10680:           "guest_accelerator": [],
+		10681:           "instance_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		10682:           "labels": {},
+
+
+	[72]: ../../src/scripts/build_plan/tfplan-1.json:2841
+
+		2840:                         "source_image_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		2841:                         "source_snapshot_encryption_key": <SECRET-MASKED-ON-PURPOSE>
+		2842:                         "storage_pool": "",
+
+
+Block Device Is Not Encrypted, Severity: HIGH, Results: 2
+Description: Block device mappings for Launch Configurations and EC2 instances should mandate encryption of all attached EBS volumes to safeguard sensitive data. This is achieved by specifying the 'encrypted' parameter with a value of 'true' for each volume.
+Platform: Terraform
+CWE: 311
+Risk Score: 6.0
+Learn more about this vulnerability: https://docs.kics.io/latest/queries/terraform-queries/aws/1f624961-9a18-4387-91c8-3856e1974b6f
+
+	[1]: ../../src/scripts/build_plan/tfplan-1.json:2374
+
+		2373:                 "disable_api_termination": false,
+		2374:                 "ebs_block_device": [],
+		2375:                 "ebs_optimized": false,
+
+
+	[2]: ../../src/scripts/build_plan/tfplan-1.json:2439
+
+		2438:                 "region": "us-east-1",
+		2439:                 "root_block_device": [
+		2440:                   {
+
+
+
+Results Summary:
+CRITICAL: 0
+HIGH: 139
+MEDIUM: 26
+LOW: 12
+INFO: 133
+TOTAL: 310
+
+
+## Terrascan IaC Scan
+
+
+Scan Errors -
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence
+	Error Message       :	directory '/src/Evidence' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/01-architecture
+	Error Message       :	directory '/src/Evidence/01-architecture' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/02-aws-networking
+	Error Message       :	directory '/src/Evidence/02-aws-networking' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/03-gcp-networking
+	Error Message       :	directory '/src/Evidence/03-gcp-networking' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/04-vpn
+	Error Message       :	directory '/src/Evidence/04-vpn' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/05-bgp-routing
+	Error Message       :	directory '/src/Evidence/05-bgp-routing' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/06-firewall-security
+	Error Message       :	directory '/src/Evidence/06-firewall-security' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/07-compute-validation
+	Error Message       :	directory '/src/Evidence/07-compute-validation' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/08-terraform
+	Error Message       :	directory '/src/Evidence/08-terraform' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/09-security-scan
+	Error Message       :	directory '/src/Evidence/09-security-scan' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Evidence/10-destroy
+	Error Message       :	directory '/src/Evidence/10-destroy' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/Modules
+	Error Message       :	directory '/src/Modules' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/scripts
+	Error Message       :	directory '/src/scripts' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/scripts/build_plan
+	Error Message       :	directory '/src/scripts/build_plan' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+	IaC Type            :	terraform
+	Directory           :	/src/scripts/destroy_plan
+	Error Message       :	directory '/src/scripts/destroy_plan' has no terraform config files
+
+	-----------------------------------------------------------------------
+
+
+
+Violation Details -
+
+	Description    :	Ensure that detailed monitoring is enabled for EC2 instances.
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	aws_vm
+	Plan Root      :	./
+	Line           :	38
+	Severity       :	HIGH
+
+	-----------------------------------------------------------------------
+
+	Description    :	Ensure that detailed monitoring is enabled for EC2 instances.
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/AWS-VM
+	Line           :	38
+	Severity       :	HIGH
+
+	-----------------------------------------------------------------------
+
+	Description    :	Ensure Unknown Port is not exposed to the entire internet
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	aws_vm
+	Plan Root      :	./
+	Line           :	1
+	Severity       :	HIGH
+
+	-----------------------------------------------------------------------
+
+	Description    :	Ensure Unknown Port is not exposed to the entire internet
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/AWS-VM
+	Line           :	1
+	Severity       :	HIGH
+
+	-----------------------------------------------------------------------
+
+	Description    :	EC2 instances should disable IMDS or require IMDSv2 as this can be related to the weaponization phase of kill chain
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	aws_vm
+	Plan Root      :	./
+	Line           :	38
+	Severity       :	MEDIUM
+
+	-----------------------------------------------------------------------
+
+	Description    :	EC2 instances should disable IMDS or require IMDSv2 as this can be related to the weaponization phase of kill chain
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/AWS-VM
+	Line           :	38
+	Severity       :	MEDIUM
+
+	-----------------------------------------------------------------------
+
+	Description    :	Security Groups - Unrestricted Specific Ports - (SSH,22)
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	aws_vm
+	Plan Root      :	./
+	Line           :	1
+	Severity       :	HIGH
+
+	-----------------------------------------------------------------------
+
+	Description    :	Security Groups - Unrestricted Specific Ports - (SSH,22)
+	File           :	Modules/AWS-VM/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/AWS-VM
+	Line           :	1
+	Severity       :	HIGH
+
+	-----------------------------------------------------------------------
+
+	Description    :	Ensure VPC flow logging is enabled in all VPCs
+	File           :	Modules/Standard-VPC-AWS/main.tf
+	Module Name    :	standard-vpc
+	Plan Root      :	./
+	Line           :	5
+	Severity       :	LOW
+
+	-----------------------------------------------------------------------
+
+	Description    :	Ensure VPC flow logging is enabled in all VPCs
+	File           :	Modules/Standard-VPC-AWS/main.tf
+	Module Name    :	root
+	Plan Root      :	Modules/Standard-VPC-AWS
+	Line           :	5
+	Severity       :	LOW
+
+	-----------------------------------------------------------------------
+
+
+Scan Summary -
+
+	File/Folder         :	/src
+	IaC Type            :	terraform
+	Scanned At          :	2026-06-18 03:59:00.44677737 +0000 UTC
+	Policies Validated  :	339
+	Violated Policies   :	10
+	Low                 :	2
+	Medium              :	2
+	High                :	6
+
+

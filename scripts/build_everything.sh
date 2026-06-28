@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -euo pipefail
 
 
@@ -10,7 +11,7 @@ set -euo pipefail
 # This number controls the next build artifact number.
 # Example:
 # file_number=1 creates tfplan-1, security-findings-1.txt, ai-security-doc-1.md
-file_number=2
+file_number=3
 
 # Find the folder where this script lives.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

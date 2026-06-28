@@ -384,7 +384,7 @@ resource "google_compute_router_peer" "aws_tunnel2_2" {
 #  1   AWS BGP IP  169.254.50.1/30
 #  2   GCP BGP IP  169.254.50.2/30
 #  3   Broadcast IP  169.254.50.3/30
-
+# [,,,]
 # 169.254.50.1/30
 # 
 
